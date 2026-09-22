@@ -1,0 +1,24 @@
+{
+  "name": "21septiembre",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --outfile=script.js --format=iife --target=es2020 --minify",
+    "dev": "node scripts/dev.mjs",
+    "watch": "node scripts/dev.mjs --watch-only",
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Una galaxia interactiva de flores amarillas",
+  "dependencies": {
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "esbuild": "^0.28.2",
+    "prettier": "^3.9.8"
+  },
+  "private": true
+}
