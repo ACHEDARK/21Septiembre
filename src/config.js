@@ -20,6 +20,7 @@ export const CONFIG = {
     "Mumilona",
     "Enojona",
     "Cachetonsita",
+    "Cacetonsita",
     "Perver",
     "Comelona",
   ],

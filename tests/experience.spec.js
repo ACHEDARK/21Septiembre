@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const path = require("node:path");
-const url = require("node:url").pathToFileURL(path.resolve("index.html")).href;
+const url = require("node:url").pathToFileURL(path.resolve("flores-amarillas.html")).href;
 test("dedicatoria especial en partículas y cierre personalizado", async ({
   page,
 }) => {

@@ -3,5 +3,11 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": ".",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "rewrites": [
+    { "source": "/flores-amarillas", "destination": "/flores-amarillas.html" },
+    { "source": "/navidad", "destination": "/experiencia.html?celebration=navidad" },
+    { "source": "/san-valentin", "destination": "/experiencia.html?celebration=san-valentin" },
+    { "source": "/cumpleanos", "destination": "/experiencia.html?celebration=cumpleanos" }
+  ]
 }

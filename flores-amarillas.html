@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <title>Un pequeño universo · Flores amarillas</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+    <style>body{visibility:hidden}</style>
+    <script defer src="experiences/flores-amarillas.js"></script>
+  </head>
+  <body>
+    <canvas
+      id="universe"
+      aria-label="Galaxia interactiva de flores amarillas"
+    ></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <header>
+      <a class="brand" href="#" id="home"
+        ><span class="brand-mark">✳</span> UN PEQUEÑO UNIVERSO</a
+      ><span class="edition">21 SEPTIEMBRE <i></i> FLORES AMARILLAS</span>
+    </header>
+    <main>
+      <section id="intro" class="intro">
+        <div class="orbit-emblem" aria-hidden="true"><span>✧</span></div>
+        <p class="eyebrow">HAY COSAS QUE FLORECEN INCLUSO A LA DISTANCIA</p>
+        <h1>Una pequeña galaxia<br />está esperando <em>florecer.</em></h1>
+        <p class="intro-copy">
+          Un lugar hecho de luz, flores amarillas<br />y palabras que merecen
+          quedarse.
+        </p>
+        <form id="entry">
+          <label for="name">¿Para quién florece esta galaxia?</label>
+          <div class="input-wrap">
+            <input
+              id="name"
+              name="name"
+              placeholder="Escribe tu nombre..."
+              autocomplete="given-name"
+              maxlength="40"
+              required
+            /><span aria-hidden="true">✧</span>
+          </div>
+          <p id="recognition" aria-live="polite"></p>
+          <button class="enter" type="submit">
+            Entrar a la galaxia <span>↗</span>
+          </button>
+        </form>
+        <p class="whisper">
+          Algunas flores simplemente saben a quién encontrar.
+        </p>
+      </section>
+      <section id="experience" class="experience" hidden>
+        <div class="dedication">
+          <p class="eyebrow" id="chapter">01 — EL PRINCIPIO DE LA LUZ</p>
+          <h2 id="title">Para ti.</h2>
+          <p id="subtitle">Feliz Día de las Flores Amarillas</p>
+        </div>
+        <div id="floating" aria-hidden="true"></div>
+        <div class="poem" aria-live="polite">
+          <span class="poem-star">✧</span>
+          <p id="message"></p>
+          <small id="category"></small>
+        </div>
+        <div id="secret-bloom" class="secret-bloom" aria-hidden="true">
+          <span class="bloom-flower" style="--i: 0">✿</span>
+          <span class="bloom-flower" style="--i: 1">✾</span>
+          <span class="bloom-flower" style="--i: 2">✿</span>
+          <span class="bloom-flower" style="--i: 3">✽</span>
+          <span class="bloom-flower" style="--i: 4">✿</span>
+          <span class="bloom-flower" style="--i: 5">✾</span>
+          <span class="bloom-flower" style="--i: 6">✿</span>
+          <span class="bloom-flower" style="--i: 7">✽</span>
+          <span class="bloom-flower" style="--i: 8">✿</span>
+          <span class="bloom-flower" style="--i: 9">✾</span>
+          <span class="bloom-flower" style="--i: 10">✿</span>
+        </div>
+        <p id="hint" class="hint">
+          Mueve el universo · toca una flor · descubre una palabra
+        </p>
+      </section>
+      <aside
+        id="note"
+        class="note"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="note-title"
+      >
+        <div class="note-card">
+          <button
+            id="note-close"
+            class="note-close"
+            type="button"
+            aria-label="Cerrar nota"
+          >
+            ×
+          </button>
+          <span class="note-orbit" aria-hidden="true">✦</span>
+          <p class="note-kicker">UNA NOTA ENTRE ESTRELLAS</p>
+          <h2 id="note-title">Una nota para ti</h2>
+          <p id="note-text"></p>
+          <span class="note-signature"
+            >con cariño, desde este pequeño universo</span
+          >
+        </div>
+      </aside>
+      <div id="veil" aria-hidden="true"></div>
+      <p id="error" role="alert" hidden></p>
+    </main>
+    <footer id="intro-footer">
+      <span>UN GESTO PEQUEÑO. UN CIELO ENTERO.</span
+      ><span
+        >HECHO PARA SENTIR, SIN PRISA <span class="tiny-star">✦</span></span
+      >
+    </footer>
+    <nav id="controls" aria-label="Controles de la experiencia" hidden>
+      <button id="back" title="Volver al inicio" aria-label="Volver al inicio">
+        ←
+      </button>
+      <div class="control-group">
+        <button
+          id="sound"
+          class="music-button music-ready"
+          aria-label="Activar música"
+          aria-pressed="false"
+        >
+          <span id="sound-icon" aria-hidden="true">♫</span>
+          <span id="sound-label">Música</span></button
+        ><label class="music-picker" for="music-track">
+          <span class="sr-only">Elegir música</span>
+          <select id="music-track" aria-label="Elegir música">
+            <option value="0">Idea 10</option>
+            <option value="1">Idea 15</option>
+            <option value="2">Idea 22</option>
+            <option value="3">21g</option>
+          </select> </label
+        ><button id="pause" aria-label="Pausar" aria-pressed="false">Ⅱ</button>
+      </div>
+      <button id="last" class="last">
+        <span class="star-pulse" aria-hidden="true">✦</span>
+        <span>una última cosa</span>
+      </button>
+    </nav>
+  </body>
+</html>
