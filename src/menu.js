@@ -4,11 +4,11 @@ const list = document.querySelector("#celebration-list");
 const count = document.querySelector("#memory-count");
 const cards = new Map();
 const toneColors = {
-  sunflower: "#e8d17e",
-  winter: "#a9cfca",
-  midnight: "#d7b8ff",
-  rose: "#e8aab9",
-  birthday: "#d9b9e7",
+  sunflower: "#96742f",
+  winter: "#55796d",
+  midnight: "#6d618a",
+  rose: "#9a606b",
+  birthday: "#795c83",
 };
 
 const countdown = (milliseconds) => {
@@ -92,11 +92,8 @@ function updateSeasonalMood(statuses) {
 function updateAvailability(card, unlocked) {
   const { article, message, timer, entry } = card;
   article.dataset.locked = String(!unlocked);
-  const dot = document.createElement("i");
-  dot.className = "status-dot";
-  dot.setAttribute("aria-hidden", "true");
   if (unlocked) {
-    message.replaceChildren(dot, "Disponible hoy");
+    message.textContent = "Disponible hoy";
     timer.textContent = "";
     timer.removeAttribute("aria-label");
     const link = document.createElement("a");
@@ -108,7 +105,7 @@ function updateAvailability(card, unlocked) {
   }
 
   if (isDeveloperPreview()) {
-    message.replaceChildren(dot, "Bloqueado para visitantes");
+    message.textContent = "Bloqueado para visitantes";
     const preview = document.createElement("a");
     preview.className = "card-action preview-action";
     preview.href = previewPath(card.celebration);
@@ -117,7 +114,7 @@ function updateAvailability(card, unlocked) {
     return;
   }
 
-  message.replaceChildren(dot, "Esperando su momento");
+  message.textContent = "Esperando su momento";
   const locked = document.createElement("span");
   locked.className = "card-locked";
   locked.textContent = "Este pequeño detalle todavía está esperando su momento.";
@@ -156,7 +153,7 @@ function render() {
           .format(new Date(2026, celebration.month - 1, 1))
           .replace(".", "")
           .toUpperCase();
-        article.innerHTML = `<div class="card-top"><span class="card-calendar" aria-hidden="true"><b>${monthShort}</b><strong>${String(celebration.day).padStart(2, "0")}</strong></span><span class="card-date-group"><span class="card-date">${celebration.date}</span><span class="card-season" aria-hidden="true">${stageLabel(stage)}</span></span></div><h3 class="card-title">${celebration.title}</h3><p class="card-description">${celebration.description}</p><div class="card-bottom"><span class="card-status"><i class="status-dot" aria-hidden="true"></i></span><span class="card-countdown"></span><span class="card-entry"></span></div>`;
+        article.innerHTML = `<div class="card-top"><span class="card-calendar" aria-hidden="true"><b>${monthShort}</b><strong>${String(celebration.day).padStart(2, "0")}</strong></span><span class="card-date-group"><span class="card-date">${celebration.date}</span><span class="card-season">${stageLabel(stage)}</span></span></div><div class="card-info"><h3 class="card-title">${celebration.title}</h3><p class="card-description">${celebration.description}</p></div><div class="card-bottom"><span class="card-status"></span><span class="card-countdown"></span><span class="card-entry"></span></div>`;
 
         const card = {
           article,

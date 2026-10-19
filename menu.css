@@ -1,3 +1,128 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap");
-:root{color-scheme:light;--ink:#292e32;--muted:#747879;--paper:#f6f2e9;--surface:#fffdf7;--line:#252b2e20;--accent:#e87854;--sans:"DM Sans",sans-serif;--display:"Outfit",sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font-family:var(--sans)}a{color:inherit}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.collection-page{position:relative;overflow-x:hidden;background:var(--paper)}.collection-page:before{position:absolute;inset:0 0 auto;height:670px;content:"";pointer-events:none;background:linear-gradient(135deg,#f9f5ed 0%,#f6f2e9 64%,#f0e7da 100%);clip-path:polygon(0 0,100% 0,100% 88%,0 100%)}.collection-header,.collection-footer{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between}.collection-header{height:78px;padding:0 clamp(22px,6vw,88px);border-bottom:1px solid #30353812}.collection-brand{display:flex;align-items:center;gap:12px;color:#32383a;text-decoration:none;font:600 11px var(--display);letter-spacing:.04em}.collection-brand>span{display:flex;align-items:flex-end;justify-content:center;gap:2px;width:30px;height:30px;padding:6px;border-radius:9px 9px 9px 2px;background:#e87854;transform:rotate(-5deg)}.collection-brand i{display:block;width:3px;border-radius:2px;background:#fff7e8}.collection-brand i:nth-child(1){height:9px}.collection-brand i:nth-child(2){height:15px}.collection-brand i:nth-child(3){height:11px}.timezone-note{padding:7px 11px;border:1px solid #333a3a18;border-radius:30px;color:#747879;background:#fffaf35c;font-size:9px}.preview-notice{border-color:#e8785460;color:#a94d37;background:#ffe9dc}.collection-main{width:min(1100px,88vw);margin:0 auto}.collection-intro{position:relative;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:55px;min-height:505px;padding:83px 0 94px;border-bottom:1px solid var(--line)}.intro-overline,.section-kicker{margin:0;color:#b85c44;font:700 9px var(--sans);letter-spacing:.15em;text-transform:uppercase}.collection-intro h1{margin:22px 0 0;font:700 clamp(59px,8vw,103px)/.94 var(--display);letter-spacing:-.065em}.collection-intro h1 em{color:#e87854;font-style:normal}.collection-copy{max-width:420px;margin:23px 0 0;color:#72787a;font-size:13px;line-height:1.85}.next-date-card{position:relative;display:grid;grid-template-columns:112px 1fr;align-items:center;gap:0 20px;width:min(100%,370px);min-height:210px;margin:0 auto;padding:27px 28px;border:1px solid #343a3a18;border-radius:5px 18px 5px 18px;background:var(--surface);box-shadow:0 22px 45px #443b2e11;transform:rotate(2deg);transition:transform .4s,box-shadow .4s}.next-date-card:hover{transform:rotate(0) translateY(-4px);box-shadow:0 27px 48px #443b2e1a}.next-date-card:before{position:absolute;top:0;left:0;width:7px;height:100%;content:"";border-radius:5px 0 0 18px;background:var(--seasonal-accent,#e87854);transition:background 1s}.next-card-label{grid-column:1/-1;align-self:start;color:#899092;font-size:8px;font-weight:700;letter-spacing:.16em}.next-card-date{display:flex;flex-direction:column;align-items:center;justify-content:center;width:95px;height:111px;border-radius:8px;background:color-mix(in srgb,var(--seasonal-accent,#e87854) 13%,white);transition:background 1s}.next-card-date strong{color:var(--seasonal-accent,#e87854);font:700 49px/.95 var(--display);letter-spacing:-.07em;transition:color 1s}.next-card-date span{margin-top:8px;color:#777d7c;font-size:9px;font-weight:700;letter-spacing:.17em}.next-card-details{display:flex;flex-direction:column;gap:8px}.next-card-details b{font:600 22px var(--display)}.next-card-details span{color:#848a88;font-size:10px;line-height:1.6}.next-card-stamp{position:absolute;right:22px;bottom:15px;color:var(--seasonal-accent,#e87854);font-size:20px;transition:color 1s}.memories{padding:53px 0 82px}.memories-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:22px}.section-kicker{margin-bottom:8px;color:#929693;font-size:8px}.memories-heading h2{margin:0;font:600 34px var(--display);letter-spacing:-.045em}.memories-heading>span{padding:7px 11px;border-radius:30px;background:#e9e2d7;color:#747879;font-size:9px}.celebration-list{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}.memory-card{--accent:#e9a832;position:relative;grid-column:span 3;display:flex;flex-direction:column;min-height:250px;overflow:hidden;padding:23px 25px 21px;border:1px solid #393b3812;border-radius:5px 18px 5px 18px;background:#fffdf7;box-shadow:0 8px 18px #3e38280a;transition:transform .28s,box-shadow .28s,border-color .35s}.memory-card:nth-child(3n){grid-column:span 2;min-height:238px}.memory-card:nth-child(4n){grid-column:span 4}.memory-card:after{position:absolute;right:-47px;top:-66px;width:160px;height:160px;content:"";border-radius:48% 52% 50% 50%;background:color-mix(in srgb,var(--accent) 14%,transparent);transform:rotate(25deg);transition:transform .4s,background .5s}.memory-card:hover{z-index:1;transform:translateY(-4px) rotate(-.35deg);border-color:color-mix(in srgb,var(--accent) 48%,#ffffff);box-shadow:0 17px 33px #3e382815}.memory-card:hover:after{transform:rotate(65deg) scale(1.12)}.memory-card[data-tone=sunflower]{--accent:#d9a72e;background:#fff8df}.memory-card[data-tone=winter]{--accent:#338b79;background:#e5f2ed}.memory-card[data-tone=midnight]{--accent:#6b67a9;background:#eeebf9}.memory-card[data-tone=rose]{--accent:#d75f72;background:#fff0ed}.memory-card[data-tone=birthday]{--accent:#8b61a6;background:#f5eaf7}.memory-card[data-locked=true]{filter:saturate(.82)}.memory-card[data-proximity=near],.memory-card[data-proximity=week],.memory-card[data-proximity=eve],.memory-card[data-proximity=today]{border-color:color-mix(in srgb,var(--accent) 38%,white)}.memory-card[data-proximity=eve],.memory-card[data-proximity=today]{box-shadow:0 10px 30px color-mix(in srgb,var(--accent) 15%,transparent)}.memory-card>*{position:relative;z-index:1}.card-top{display:flex;align-items:center;justify-content:space-between;min-height:51px}.card-calendar{display:flex;flex-direction:column;align-items:center;justify-content:center;width:51px;height:54px;overflow:hidden;border:1px solid color-mix(in srgb,var(--accent) 22%,#fff);border-radius:7px;background:#fffdf7e8;box-shadow:0 3px 7px #39352410}.card-calendar b{display:grid;place-items:center;width:100%;height:17px;color:white;background:var(--accent);font-size:7px;letter-spacing:.1em;transition:background .8s}.card-calendar strong{padding-top:2px;color:#353a3a;font:600 23px/.95 var(--display);letter-spacing:-.06em}.card-date-group{display:flex;flex-direction:column;align-items:flex-end;gap:5px}.card-date{color:#686f70;font-size:9px;font-weight:600;letter-spacing:.035em}.card-season{min-height:10px;color:var(--accent);font-size:8px;font-weight:700;letter-spacing:.03em}.card-title{margin:17px 0 6px;font:600 29px var(--display);letter-spacing:-.045em}.card-description{max-width:380px;margin:0;color:#757b79;font-size:10px;line-height:1.75}.card-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px 12px;margin-top:auto;padding-top:21px}.card-status{grid-column:1;display:flex;align-items:center;gap:7px;color:var(--accent);font-size:9px;font-weight:600}.status-dot{width:7px;height:7px;flex:none;border:2px solid color-mix(in srgb,var(--accent) 75%,white);border-radius:50%;background:var(--accent)}.card-countdown{grid-column:2;color:#687072;font-size:9px;font-variant-numeric:tabular-nums;white-space:nowrap}.card-entry{grid-column:1/-1}.card-action{display:inline-flex;align-items:center;gap:9px;margin-top:1px;padding:7px 12px;border:1px solid color-mix(in srgb,var(--accent) 35%,white);border-radius:30px;color:#343b3b;background:#fffdf7;font-size:9px;font-weight:700;text-decoration:none;transition:gap .2s,background .2s}.card-action:after{content:"→";color:var(--accent);font-size:13px}.card-action:hover{gap:15px;background:#fff}.preview-action{border-color:#d4a17f;color:#864731;background:#fff2e8}.card-locked{color:#818785;font-size:9px}.collection-footer{min-height:70px;padding:0 clamp(22px,6vw,88px);border-top:1px solid #30353818;color:#858a86;font-size:8px;font-weight:600;letter-spacing:.1em}.collection-footer i{padding:0 7px;color:#e87854;font-style:normal}.collection-footer span:last-child{letter-spacing:.02em}.collection-footer b{margin-left:7px;color:#e87854;font-size:12px}.noscript{padding:20px}@media(max-width:760px){.collection-main{width:88vw}.collection-intro{grid-template-columns:1fr .7fr;gap:15px;min-height:420px;padding:73px 0 67px}.collection-intro h1{font-size:clamp(55px,10.8vw,82px)}.collection-copy{max-width:350px;font-size:11px}.next-date-card{grid-template-columns:78px 1fr;gap:0 11px;min-height:170px;padding:19px 16px}.next-date-card:before{width:5px}.next-date-card{width:100%}.next-date-card .next-date-label{font-size:7px}.next-date-date{width:68px;height:90px}.next-card-date{width:70px;height:88px}.next-card-date strong{font-size:39px}.next-card-details b{font-size:18px}.next-card-details span{font-size:9px}.celebration-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.memory-card,.memory-card:nth-child(n){grid-column:span 1;min-height:232px;padding:18px 16px}.card-title{font-size:25px}.card-countdown{grid-column:1/-1;justify-self:start}.card-entry{grid-column:1/-1}.memories{padding:43px 0 63px}.memories-heading h2{font-size:30px}}@media(max-width:500px){.collection-header{height:65px;padding:0 6vw}.collection-brand{font-size:9px}.timezone-note{max-width:125px;padding:6px 8px;text-align:right;font-size:7px}.collection-intro{grid-template-columns:1fr;gap:26px;min-height:0;padding:69px 0 55px}.collection-intro h1{font-size:clamp(58px,14vw,77px)}.collection-copy{max-width:350px;font-size:11px}.next-date-card{grid-template-columns:85px 1fr;width:min(100%,350px);min-height:157px;margin:5px 0 0 5px;padding:17px 20px;transform:rotate(1deg)}.next-card-date{width:74px;height:85px}.next-card-date strong{font-size:39px}.memories-heading{align-items:end}.memories-heading h2{font-size:27px}.memories-heading>span{font-size:8px}.celebration-list{grid-template-columns:1fr}.memory-card,.memory-card:nth-child(n){min-height:218px;padding:20px}.card-countdown{grid-column:2;justify-self:end}.collection-footer{min-height:62px;padding:0 6vw;font-size:7px}.collection-footer span:last-child{display:none}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  color-scheme: light;
+  --paper: #f2f0e9;
+  --surface: #f8f7f2;
+  --ink: #252a2b;
+  --muted: #777b79;
+  --rule: #30343225;
+  --seasonal-accent: #9b7862;
+  --sans: "DM Sans", sans-serif;
+  --display: "Instrument Sans", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--paper); font-family: var(--sans); }
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--seasonal-accent); outline-offset: 5px; }
+.collection-page { min-height: 100vh; }
+.collection-header, .collection-footer { display: flex; align-items: center; justify-content: space-between; }
+.collection-header { min-height: 71px; padding: 0 clamp(22px, 7vw, 108px); border-bottom: 1px solid var(--rule); }
+.collection-brand { color: #333736; font-size: 9px; font-weight: 600; letter-spacing: .15em; text-decoration: none; }
+.collection-brand span { padding-left: 8px; color: #8d908b; font-size: 8px; font-weight: 400; letter-spacing: .12em; }
+.timezone-note { color: var(--muted); font-size: 9px; letter-spacing: .02em; }
+.preview-notice { color: #805b45; }
+.collection-main { width: min(1010px, 84vw); margin: 0 auto; }
+
+.collection-intro { display: grid; grid-template-columns: 1.35fr .65fr; align-items: center; gap: 65px; min-height: 465px; padding: 75px 0 79px; border-bottom: 1px solid var(--rule); }
+.intro-overline, .section-kicker { margin: 0; color: #777b77; font-size: 8px; font-weight: 600; letter-spacing: .18em; }
+.intro-overline span { padding: 0 6px; color: var(--seasonal-accent); }
+.collection-intro h1 { margin: 25px 0 0; font: 500 clamp(55px, 7.7vw, 88px)/.99 var(--display); letter-spacing: -.065em; }
+.collection-intro h1 em { color: var(--seasonal-accent); font-style: normal; transition: color .8s; }
+.collection-copy { max-width: 410px; margin: 22px 0 0; color: #6c716f; font-size: 12px; line-height: 1.9; }
+
+.next-date-card { position: relative; display: grid; grid-template-columns: 1fr; gap: 15px; max-width: 270px; margin: 18px 0 0 auto; padding: 22px 0 18px 24px; border-left: 2px solid var(--seasonal-accent); transition: border-color .8s; }
+.next-card-label { color: #7c807d; font-size: 8px; font-weight: 600; letter-spacing: .15em; }
+.next-card-date { display: flex; align-items: baseline; gap: 11px; }
+.next-card-date strong { color: var(--seasonal-accent); font: 500 92px/.86 var(--display); letter-spacing: -.09em; transition: color .8s; }
+.next-card-date span { color: #6d726f; font-size: 10px; font-weight: 600; letter-spacing: .14em; }
+.next-card-details { display: flex; flex-direction: column; gap: 6px; }
+.next-card-details b { font: 500 20px var(--display); }
+.next-card-details span { color: #747976; font-size: 9px; line-height: 1.6; }
+
+.memories { padding: 39px 0 75px; }
+.memories-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 12px; }
+.section-kicker { margin-bottom: 7px; font-size: 7px; }
+.memories-heading h2 { margin: 0; font: 500 25px var(--display); letter-spacing: -.035em; }
+.memories-heading > span { color: #7a7e7b; font-size: 9px; }
+.celebration-list { border-top: 1px solid var(--rule); }
+.memory-card { --accent: #a58b55; position: relative; display: grid; grid-template-columns: 145px minmax(0,1fr) minmax(200px,.8fr); align-items: center; gap: 24px; min-height: 136px; padding: 20px 17px 20px 0; border-bottom: 1px solid var(--rule); transition: padding .25s, background .25s; }
+.memory-card:hover { padding-right: 10px; padding-left: 10px; background: #ffffff63; }
+.memory-card[data-tone=sunflower] { --accent: #a37a34; }
+.memory-card[data-tone=winter] { --accent: #577d72; }
+.memory-card[data-tone=midnight] { --accent: #726681; }
+.memory-card[data-tone=rose] { --accent: #a46c70; }
+.memory-card[data-tone=birthday] { --accent: #846d8b; }
+.memory-card[data-proximity=near], .memory-card[data-proximity=week], .memory-card[data-proximity=eve], .memory-card[data-proximity=today] { border-left: 2px solid var(--accent); padding-left: 13px; }
+.card-top { display: flex; align-items: center; gap: 15px; }
+.card-calendar { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 43px; }
+.card-calendar b { color: var(--accent); font-size: 8px; font-weight: 600; letter-spacing: .11em; }
+.card-calendar strong { color: #353a38; font: 500 32px/.95 var(--display); letter-spacing: -.06em; }
+.card-date-group { display: flex; flex-direction: column; gap: 5px; }
+.card-date { color: #777b78; font-size: 8px; }
+.card-season { min-height: 9px; color: var(--accent); font-size: 8px; font-weight: 500; }
+.card-title { margin: 0; font: 500 21px var(--display); letter-spacing: -.035em; }
+.card-description { max-width: 340px; margin: 6px 0 0; color: #757a77; font-size: 9px; line-height: 1.7; }
+.card-bottom { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 7px 10px; }
+.card-status { display: flex; align-items: center; gap: 7px; color: #747a76; font-size: 8px; }
+.status-dot { width: 5px; height: 5px; flex: none; border-radius: 50%; background: var(--accent); }
+.card-countdown { color: #555c58; font-size: 8px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.card-entry { grid-column: 1/-1; }
+.card-action { display: inline-block; padding: 0 0 3px; border-bottom: 1px solid color-mix(in srgb,var(--accent) 65%,transparent); color: var(--accent); font-size: 8px; text-decoration: none; transition: color .2s, border-color .2s; }
+.card-action:hover { color: var(--ink); border-color: var(--ink); }
+.preview-action { color: #805b45; }
+.card-locked { color: #858985; font-size: 8px; }
+
+.collection-footer { min-height: 61px; padding: 0 clamp(22px, 7vw, 108px); border-top: 1px solid var(--rule); color: #858985; font-size: 7px; letter-spacing: .11em; }
+.collection-footer i { padding: 0 7px; color: var(--seasonal-accent); font-style: normal; }
+.collection-footer span:last-child { letter-spacing: .04em; }
+.noscript { padding: 20px; }
+
+@media (max-width: 760px) {
+  .collection-main { width: 88vw; }
+  .collection-intro { grid-template-columns: 1.1fr .9fr; gap: 22px; min-height: 390px; padding: 64px 0; }
+  .collection-intro h1 { font-size: clamp(49px, 8vw, 68px); }
+  .next-date-card { padding-left: 17px; }
+  .next-card-date strong { font-size: 72px; }
+  .memory-card { grid-template-columns: 115px minmax(0,1fr) minmax(155px,.8fr); gap: 14px; }
+  .card-title { font-size: 18px; }
+  .card-description { font-size: 8px; }
+  .card-countdown { font-size: 7px; }
+}
+@media (max-width: 560px) {
+  .collection-header { min-height: 64px; padding: 0 6vw; }
+  .collection-brand { font-size: 8px; letter-spacing: .1em; }
+  .collection-brand span { display: block; padding: 4px 0 0; font-size: 6px; }
+  .timezone-note { max-width: 105px; text-align: right; font-size: 7px; }
+  .collection-intro { grid-template-columns: 1fr; gap: 22px; min-height: 0; padding: 67px 0 45px; }
+  .collection-intro h1 { font-size: clamp(53px, 12vw, 68px); }
+  .collection-copy { max-width: 360px; font-size: 10px; }
+  .next-date-card { grid-template-columns: 1fr auto; align-items: center; gap: 5px 15px; width: 100%; max-width: none; margin: 12px 0 0; padding: 13px 0 13px 17px; }
+  .next-card-label { grid-column: 1/-1; }
+  .next-card-date { grid-row: 2/4; grid-column: 2; }
+  .next-card-details { grid-row: 2; grid-column: 1; }
+  .next-card-date strong { font-size: 57px; }
+  .next-card-details b { font-size: 16px; }
+  .memories { padding: 31px 0 54px; }
+  .memories-heading h2 { font-size: 22px; }
+  .memory-card { grid-template-columns: 76px minmax(0,1fr); gap: 10px 13px; min-height: 136px; padding: 17px 8px 17px 0; }
+  .memory-card:hover { padding-left: 8px; }
+  .card-top { grid-row: 1/3; grid-column: 1; align-self: start; align-items: flex-start; flex-direction: column; gap: 5px; }
+  .card-calendar { flex-direction: row; align-items: baseline; gap: 5px; }
+  .card-calendar strong { font-size: 26px; }
+  .card-date-group { gap: 0; }
+  .card-date { font-size: 7px; }
+  .card-season { font-size: 7px; }
+  .card-info { grid-row: 1; grid-column: 2; }
+  .card-title { font-size: 18px; }
+  .card-description { margin-top: 4px; font-size: 8px; }
+  .card-bottom { grid-row: 2; grid-column: 2; gap: 7px; }
+  .card-status { font-size: 7px; }
+  .card-countdown { font-size: 7px; }
+  .card-action,.card-locked { font-size: 7px; }
+  .collection-footer { min-height: 55px; padding: 0 6vw; font-size: 6px; }
+  .collection-footer span:last-child { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
