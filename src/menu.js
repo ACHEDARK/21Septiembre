@@ -1,4 +1,4 @@
-import { celebrations, getDateStatus } from "./special-dates.js";
+import { celebrations, getDateStatus, isDeveloperPreview } from "./special-dates.js";
 
 const list = document.querySelector("#celebration-list");
 const count = document.querySelector("#memory-count");
@@ -51,6 +51,11 @@ function updateSeasonalMood(statuses) {
     "--seasonal-accent",
     toneColors[upcoming.celebration.tone] || "#ead17c",
   );
+  const note = document.querySelector(".timezone-note");
+  if (isDeveloperPreview()) {
+    note.textContent = "Vista previa para desarrollo · todas las fechas abiertas";
+    note.classList.add("preview-notice");
+  }
   document.body.style.setProperty(
     "--ambient-strength",
     stage === "today"
@@ -83,11 +88,29 @@ function updateAvailability(card, unlocked) {
     return;
   }
 
+  if (isDeveloperPreview()) {
+    message.replaceChildren(dot, "Bloqueado para visitantes");
+    const preview = document.createElement("a");
+    preview.className = "card-action preview-action";
+    preview.href = previewPath(card.celebration);
+    preview.textContent = "Ver vista previa";
+    entry.replaceChildren(preview);
+    return;
+  }
+
   message.replaceChildren(dot, "Esperando su momento");
   const locked = document.createElement("span");
   locked.className = "card-locked";
   locked.textContent = "Este pequeño detalle todavía está esperando su momento.";
   entry.replaceChildren(locked);
+}
+
+function previewPath(celebration) {
+  if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1")
+    return celebration.path;
+  return celebration.id === "flores-amarillas"
+    ? "/flores-amarillas.html"
+    : `/experiencia.html?celebration=${encodeURIComponent(celebration.id)}`;
 }
 
 function render() {

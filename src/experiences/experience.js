@@ -1,8 +1,8 @@
-import { celebrations, getDateStatus } from "../special-dates.js";
+import { celebrations, getDateStatus, isDeveloperPreview } from "../special-dates.js";
 
 const id = new URLSearchParams(location.search).get("celebration");
 const celebration = celebrations.find((item) => item.id === id);
-if (!celebration || !getDateStatus(celebration).unlocked) {
+if (!celebration || (!getDateStatus(celebration).unlocked && !isDeveloperPreview())) {
   location.replace("/");
 } else {
   document.title = `${celebration.title} · Un pequeño universo`;

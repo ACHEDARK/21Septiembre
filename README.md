@@ -59,4 +59,8 @@ La ruta `/` muestra el menú de recuerdos. La experiencia original se conserva e
 
 `src/special-dates.js` centraliza el catálogo, las rutas, las fechas anuales y la zona horaria `America/Bogota`. `firstYear` indica desde cuándo aplica cada celebración: se habilita durante su fecha local y vuelve a bloquearse al día siguiente hasta la próxima ocurrencia. El menú refresca las cuentas regresivas cada segundo. Al añadir una fecha, agrega una entrada al catálogo y define su ruta en `vercel.json`; para una experiencia visual propia, crea una página o amplía la plantilla compartida.
 
+## Vista previa de desarrollo
+
+Ejecuta `npm run dev` y abre `http://localhost:8000`. En local, las tarjetas bloqueadas muestran el acceso **Ver vista previa** y las rutas permiten revisar las páginas antes de su fecha. Los despliegues de vista previa de Vercel también habilitan esa revisión y requieren el acceso del equipo. El dominio público conserva el desbloqueo por fecha. No se usa una contraseña en el código porque el repositorio es público y cualquier clave de cliente podría leerse desde los archivos publicados.
+
 La comprobación de las rutas se ejecuta en el navegador y sirve como control de navegación. Este despliegue estático no protege contenido frente a quien inspeccione los archivos descargados o cambie el reloj local. Para un bloqueo real, se debe servir el contenido desde una función de Vercel que valide la fecha en el servidor y no incluir el contenido futuro en los archivos públicos.

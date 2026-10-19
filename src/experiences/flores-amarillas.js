@@ -1,7 +1,7 @@
-import { celebrations, getDateStatus } from "../special-dates.js";
+import { celebrations, getDateStatus, isDeveloperPreview } from "../special-dates.js";
 
 const celebration = celebrations.find((item) => item.id === "flores-amarillas");
-if (!getDateStatus(celebration).unlocked) {
+if (!getDateStatus(celebration).unlocked && !isDeveloperPreview()) {
   location.replace("/");
 } else {
   document.body.hidden = false;

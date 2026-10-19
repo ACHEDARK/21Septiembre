@@ -1,4 +1,14 @@
 export const TIME_ZONE = "America/Bogota";
+const PRODUCTION_HOST = "21septiembre-eight.vercel.app";
+
+export function isDeveloperPreview() {
+  if (typeof window === "undefined") return false;
+  const { hostname, protocol } = window.location;
+  if (protocol === "file:" || hostname === "localhost" || hostname === "127.0.0.1")
+    return true;
+  // Vercel preview deployments require team authentication; the public alias does not.
+  return hostname.endsWith(".vercel.app") && hostname !== PRODUCTION_HOST;
+}
 
 export const celebrations = [
   {

@@ -1,5 +1,5 @@
 import * as esbuild from "esbuild";
-const context = await esbuild.context({
+const experienceContext = await esbuild.context({
   entryPoints: ["src/main.js"],
   bundle: true,
   outfile: "script.js",
@@ -7,8 +7,20 @@ const context = await esbuild.context({
   target: "es2020",
   sourcemap: false,
 });
-await context.watch();
+const pagesContext = await esbuild.context({
+  entryPoints: [
+    "src/menu.js",
+    "src/experiences/experience.js",
+    "src/experiences/flores-amarillas.js",
+  ],
+  bundle: true,
+  outdir: ".",
+  outbase: "src",
+  format: "iife",
+  target: "es2020",
+});
+await Promise.all([experienceContext.watch(), pagesContext.watch()]);
 if (!process.argv.includes("--watch-only")) {
-  await context.serve({ servedir: ".", host: "127.0.0.1", port: 8000 });
-  console.log("Flores amarillas: http://localhost:8000");
+  await experienceContext.serve({ servedir: ".", host: "127.0.0.1", port: 8000 });
+  console.log("Vista previa: http://localhost:8000");
 }
