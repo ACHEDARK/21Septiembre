@@ -133,6 +133,120 @@ function previewPath(celebration) {
     : `/experiencia.html?celebration=${encodeURIComponent(celebration.id)}`;
 }
 
+function initCardEffects() {
+  const pointer = matchMedia("(pointer: fine)").matches;
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!pointer || reducedMotion) return;
+
+  document.querySelectorAll(".memory-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const bounds = card.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width;
+      const y = (event.clientY - bounds.top) / bounds.height;
+      card.style.setProperty("--mx", `${x * 100}%`);
+      card.style.setProperty("--my", `${y * 100}%`);
+      card.style.setProperty("--tilt-x", `${(0.5 - y) * 3}deg`);
+      card.style.setProperty("--tilt-y", `${(x - 0.5) * 3}deg`);
+    });
+    card.addEventListener("pointerleave", () => {
+      card.style.setProperty("--tilt-x", "0deg");
+      card.style.setProperty("--tilt-y", "0deg");
+    });
+  });
+}
+
+function initCursorGlitter() {
+  const canvas = document.querySelector("#cursor-glitter");
+  const context = canvas?.getContext("2d");
+  if (!context || !matchMedia("(pointer: fine)").matches ||
+      matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  let width = 0;
+  let height = 0;
+  let frame = 0;
+  let previous = null;
+  const particles = [];
+  const colors = ["#fff9df", "#ff916f", "#f8cb68", "#87d9c2", "#c7a4ff"];
+  const resize = () => {
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.6);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  };
+  const draw = () => {
+    context.clearRect(0, 0, width, height);
+    context.globalCompositeOperation = "lighter";
+    for (let index = particles.length - 1; index >= 0; index--) {
+      const particle = particles[index];
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      particle.vx *= 0.97;
+      particle.vy *= 0.97;
+      particle.life -= particle.decay;
+      if (particle.life <= 0) {
+        particles.splice(index, 1);
+        continue;
+      }
+      const alpha = Math.min(1, particle.life * 1.35);
+      const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.radius * 5);
+      glow.addColorStop(0, `${particle.color}${Math.round(alpha * 190).toString(16).padStart(2, "0")}`);
+      glow.addColorStop(1, `${particle.color}00`);
+      context.fillStyle = glow;
+      context.beginPath();
+      context.arc(particle.x, particle.y, particle.radius * 5, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = `${particle.color}${Math.round(alpha * 245).toString(16).padStart(2, "0")}`;
+      context.beginPath();
+      context.arc(particle.x, particle.y, particle.radius * alpha, 0, Math.PI * 2);
+      context.fill();
+      if (particle.radius > 2 && particle.life > .24) {
+        context.globalAlpha = alpha * .7;
+        context.strokeStyle = particle.color;
+        context.lineWidth = .7;
+        context.beginPath();
+        context.moveTo(particle.x - particle.radius * 2.3, particle.y);
+        context.lineTo(particle.x + particle.radius * 2.3, particle.y);
+        context.moveTo(particle.x, particle.y - particle.radius * 2.3);
+        context.lineTo(particle.x, particle.y + particle.radius * 2.3);
+        context.stroke();
+        context.globalAlpha = 1;
+      }
+    }
+    context.globalCompositeOperation = "source-over";
+    if (particles.length) frame = requestAnimationFrame(draw);
+    else frame = 0;
+  };
+  const addParticle = (x, y) => {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = .25 + Math.random() * 1.2;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - .35,
+      radius: 1.1 + Math.random() * 2.3,
+      life: .8 + Math.random() * .4,
+      decay: .014 + Math.random() * .012,
+      color: colors[Math.floor(Math.random() * colors.length)],
+    });
+    if (particles.length > 110) particles.splice(0, particles.length - 110);
+    if (!frame) frame = requestAnimationFrame(draw);
+  };
+
+  resize();
+  window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "mouse") return;
+    if (!previous || Math.hypot(event.clientX - previous.x, event.clientY - previous.y) > 7) {
+      addParticle(event.clientX, event.clientY);
+      addParticle(event.clientX + (Math.random() - .5) * 9, event.clientY + (Math.random() - .5) * 9);
+      if (Math.random() > .18) addParticle(event.clientX + (Math.random() - .5) * 14, event.clientY + (Math.random() - .5) * 14);
+      previous = { x: event.clientX, y: event.clientY };
+    }
+  }, { passive: true });
+}
+
 function render() {
   const now = new Date();
   count.textContent = `${celebrations.length} recuerdos`;
@@ -140,12 +254,13 @@ function render() {
   if (!cards.size) {
     const statuses = [];
     list.replaceChildren(
-      ...celebrations.map((celebration) => {
+      ...celebrations.map((celebration, index) => {
         const status = getDateStatus(celebration, now);
         const stage = seasonalStage(status);
         statuses.push({ celebration, status });
         const article = document.createElement("article");
         article.className = "memory-card";
+        article.style.setProperty("--card-index", index);
         article.dataset.tone = celebration.tone;
         article.dataset.locked = String(!status.unlocked);
         article.dataset.proximity = stage;
@@ -204,4 +319,6 @@ function render() {
 }
 
 render();
+initCardEffects();
+initCursorGlitter();
 window.setInterval(render, 1000);

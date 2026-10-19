@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f2f0e9" />
+    <meta name="theme-color" content="#f6f0e8" />
     <meta name="description" content="Fechas especiales que se convierten en pequeños mundos para descubrir." />
     <title>Calendario de recuerdos · Un pequeño universo</title>
     <link rel="stylesheet" href="menu.css" />
     <script defer src="menu.js"></script>
   </head>
   <body class="collection-page">
+    <canvas class="cursor-glitter" id="cursor-glitter" aria-hidden="true"></canvas>
     <header class="collection-header">
       <a class="collection-brand" href="/" aria-label="Un pequeño universo, inicio">UN PEQUEÑO UNIVERSO <span>— ARCHIVO PERSONAL</span></a>
       <span class="timezone-note">Cada recuerdo llega a su tiempo</span>
@@ -17,18 +18,18 @@
     <main class="collection-main">
       <section class="collection-intro" aria-labelledby="page-title">
         <div class="intro-copy">
-          <p class="intro-overline">FECHAS ESPECIALES <span>·</span> 2026—27</p>
-          <h1 id="page-title">Fechas con<br /><em>historia propia.</em></h1>
-          <p class="collection-copy">Un pequeño detalle reservado para cada momento. Vuelve cuando llegue su día; cada recuerdo abre una experiencia distinta.</p>
+          <p class="intro-overline">UN PEQUEÑO UNIVERSO <span>·</span> EDICIÓN 2026—27</p>
+          <h1 id="page-title">Hay días que<br /><em>encienden algo.</em></h1>
+          <p class="collection-copy">Pequeños mundos hechos para alguien especial. Algunos esperan su día; otros ya empiezan a brillar un poco más.</p>
         </div>
         <aside class="next-date-card" aria-label="Próxima fecha especial">
-          <span class="next-card-label">EL PRÓXIMO RECUERDO</span>
+          <span class="next-card-label">EL SIGUIENTE MOMENTO</span>
           <div class="next-card-date"><strong id="next-day">25</strong><span id="next-month">DIC</span></div>
           <div class="next-card-details"><b id="next-title">Navidad</b><span id="next-label">Una noche por esperar</span></div>
         </aside>
       </section>
       <section class="memories" aria-labelledby="memories-title">
-        <div class="memories-heading"><div><p class="section-kicker">EL CALENDARIO</p><h2 id="memories-title">Fechas especiales</h2></div><span id="memory-count"></span></div>
+        <div class="memories-heading"><div><p class="section-kicker">PEQUEÑOS MUNDOS, A SU TIEMPO</p><h2 id="memories-title">Elige qué descubrir</h2></div><span id="memory-count"></span></div>
         <div id="celebration-list" class="celebration-list" aria-live="polite"></div>
       </section>
     </main>
