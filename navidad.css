@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Marcellus&family=Parisienne&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Great+Vibes&family=Nunito+Sans:wght@400;500;600;700&display=swap");
 
 :root {
   color-scheme: dark;
@@ -396,3 +396,201 @@ a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
 .wish-message { transition: opacity .2s ease, transform .2s ease; }
 .wish-message.wish-changing { opacity: 0; transform: translateY(5px); }
 .wish-star:focus-visible { filter: drop-shadow(0 0 11px #f3d98c); }
+
+/* Christmas edition: warm paper, evergreen, cranberry and candlelight. */
+:root {
+  color-scheme: light;
+  --night: #f3ead8;
+  --pine: #173e32;
+  --pine-light: #28604a;
+  --snow: #f8f0df;
+  --mist: #626a5c;
+  --gold: #a77b27;
+  --berry: #9b3f3b;
+  --line: #5a573023;
+  --display: "Bodoni Moda", "Times New Roman", serif;
+  --body: "Nunito Sans", sans-serif;
+  --script: "Great Vibes", cursive;
+}
+body {
+  color: #173e32;
+  background: #f3ead8;
+}
+.christmas-page::before { opacity: .035; }
+.christmas-header {
+  border-bottom-color: #34543b2b;
+  background: #f3ead8e8;
+}
+.christmas-brand, .christmas-brand span { color: #8c372f; }
+.collection-link, .return-link { color: #536753; }
+.collection-link:hover, .return-link:hover { color: #a13c37; }
+.christmas-hero {
+  isolation: isolate;
+  width: min(1320px, 92vw);
+  min-height: min(790px, calc(100svh - 76px));
+  border-bottom-color: #4360442b;
+}
+.christmas-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 -4.3vw;
+  content: "";
+  pointer-events: none;
+  background-image: linear-gradient(90deg, #f3ead8 0%, #f3ead8f2 31%, #f3ead8a8 49%, #173e3226 100%), url("assets/christmas-room.webp");
+  background-position: center, 42% 48%;
+  background-size: cover;
+  opacity: .94;
+}
+.hero-copy { max-width: 650px; }
+.christmas-eyebrow { color: #9b3f3b; }
+.christmas-eyebrow > span { background: currentColor; }
+.christmas-hero h1 { color: #173e32; font-size: clamp(62px, 7.6vw, 104px); line-height: 1.02; }
+.christmas-hero h1 em, .section-heading h2 em, .wish-section h2 em, .closing-note h2 em { color: #a33f39; }
+.hero-message { color: #4f5b4d; font-size: 15px; line-height: 1.85; }
+.hero-signoff { color: #a13e38; font-size: 29px; }
+.gold-button { color: #fff8e8; background: #9b3f3b; border-color: #9b3f3b; }
+.gold-button:hover { box-shadow: 0 10px 30px #873e3030; }
+.quiet-button { color: #355344; }
+.quiet-button span { color: #a13e38; }
+.tree-scene { filter: drop-shadow(0 18px 32px #18271d35); }
+.tree-halo { border-color: #fff3cf80; background: radial-gradient(circle, #fff1d790, #f4dabf35 58%, transparent 72%); }
+.tree-halo::before, .tree-halo::after { border-color: #fff7db7a; }
+.fir-tree { width: min(455px, 41vw); filter: drop-shadow(0 19px 22px #12251b66); }
+.tree-scene:not(.lights-on) .light { opacity: .72; }
+.light { animation-duration: 2.1s; }
+@keyframes twinkle { from { opacity: .35; } to { opacity: 1; } }
+.ornament, .wish-star { outline: none; }
+.ornament:focus, .wish-star:focus { outline: none; }
+.ornament:focus-visible, .wish-star:focus-visible { filter: drop-shadow(0 0 10px #fff1a8) drop-shadow(0 0 4px #ac4939); }
+.lights-toggle { border-color: #fff1c6; color: #fff7e3; background: #193e32e8; }
+.lights-toggle:hover, .lights-on .lights-toggle { background: #9b3f3b; box-shadow: 0 0 24px #a73f3535; }
+.lights-toggle span, .tree-caption { color: #f8edcf; }
+.scroll-cue { color: #6d735f; }
+.scroll-cue span { color: #9b3f3b; }
+.gift-section { position: relative; }
+.section-heading .christmas-eyebrow { color: #a03f39; }
+.section-heading h2, .gift-label { color: #193d31; }
+.section-heading > p:last-child { color: #687061; }
+.gift-card {
+  min-height: 250px;
+  padding: 25px 22px 20px;
+  border: 1px solid #9b3f3b28;
+  background: linear-gradient(150deg, #fffaf0, #e9dec9);
+  box-shadow: 0 14px 30px #3d382016;
+}
+.gift-card::before {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 38px;
+  height: 13px;
+  content: "";
+  border: 1px solid #9b3f3b30;
+  border-top: 0;
+  border-radius: 0 0 50% 50%;
+  transform: translateX(-50%);
+}
+.gift-card:hover { border-color: color-mix(in srgb, var(--gift-accent) 68%, transparent); background: #fff8e9; box-shadow: 0 20px 34px #3d382022; }
+.gift-rose { --gift-accent: #a34943; }
+.gift-gold { --gift-accent: #a77b27; }
+.gift-green { --gift-accent: #3d7555; }
+.gift-blue { --gift-accent: #547c83; }
+.gift-icon { border-radius: 14px 14px 14px 3px; color: var(--gift-accent); background: #fffdf780; }
+.gift-label { font-size: 22px; }
+.gift-teaser { color: #6b7063; font-size: 11px; }
+.gift-open { color: var(--gift-accent); }
+.discovery-count { color: #6c715f; }
+.wish-section {
+  min-height: 560px;
+  border-color: #e7d8bc;
+  background: linear-gradient(#153b31e8, #153b31f2), url("assets/christmas-tree.webp") center 42% / cover;
+}
+.wish-section .christmas-eyebrow { color: #efcf82; }
+.wish-section h2 { color: #fff4df; }
+.wish-section h2 em { color: #efcf82; }
+.wish-message { color: #e7ddc8; }
+.wish-button { border-color: #e3c77990; color: #f5e7c4; }
+.wish-button:hover { color: #fff; background: #ffffff12; }
+.wish-orbit, .wish-orbit::before, .wish-orbit::after { border-color: #f3d88838; }
+.wish-orbit span { color: #f3d888; }
+.closing-note {
+  position: relative;
+  overflow: hidden;
+  color: #fff3de;
+  background: radial-gradient(ellipse at 50% 120%, #bd645233, transparent 55%), #793632;
+}
+.closing-rule { color: #f2d890; }
+.closing-rule::before, .closing-rule::after { background: #f2d89070; }
+.closing-note > p { color: #f2d890; }
+.closing-note h2 { color: #fff3de; }
+.closing-note h2 em { color: #f2d890; }
+.closing-signature { color: #ead7c1; }
+.closing-note .return-link { color: #f2d890; border-color: #f2d89080; }
+.christmas-footer {
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  color: #596653;
+  background: #f3ead8;
+  border-top-color: #53614230;
+}
+.christmas-footer a { color: #795b2f; text-decoration: underline; text-underline-offset: 3px; letter-spacing: 0; }
+/* The reveal floats like a keepsake ornament; no sharp rectangular dialog frame. */
+.gift-dialog {
+  overflow: visible;
+  border: 0;
+  color: #fff4dd;
+  background: transparent;
+  box-shadow: none;
+  isolation: isolate;
+}
+.gift-dialog::before {
+  position: absolute;
+  z-index: -1;
+  inset: -20% -12%;
+  content: "";
+  border-radius: 47% 47% 45% 45%;
+  background: linear-gradient(#123b30d9, #15382fd9), url("assets/christmas-tree.webp") center / cover;
+  box-shadow: 0 25px 100px #0009, 0 0 80px #d7a94b2b;
+}
+.gift-dialog::backdrop { background: #162119aa; backdrop-filter: blur(9px); }
+.dialog-star { border-color: #f1d68180; color: #f1d681; }
+.dialog-kicker { color: #f1d681; }
+.gift-dialog h2 { color: #fff4dd; }
+.dialog-message { color: #f0e5cf; }
+.dialog-signature { color: #f1d681; }
+.dialog-close { color: #fff3d6; background: #ffffff14; }
+.dialog-close:hover { background: #ffffff28; }
+@keyframes note-arrive {
+  from { opacity: 0; transform: translateY(18px) scale(.88) rotate(-2deg); }
+  to { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+.hero-copy { animation: christmas-arrive .8s cubic-bezier(.2,.8,.2,1) both; }
+.tree-scene { animation: tree-arrive 1.15s .1s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes christmas-arrive { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tree-arrive { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 850px) {
+  .christmas-hero::before { inset: 0 -5.5vw; background-image: linear-gradient(90deg, #f3ead8f5 0%, #f3ead8df 36%, #f3ead87a 100%), url("assets/christmas-room.webp"); }
+  .tree-caption { text-shadow: 0 1px 5px #243326; }
+}
+@media (max-width: 620px) {
+  .christmas-hero { width: 88vw; }
+  .christmas-hero::before { inset: 0 -6.8vw; background-position: center, 27% center; opacity: .55; }
+  .christmas-hero h1 { font-size: clamp(52px, 12vw, 74px); }
+  .hero-message { color: #3f4d40; }
+  .tree-scene { min-height: 410px; margin-top: 20px; }
+  .fir-tree { width: min(370px, 87vw); }
+  .tree-halo { top: 4%; }
+  .gift-card { min-height: 215px; }
+  .christmas-footer { padding-top: 12px; padding-bottom: 12px; }
+  .christmas-footer a { flex-basis: 100%; }
+  .gift-dialog::before { inset: -12% -5%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy, .tree-scene { animation: none !important; }
+}
+
+
+.ornament > circle:first-child { transform-box: fill-box; transform-origin: center; animation: bauble-glow 3.4s ease-in-out infinite alternate; }
+.ornament:nth-of-type(even) > circle:first-child { animation-delay: -1.7s; }
+@keyframes bauble-glow { from { filter: brightness(.92) drop-shadow(0 0 1px #f4d78755); } to { filter: brightness(1.12) drop-shadow(0 0 5px #f4d78799); } }
+@media (prefers-reduced-motion: reduce) { .ornament > circle:first-child { animation: none !important; } }
