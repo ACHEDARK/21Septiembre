@@ -4,11 +4,11 @@ const list = document.querySelector("#celebration-list");
 const count = document.querySelector("#memory-count");
 const cards = new Map();
 const toneColors = {
-  sunflower: "#96742f",
-  winter: "#55796d",
-  midnight: "#6d618a",
-  rose: "#9a606b",
-  birthday: "#795c83",
+  sunflower: "#dfbc63",
+  winter: "#8fc2b3",
+  midnight: "#b2a3e7",
+  rose: "#e59cac",
+  birthday: "#cb9dda",
 };
 
 const countdown = (milliseconds) => {
@@ -166,7 +166,7 @@ function initCursorGlitter() {
   let frame = 0;
   let previous = null;
   const particles = [];
-  const colors = ["#fff9df", "#ff916f", "#f8cb68", "#87d9c2", "#c7a4ff"];
+  const colors = ["#f3ead6", "#bfd5cc", "#dfbdc4"];
   const resize = () => {
     const ratio = Math.min(window.devicePixelRatio || 1, 1.6);
     width = window.innerWidth;
@@ -190,26 +190,26 @@ function initCursorGlitter() {
         continue;
       }
       const alpha = Math.min(1, particle.life * 1.35);
-      const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.radius * 5);
-      glow.addColorStop(0, `${particle.color}${Math.round(alpha * 190).toString(16).padStart(2, "0")}`);
+      const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.radius * 3.8);
+      glow.addColorStop(0, `${particle.color}${Math.round(alpha * 95).toString(16).padStart(2, "0")}`);
       glow.addColorStop(1, `${particle.color}00`);
       context.fillStyle = glow;
       context.beginPath();
-      context.arc(particle.x, particle.y, particle.radius * 5, 0, Math.PI * 2);
+      context.arc(particle.x, particle.y, particle.radius * 3.8, 0, Math.PI * 2);
       context.fill();
-      context.fillStyle = `${particle.color}${Math.round(alpha * 245).toString(16).padStart(2, "0")}`;
+      context.fillStyle = `${particle.color}${Math.round(alpha * 155).toString(16).padStart(2, "0")}`;
       context.beginPath();
       context.arc(particle.x, particle.y, particle.radius * alpha, 0, Math.PI * 2);
       context.fill();
-      if (particle.radius > 2 && particle.life > .24) {
-        context.globalAlpha = alpha * .7;
+      if (particle.radius > 2.8 && particle.life > .5) {
+        context.globalAlpha = alpha * .26;
         context.strokeStyle = particle.color;
-        context.lineWidth = .7;
+        context.lineWidth = .45;
         context.beginPath();
-        context.moveTo(particle.x - particle.radius * 2.3, particle.y);
-        context.lineTo(particle.x + particle.radius * 2.3, particle.y);
-        context.moveTo(particle.x, particle.y - particle.radius * 2.3);
-        context.lineTo(particle.x, particle.y + particle.radius * 2.3);
+        context.moveTo(particle.x - particle.radius * 1.5, particle.y);
+        context.lineTo(particle.x + particle.radius * 1.5, particle.y);
+        context.moveTo(particle.x, particle.y - particle.radius * 1.5);
+        context.lineTo(particle.x, particle.y + particle.radius * 1.5);
         context.stroke();
         context.globalAlpha = 1;
       }
@@ -225,12 +225,12 @@ function initCursorGlitter() {
       x, y,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed - .35,
-      radius: 1.1 + Math.random() * 2.3,
-      life: .8 + Math.random() * .4,
-      decay: .014 + Math.random() * .012,
+      radius: .65 + Math.random() * 1.2,
+      life: .6 + Math.random() * .25,
+      decay: .025 + Math.random() * .015,
       color: colors[Math.floor(Math.random() * colors.length)],
     });
-    if (particles.length > 110) particles.splice(0, particles.length - 110);
+    if (particles.length > 70) particles.splice(0, particles.length - 70);
     if (!frame) frame = requestAnimationFrame(draw);
   };
 
@@ -240,8 +240,7 @@ function initCursorGlitter() {
     if (event.pointerType !== "mouse") return;
     if (!previous || Math.hypot(event.clientX - previous.x, event.clientY - previous.y) > 7) {
       addParticle(event.clientX, event.clientY);
-      addParticle(event.clientX + (Math.random() - .5) * 9, event.clientY + (Math.random() - .5) * 9);
-      if (Math.random() > .18) addParticle(event.clientX + (Math.random() - .5) * 14, event.clientY + (Math.random() - .5) * 14);
+      if (Math.random() > .58) addParticle(event.clientX + (Math.random() - .5) * 7, event.clientY + (Math.random() - .5) * 7);
       previous = { x: event.clientX, y: event.clientY };
     }
   }, { passive: true });
