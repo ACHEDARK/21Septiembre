@@ -28,6 +28,7 @@ Las pruebas de navegador requieren `npx playwright install chromium` la primera 
 
 - `index.html`: menú de fechas especiales.
 - `flores-amarillas.html`: experiencia original de las flores amarillas.
+- `navidad.html`, `navidad.css`, `src/experiences/navidad.js`: experiencia navideña, ilustración del árbol, regalos interactivos, deseos y animaciones de nieve.
 - `src/config.js`: nombre especial, alias íntimos, partículas, flores, giro, calidad, velocidad, colores, glow, cámara y frecuencia de mensajes.
 - `src/galaxy.js`: renderer, cámara, shaders, espiral 3D, texturas de flores, parallax, partículas del nombre y explosiones.
 - `src/messages.js`: 104 frases para Zoraya y 104 para amistad, con categorías y barajado sin repetir hasta agotar el banco.
@@ -55,7 +56,7 @@ Para publicar, ejecuta `npm run build` y despliega los archivos estáticos de es
 
 ## Colección de fechas especiales
 
-La ruta `/` muestra el menú de recuerdos. La experiencia original se conserva en `/flores-amarillas`; sus contenidos, animaciones y controles siguen en el mismo HTML y código fuente. Navidad, San Valentín y el cumpleaños tienen rutas propias servidas desde una plantilla compartida mientras se preparan sus contenidos particulares.
+La ruta `/` muestra el menú de recuerdos. La experiencia original se conserva en `/flores-amarillas`; sus contenidos, animaciones y controles siguen en el mismo HTML y código fuente. Navidad tiene una experiencia independiente en `/navidad`, con árbol interactivo, luces, regalos y mensajes. San Valentín y el cumpleaños usan una plantilla compartida mientras se preparan sus experiencias particulares.
 
 `src/special-dates.js` centraliza el catálogo, las rutas, las fechas anuales y la zona horaria `America/Bogota`. `firstYear` indica desde cuándo aplica cada celebración: se habilita durante su fecha local y vuelve a bloquearse al día siguiente hasta la próxima ocurrencia. El menú refresca las cuentas regresivas cada segundo. Al añadir una fecha, agrega una entrada al catálogo y define su ruta en `vercel.json`; para una experiencia visual propia, crea una página o amplía la plantilla compartida.
 

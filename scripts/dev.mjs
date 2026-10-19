@@ -12,6 +12,7 @@ const pagesContext = await esbuild.context({
     "src/menu.js",
     "src/experiences/experience.js",
     "src/experiences/flores-amarillas.js",
+    "src/experiences/navidad.js",
   ],
   bundle: true,
   outdir: ".",

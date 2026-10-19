@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1715" />
+    <meta name="description" content="Una pequeña noche de luz, deseos y sorpresas para Navidad." />
+    <title>Una noche de luz · Navidad</title>
+    <link rel="stylesheet" href="navidad.css" />
+    <script defer src="experiences/navidad.js"></script>
+  </head>
+  <body class="christmas-page" hidden>
+    <div class="snowfall" id="snowfall" aria-hidden="true"></div>
+    <header class="christmas-header">
+      <a class="christmas-brand" href="/" aria-label="Volver a la colección"><span aria-hidden="true">✳</span> Un pequeño universo</a>
+      <a class="collection-link" href="/">Volver a los recuerdos</a>
+    </header>
+
+    <main>
+      <section class="christmas-hero" aria-labelledby="christmas-title">
+        <div class="hero-copy">
+          <p class="christmas-eyebrow"><span></span> 25 de diciembre · una noche para ti</p>
+          <h1 id="christmas-title">Que la noche<br />te encuentre <em>en luz.</em></h1>
+          <p class="hero-message">Aunque la vida nos haya llevado por caminos distintos, sigues siendo alguien a quien deseo cosas bonitas. Esta Navidad quería dejarte un cielo pequeño, unas palabras suaves y sorpresas para abrir sin prisa.</p>
+          <p class="hero-signoff">Con cariño, sin pedir nada a cambio.</p>
+          <div class="hero-actions">
+            <a class="gold-button" href="#regalos">Abrir tus pequeños regalos <span aria-hidden="true">↓</span></a>
+            <button class="quiet-button" id="snow-toggle" type="button" aria-pressed="true"><span aria-hidden="true">❄</span> Pausar la nieve</button>
+          </div>
+        </div>
+
+        <div class="tree-scene" id="tree-scene">
+          <div class="tree-halo" aria-hidden="true"></div>
+          <svg class="fir-tree" viewBox="0 0 420 520" role="group" aria-labelledby="tree-title tree-description">
+            <title id="tree-title">Un árbol de Navidad iluminado</title>
+            <desc id="tree-description">Un abeto con guirnaldas doradas, esferas y una estrella que guarda un deseo.</desc>
+            <defs>
+              <radialGradient id="tree-glow"><stop stop-color="#f7d98b" stop-opacity=".28"/><stop offset="1" stop-color="#f7d98b" stop-opacity="0"/></radialGradient>
+              <linearGradient id="fir-color" x1=".1" y1="0" x2=".9" y2="1"><stop stop-color="#42675a"/><stop offset=".52" stop-color="#24483e"/><stop offset="1" stop-color="#142f2a"/></linearGradient>
+              <linearGradient id="trunk-color" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8b6341"/><stop offset="1" stop-color="#4e392e"/></linearGradient>
+              <filter id="soft-glow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <circle cx="210" cy="248" r="180" fill="url(#tree-glow)" />
+            <path class="tree-trunk" d="M190 397h40l10 69h-60z" fill="url(#trunk-color)" />
+            <path class="tree-layer tree-layer-back" d="M210 71c-18 30-29 43-46 66 12-2 20-4 29-8-20 34-38 54-67 82 15 0 27-3 39-8-27 39-49 65-82 93 22 3 38 0 55-7-27 38-53 64-79 91 58 19 133 26 221 0-29-29-54-58-79-94 20 9 37 12 58 8-34-28-59-57-82-92 16 7 30 10 47 8-31-29-52-53-68-83 11 6 21 9 34 10-20-23-34-42-50-66z" fill="url(#fir-color)" />
+            <path class="tree-bough" d="M209 112c-18 29-33 48-57 73 20-3 37-10 54-24-15 33-36 59-68 86 28 0 47-9 68-27-17 38-42 66-78 95 31 3 56-10 79-31-13 37-34 64-61 91 38 13 82 13 126 0-28-29-49-57-62-93 23 22 47 35 79 31-33-29-60-57-77-94 20 18 42 28 69 28-31-28-52-54-67-86 17 14 34 21 54 24-24-25-40-44-58-73z" fill="#31584b" opacity=".78" />
+            <path class="tree-garland" d="M175 162c20 19 56 22 75 4M149 229c35 25 91 28 123 5M120 301c53 35 124 40 180 8M100 365c64 39 145 42 221 10" fill="none" stroke="#d9bd75" stroke-opacity=".7" stroke-width="2" stroke-linecap="round" />
+            <g class="tree-lights" filter="url(#soft-glow)">
+              <circle class="light light-a" cx="180" cy="164" r="4"/><circle class="light light-b" cx="229" cy="161" r="4"/>
+              <circle class="light light-c" cx="151" cy="224" r="4"/><circle class="light light-a" cx="205" cy="235" r="4"/><circle class="light light-b" cx="266" cy="225" r="4"/>
+              <circle class="light light-b" cx="125" cy="294" r="4"/><circle class="light light-c" cx="177" cy="311" r="4"/><circle class="light light-a" cx="229" cy="312" r="4"/><circle class="light light-b" cx="287" cy="294" r="4"/>
+              <circle class="light light-c" cx="112" cy="359" r="4"/><circle class="light light-a" cx="163" cy="378" r="4"/><circle class="light light-b" cx="218" cy="385" r="4"/><circle class="light light-c" cx="270" cy="374" r="4"/><circle class="light light-a" cx="311" cy="355" r="4"/>
+            </g>
+            <g class="ornament" tabindex="0" role="button" aria-label="Abrir el regalo de calma" data-gift="calma"><circle cx="174" cy="192" r="10" fill="#b66a62"/><circle cx="171" cy="189" r="3" fill="#f8d8b6" opacity=".75"/></g>
+            <g class="ornament" tabindex="0" role="button" aria-label="Abrir el regalo de orgullo" data-gift="orgullo"><circle cx="250" cy="264" r="11" fill="#d3b879"/><circle cx="246" cy="260" r="3" fill="#fff2c8" opacity=".8"/></g>
+            <g class="ornament" tabindex="0" role="button" aria-label="Abrir el regalo de esperanza" data-gift="esperanza"><circle cx="148" cy="335" r="10" fill="#b66a62"/><circle cx="145" cy="332" r="3" fill="#f8d8b6" opacity=".75"/></g>
+            <g class="ornament" tabindex="0" role="button" aria-label="Abrir el regalo de buenos deseos" data-gift="deseos"><circle cx="280" cy="337" r="10" fill="#d3b879"/><circle cx="277" cy="334" r="3" fill="#fff2c8" opacity=".8"/></g>
+            <g class="wish-star" tabindex="0" role="button" aria-label="Descubrir el deseo escondido en la estrella" data-gift="estrella" filter="url(#soft-glow)"><path d="M210 35l8 22 23 2-18 14 6 23-19-13-19 13 6-23-18-14 23-2z" fill="#f3d98c"/><circle cx="210" cy="66" r="4" fill="#fff8d8"/></g>
+            <g aria-hidden="true" fill="#a8c5b0" opacity=".78"><path d="M109 445h60l-13 27h-34z"/><path d="M251 440h67l-9 31h-48z"/></g>
+            <g aria-hidden="true"><path d="M114 431h51v42h-51z" fill="#8c4c45"/><path d="M137 431h7v42h-7z" fill="#e0c079"/><path d="M106 425h67v11h-67z" fill="#bb7062"/><path d="M260 427h57v45h-57z" fill="#d1b477"/><path d="M284 427h8v45h-8z" fill="#f3e2b3"/><path d="M253 419h71v12h-71z" fill="#e7d3a0"/></g>
+          </svg>
+          <button class="lights-toggle" id="lights-toggle" type="button" aria-pressed="false"><span aria-hidden="true">✧</span> Encender las luces</button>
+          <p class="tree-caption">Toca una esfera o la estrella para descubrir una sorpresa.</p>
+        </div>
+        <a class="scroll-cue" href="#regalos"><span aria-hidden="true">⌄</span> Hay más debajo</a>
+      </section>
+
+      <section class="gift-section" id="regalos" aria-labelledby="gifts-title">
+        <div class="section-heading">
+          <p class="christmas-eyebrow"><span></span> Ábrelo cuando quieras</p>
+          <h2 id="gifts-title">Pequeños regalos,<br /><em>palabras de verdad.</em></h2>
+          <p>Cada caja guarda algo distinto. Puedes volver a abrirlas cuando necesites un poco de luz.</p>
+        </div>
+        <div class="gift-grid">
+          <button class="gift-card gift-rose" type="button" data-gift="calma"><span class="gift-icon" aria-hidden="true"><span>✧</span></span><span class="gift-label">Una pausa tibia</span><span class="gift-teaser">Para cuando necesites descansar</span><span class="gift-open">Abrir regalo <b aria-hidden="true">↗</b></span></button>
+          <button class="gift-card gift-gold" type="button" data-gift="orgullo"><span class="gift-icon" aria-hidden="true"><span>✳</span></span><span class="gift-label">Lo que has logrado</span><span class="gift-teaser">Para recordar todo lo que vales</span><span class="gift-open">Abrir regalo <b aria-hidden="true">↗</b></span></button>
+          <button class="gift-card gift-green" type="button" data-gift="esperanza"><span class="gift-icon" aria-hidden="true"><span>❄</span></span><span class="gift-label">Un deseo sereno</span><span class="gift-teaser">Para el año que viene</span><span class="gift-open">Abrir regalo <b aria-hidden="true">↗</b></span></button>
+          <button class="gift-card gift-blue" type="button" data-gift="deseos"><span class="gift-icon" aria-hidden="true"><span>♡</span></span><span class="gift-label">Algo que sigue aquí</span><span class="gift-teaser">Una verdad sin condiciones</span><span class="gift-open">Abrir regalo <b aria-hidden="true">↗</b></span></button>
+        </div>
+        <p class="discovery-count" id="discovery-count" aria-live="polite">Has abierto 0 de 5 sorpresas</p>
+        <button class="bonus-reveal" id="bonus-reveal" type="button" hidden>Encontraste el último regalo <span aria-hidden="true">✦</span></button>
+      </section>
+
+      <section class="wish-section" aria-labelledby="wish-title">
+        <div class="wish-orbit" aria-hidden="true"><span>✦</span></div>
+        <p class="christmas-eyebrow"><span></span> Un deseo para llevar contigo</p>
+        <h2 id="wish-title">Que el año nuevo<br />te trate <em>con dulzura.</em></h2>
+        <p class="wish-message" id="wish-message" aria-live="polite">Que encuentres calma en los días ruidosos y alegría en las cosas pequeñas.</p>
+        <button class="wish-button" id="next-wish" type="button">Otro deseo <span aria-hidden="true">✧</span></button>
+      </section>
+
+      <section class="closing-note" aria-label="Mensaje final">
+        <div class="closing-rule"><span>✦</span></div>
+        <p>Feliz Navidad.</p>
+        <h2>Que nunca te falte<br />un lugar donde <em>florecer.</em></h2>
+        <span class="closing-signature">Con cariño, siempre deseándote luz.</span>
+        <a href="/" class="return-link">Volver a la colección <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+
+    <dialog class="gift-dialog" id="gift-dialog" aria-labelledby="dialog-title">
+      <form method="dialog"><button class="dialog-close" aria-label="Cerrar sorpresa">×</button></form>
+      <span class="dialog-star" aria-hidden="true">✧</span>
+      <p class="dialog-kicker">UN PEQUEÑO REGALO PARA TI</p>
+      <h2 id="dialog-title"></h2>
+      <p class="dialog-message" id="dialog-message"></p>
+      <span class="dialog-signature">con mucho cariño</span>
+    </dialog>
+    <footer class="christmas-footer"><span>UN PEQUEÑO UNIVERSO</span><span>Hecho para sentir, sin prisa.</span></footer>
+  </body>
+</html>

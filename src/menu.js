@@ -110,6 +110,8 @@ function previewPath(celebration) {
     return celebration.path;
   return celebration.id === "flores-amarillas"
     ? "/flores-amarillas.html"
+    : celebration.id === "navidad"
+      ? "/navidad.html"
     : `/experiencia.html?celebration=${encodeURIComponent(celebration.id)}`;
 }
 
