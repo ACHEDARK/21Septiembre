@@ -50,6 +50,39 @@
         <a class="scroll-cue" href="#carta"><span aria-hidden="true">⌄</span> Hay más debajo</a>
       </section>
 
+      <section class="winter-journey" id="sendero" aria-labelledby="journey-title">
+        <div class="journey-heading">
+          <p class="christmas-eyebrow"><span></span> Un paseo bajo la nieve</p>
+          <h2 id="journey-title">Sigue las huellas<br />hasta <em>la luz.</em></h2>
+          <p>El camino tiene cuatro paradas. En cada una te espera un pequeño mundo; puedes recorrerlo a tu ritmo.</p>
+        </div>
+        <div class="journey-world" id="journey-world" data-scene="0">
+          <div class="journey-art-wrap">
+            <img id="journey-art" class="journey-art" src="assets/image.png" alt="Ositos decorando un árbol de Navidad bajo un cielo nevado." />
+            <img id="journey-reflection" class="journey-reflection" src="assets/image copy 18.png" alt="" hidden />
+            <span class="journey-moon" aria-hidden="true">✦</span>
+            <span class="journey-snow journey-snow-one" aria-hidden="true"></span>
+            <span class="journey-snow journey-snow-two" aria-hidden="true"></span>
+          </div>
+          <div class="journey-story" aria-live="polite">
+            <span class="journey-step" id="journey-step">PARADA 01 · EL ÁRBOL</span>
+            <h3 id="journey-scene-title">Donde empiezan las luces</h3>
+            <p id="journey-copy">Alguien subió una escalera para dejar una estrella en lo alto. Abajo, los regalos esperan sin apuro.</p>
+            <div class="journey-controls">
+              <button class="journey-arrow" id="journey-prev" type="button" aria-label="Escena anterior" disabled>←</button>
+              <div class="journey-dots" role="group" aria-label="Elegir escena">
+                <button type="button" class="journey-dot is-active" aria-label="Parada 1: El árbol" aria-pressed="true" data-scene="0"></button>
+                <button type="button" class="journey-dot" aria-label="Parada 2: El trineo" aria-pressed="false" data-scene="1"></button>
+                <button type="button" class="journey-dot" aria-label="Parada 3: La cabaña" aria-pressed="false" data-scene="2"></button>
+                <button type="button" class="journey-dot" aria-label="Parada 4: El lago de estrellas" aria-pressed="false" data-scene="3"></button>
+              </div>
+              <button class="journey-arrow" id="journey-next" type="button" aria-label="Siguiente escena">→</button>
+            </div>
+            <span class="journey-hint" id="journey-hint">Una historia a la vez. Avanza cuando quieras.</span>
+          </div>
+        </div>
+      </section>
+
       <section class="letter-section" id="carta" aria-labelledby="letter-title">
         <div class="letter-copy">
           <p class="christmas-eyebrow"><span></span> Una nota que esperaba aquí</p>

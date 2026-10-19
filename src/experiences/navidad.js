@@ -16,8 +16,8 @@ function startChristmas() {
   const gifts = {
     calma: {
       title: "Una pausa tibia",
-      image: "assets/image copy 5.png",
-      imageAlt: "Un osito navideño que alza dos estrellas en la noche.",
+      image: "assets/image copy 2.png",
+      imageAlt: "Un osito con gorro de Navidad comparte una pequeña sorpresa.",
       message: "Que esta noche te permita soltar un poquito el día. No tienes que resolverlo todo ahora; también mereces descansar, respirar hondo y dejar que alguien más cuide de ti por un rato.",
     },
     orgullo: {
@@ -88,6 +88,48 @@ function startChristmas() {
   document.querySelector("#bonus-reveal").addEventListener("click", () => {
     openGift("final");
   });
+
+  const scenes = [
+    { title: "Donde empiezan las luces", label: "EL ÁRBOL", image: "assets/image.png", alt: "Ositos decorando un árbol de Navidad bajo un cielo nevado.", copy: "Alguien subió una escalera para dejar una estrella en lo alto. Abajo, los regalos esperan sin apuro." },
+    { title: "Un viaje sin reloj", label: "EL TRINEO", image: "assets/image copy 6.png", alt: "Dos ositos cruzan juntos la nieve en un trineo con un árbol de Navidad.", copy: "El camino cruza el bosque y la nieve borra las huellas detrás. Por un rato, basta con dejarse llevar." },
+    { title: "Una ventana encendida", label: "LA CABAÑA", image: "assets/image copy 7.png", alt: "Una cabaña cálida con ositos y un árbol navideño decorado.", copy: "Dentro huele a madera y a noche tranquila. Hay sitio junto al árbol, una taza tibia y tiempo para respirar." },
+    { title: "La luz que guardaste", label: "EL LAGO DE ESTRELLAS", image: "assets/image copy 17.png", reflection: "assets/image copy 18.png", alt: "Un osito encuentra una pequeña estrella luminosa junto al agua, bajo el cielo nocturno.", copy: "Dos pequeñas luces se encuentran sobre el agua oscura. Cada una puede seguir su propio camino y aun así iluminar la noche." },
+  ];
+  let activeScene = 0;
+  const world = document.querySelector("#journey-world");
+  const sceneImage = document.querySelector("#journey-art");
+  const reflection = document.querySelector("#journey-reflection");
+  const prevScene = document.querySelector("#journey-prev");
+  const nextScene = document.querySelector("#journey-next");
+  function showScene(index) {
+    activeScene = Math.max(0, Math.min(scenes.length - 1, index));
+    const scene = scenes[activeScene];
+    world.classList.add("is-transitioning");
+    window.setTimeout(() => {
+      sceneImage.src = scene.image;
+      sceneImage.alt = scene.alt;
+      reflection.hidden = !scene.reflection;
+      if (scene.reflection) reflection.src = scene.reflection;
+      document.querySelector("#journey-step").textContent = `PARADA 0${activeScene + 1} · ${scene.label}`;
+      document.querySelector("#journey-scene-title").textContent = scene.title;
+      document.querySelector("#journey-copy").textContent = scene.copy;
+      world.dataset.scene = String(activeScene);
+      document.querySelectorAll(".journey-dot").forEach((dot, dotIndex) => {
+        const selected = dotIndex === activeScene;
+        dot.classList.toggle("is-active", selected);
+        dot.setAttribute("aria-pressed", String(selected));
+      });
+      prevScene.disabled = activeScene === 0;
+      nextScene.disabled = activeScene === scenes.length - 1;
+      document.querySelector("#journey-hint").textContent = activeScene === scenes.length - 1
+        ? "Llegaste al final del sendero. La luz sigue contigo."
+        : "Una historia a la vez. Avanza cuando quieras.";
+      world.classList.remove("is-transitioning");
+    }, 240);
+  }
+  document.querySelectorAll(".journey-dot").forEach((dot) => dot.addEventListener("click", () => showScene(Number(dot.dataset.scene))));
+  prevScene.addEventListener("click", () => showScene(activeScene - 1));
+  nextScene.addEventListener("click", () => showScene(activeScene + 1));
 
   const tree = document.querySelector("#tree-scene");
   const lightsToggle = document.querySelector("#lights-toggle");
