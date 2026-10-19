@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild src/main.js --bundle --outfile=script.js --format=iife --target=es2020 --minify && esbuild src/menu.js src/experiences/experience.js src/experiences/flores-amarillas.js src/experiences/navidad.js --bundle --outdir=. --outbase=src --format=iife --target=es2020 --minify",
+    "build": "esbuild src/main.js --bundle --outfile=script.js --format=iife --target=es2020 --minify && esbuild src/menu.js src/experiences/experience.js src/experiences/flores-amarillas.js src/experiences/navidad.js src/experiences/ano-nuevo.js --bundle --outdir=. --outbase=src --format=iife --target=es2020 --minify",
     "dev": "node scripts/dev.mjs",
     "watch": "node scripts/dev.mjs --watch-only",
     "test": "playwright test"

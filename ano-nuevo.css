@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap");
+:root { color-scheme: dark; --midnight:#101326; --ink:#f3edff; --muted:#b4b3cc; --lilac:#d4b7ff; --gold:#f2d58b; --display:"Playfair Display",Georgia,serif; --body:"DM Sans",sans-serif; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; min-width:320px; min-height:100vh; color:var(--ink); background:radial-gradient(ellipse at 50% 4%,#393357 0,#1a1c35 32%,#101326 75%); font-family:var(--body); }
+[hidden] { display:none !important; }
+a,button { color:inherit; font:inherit; }
+a:focus-visible,button:focus-visible,textarea:focus-visible { outline:2px solid var(--gold); outline-offset:4px; }
+.new-year-page { position:relative; isolation:isolate; overflow:hidden; }
+.fireworks { position:fixed; z-index:-1; inset:0; width:100%; height:100%; pointer-events:none; }
+.new-year-header,.new-year-footer { position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 clamp(20px,6vw,88px); }
+.new-year-header { min-height:78px; border-bottom:1px solid #fff2ff16; }
+.new-year-brand { text-decoration:none; color:#e8d9ff; font-size:10px; letter-spacing:.13em; text-transform:uppercase; }
+.new-year-brand span { margin-right:9px; color:var(--gold); font-size:19px; }
+.new-year-date { color:#d1c0f1; font:11px "DM Mono",monospace; letter-spacing:.18em; }
+.new-year-back { color:#c0bed0; font-size:10px; text-decoration:none; }
+.new-year-hero { position:relative; display:flex; min-height:min(920px,calc(100svh - 78px)); flex-direction:column; align-items:center; justify-content:center; padding:70px 23px 100px; text-align:center; }
+.midnight-seal { position:relative; display:flex; align-items:center; justify-content:center; gap:9px; width:152px; height:152px; margin:0 0 33px; border:1px solid #eedda859; border-radius:50%; color:#fff5d4; font:32px "DM Mono",monospace; box-shadow:0 0 75px #bd9cf12a,inset 0 0 46px #d3b7ff12; animation:seal-pulse 4s ease-in-out infinite; }
+.midnight-seal::before,.midnight-seal::after { position:absolute; inset:-11px; content:""; border:1px solid #d9c5ff20; border-radius:48% 52% 55% 45%; transform:rotate(35deg); }
+.midnight-seal::after { inset:-21px; transform:rotate(-28deg); border-color:#f3dc991c; }
+.midnight-seal i { color:var(--gold); font-style:normal; animation:colon-blink 1s step-end infinite; }
+.midnight-seal b { position:absolute; bottom:28px; color:#c6bddf; font:8px var(--body); letter-spacing:.15em; text-transform:uppercase; }
+@keyframes seal-pulse { 50% { box-shadow:0 0 105px #bd9cf148,inset 0 0 56px #d3b7ff1b; transform:scale(1.025); } }
+@keyframes colon-blink { 50% { opacity:.2; } }
+.new-year-kicker { display:flex; align-items:center; justify-content:center; gap:11px; margin:0 0 22px; color:#e5ca91; font-size:9px; letter-spacing:.15em; text-transform:uppercase; }
+.new-year-kicker span { width:21px; height:1px; background:currentColor; }
+.new-year-hero h1,.wish-page-copy h2 { margin:0; font:400 clamp(54px,8vw,102px)/1.08 var(--display); letter-spacing:-.045em; }
+.new-year-hero h1 em,.wish-page-copy h2 em { color:var(--lilac); font-weight:400; }
+.new-year-intro { max-width:490px; margin:24px auto 0; color:#c3c2d2; font-size:14px; line-height:1.9; }
+.wish-cta { display:inline-flex; align-items:center; gap:32px; margin-top:29px; padding:14px 20px; border:1px solid #dcc9fc70; border-radius:28px; color:#f3e9ff; background:#ffffff08; font-size:11px; text-decoration:none; transition:background .25s,transform .25s; }
+.wish-cta:hover { background:#ffffff14; transform:translateY(-2px); }
+.wish-cta span { color:var(--gold); font-size:16px; }
+.sky-button { margin-top:20px; padding:10px 13px; border:0; color:#b8b1cf; background:transparent; cursor:pointer; font-size:10px; }
+.sky-button span { color:var(--gold); margin-right:7px; }
+.new-year-scroll { position:absolute; bottom:29px; display:flex; flex-direction:column; gap:8px; align-items:center; color:#a9a6c0; text-decoration:none; font-size:9px; }
+.new-year-scroll span { color:var(--gold); font-size:18px; }
+.wish-page-section { position:relative; display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:clamp(36px,8vw,115px); width:min(1080px,86vw); min-height:630px; margin:auto; padding:100px 0 128px; border-top:1px solid #fff2ff18; }
+.wish-page-copy h2 { font-size:clamp(43px,5.5vw,68px); }
+.wish-page-copy .new-year-kicker { justify-content:flex-start; }
+.wish-page-copy > p:last-child { max-width:390px; color:#b4b3cc; font-size:13px; line-height:1.9; }
+.wish-form { padding:28px; border:1px solid #d4c1ff35; border-radius:3px 32px 3px 32px; background:linear-gradient(145deg,#fff2ff0d,#d7bdff07); box-shadow:0 24px 90px #04051135; }
+.wish-form label { color:#e7d8ff; font:20px var(--display); }
+.wish-form textarea { display:block; width:100%; min-height:145px; margin-top:14px; padding:15px; resize:vertical; border:1px solid #d4c1ff25; border-radius:2px; color:#fff7e9; background:#0d1023a1; font:13px/1.8 var(--body); }
+.wish-form textarea::placeholder { color:#918ea9; }
+.wish-form-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; }
+.wish-form-bottom > span { color:#9d99b7; font:9px "DM Mono",monospace; }
+.wish-form-bottom button { padding:11px 14px; border:0; border-radius:22px; color:#201a32; background:linear-gradient(115deg,#f1dfa9,#d1b2ff); cursor:pointer; font-size:10px; }
+.wish-form-bottom button span { margin-left:9px; }
+.wish-status { min-height:22px; margin:13px 0 0; color:#efdb99; font:17px var(--display); }
+.new-year-home { position:absolute; bottom:62px; left:50%; color:#d8c5fa; font-size:10px; text-decoration:none; transform:translateX(-50%); }
+.new-year-home span { margin-left:9px; color:var(--gold); }
+.new-year-footer { min-height:64px; border-top:1px solid #fff2ff16; color:#9896af; font-size:8px; letter-spacing:.12em; }
+.firework-dot { position:fixed; width:4px; height:4px; border-radius:50%; pointer-events:none; box-shadow:0 0 12px currentColor; animation:firework-rise 2.5s ease-out forwards; }
+@keyframes firework-rise { to { opacity:0; transform:translate(var(--dx),var(--dy)) scale(.2); } }
+@media(max-width:720px) { .new-year-header { min-height:65px; padding:0 5vw; } .new-year-brand { font-size:8px; } .new-year-back { font-size:9px; } .midnight-seal { width:125px; height:125px; font-size:26px; } .new-year-hero { min-height:790px; padding-top:48px; } .new-year-hero h1 { font-size:clamp(52px,12vw,76px); } .new-year-intro { max-width:400px; font-size:12px; } .wish-page-section { display:block; width:86vw; padding:80px 0 140px; } .wish-page-copy h2 { font-size:47px; } .wish-form { margin-top:30px; padding:22px; } .wish-form-bottom { align-items:flex-start; flex-direction:column; } .new-year-home { white-space:nowrap; } .new-year-footer { padding:0 5vw; font-size:7px; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } }
+
+.new-year-mascots { position:absolute;right:clamp(18px,8vw,120px);bottom:34px;width:min(190px,18vw);height:300px;object-fit:contain;opacity:.66;filter:drop-shadow(0 12px 25px #07091680);animation:mascot-float 6s ease-in-out infinite;pointer-events:none; }
+@keyframes mascot-float { 50% { transform:translateY(-9px); } }
+@media(max-width:720px){.new-year-mascots{right:7px;bottom:13px;width:78px;height:125px;opacity:.34;}}
+@media(prefers-reduced-motion:reduce){.new-year-mascots{animation:none!important;}}

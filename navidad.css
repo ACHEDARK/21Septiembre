@@ -436,7 +436,7 @@ body {
   inset: 0 -4.3vw;
   content: "";
   pointer-events: none;
-  background-image: linear-gradient(90deg, #f3ead8 0%, #f3ead8f2 31%, #f3ead8a8 49%, #173e3226 100%), url("assets/christmas-room.webp");
+  background-image: radial-gradient(ellipse at 73% 46%, #e5c57d38, transparent 37%), linear-gradient(125deg, #f3ead8, #e9ddc7);
   background-position: center, 42% 48%;
   background-size: cover;
   opacity: .94;
@@ -503,7 +503,7 @@ body {
 .wish-section {
   min-height: 560px;
   border-color: #e7d8bc;
-  background: linear-gradient(#153b31e8, #153b31f2), url("assets/christmas-tree.webp") center 42% / cover;
+  background: linear-gradient(145deg, #19473a, #102d28);
 }
 .wish-section .christmas-eyebrow { color: #efcf82; }
 .wish-section h2 { color: #fff4df; }
@@ -549,7 +549,7 @@ body {
   inset: -20% -12%;
   content: "";
   border-radius: 47% 47% 45% 45%;
-  background: linear-gradient(#123b30d9, #15382fd9), url("assets/christmas-tree.webp") center / cover;
+  background: radial-gradient(ellipse at 50% 28%, #32614f, #15382f 69%, #103228);
   box-shadow: 0 25px 100px #0009, 0 0 80px #d7a94b2b;
 }
 .gift-dialog::backdrop { background: #162119aa; backdrop-filter: blur(9px); }
@@ -569,7 +569,7 @@ body {
 @keyframes christmas-arrive { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes tree-arrive { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @media (max-width: 850px) {
-  .christmas-hero::before { inset: 0 -5.5vw; background-image: linear-gradient(90deg, #f3ead8f5 0%, #f3ead8df 36%, #f3ead87a 100%), url("assets/christmas-room.webp"); }
+  .christmas-hero::before { inset: 0 -5.5vw; background-image: radial-gradient(ellipse at 75% 46%, #e5c57d38, transparent 38%), linear-gradient(125deg, #f3ead8, #e9ddc7); }
   .tree-caption { text-shadow: 0 1px 5px #243326; }
 }
 @media (max-width: 620px) {
@@ -594,3 +594,164 @@ body {
 .ornament:nth-of-type(even) > circle:first-child { animation-delay: -1.7s; }
 @keyframes bauble-glow { from { filter: brightness(.92) drop-shadow(0 0 1px #f4d78755); } to { filter: brightness(1.12) drop-shadow(0 0 5px #f4d78799); } }
 @media (prefers-reduced-motion: reduce) { .ornament > circle:first-child { animation: none !important; } }
+
+/* Reemplaza el árbol geométrico por la ilustración navideña y deja las sorpresas solo en sus luces. */
+.christmas-hero { min-height: min(880px, calc(100svh - 76px)); }
+.hero-actions .gold-button { min-width: 222px; }
+.tree-scene { min-height: 700px; margin-right: 0; }
+.tree-halo { top: 7%; width: min(540px, 48vw); opacity: .56; }
+.tree-photo-frame {
+  position: relative;
+  z-index: 1;
+  width: min(398px, 38vw);
+  aspect-ratio: 335 / 597;
+  overflow: hidden;
+  border: 1px solid #fff5d6cc;
+  border-radius: 48% 48% 27px 27px;
+  background: #1c2e2a;
+  box-shadow: 0 26px 75px #34271744, inset 0 0 0 7px #fff8e44a;
+  transform: translateY(5px);
+  transition: box-shadow .7s ease, transform .7s ease;
+  animation: picture-arrive 1.2s .15s cubic-bezier(.2,.8,.2,1) both;
+}
+.tree-photo-frame::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, #091b1620, transparent 34%, transparent 74%, #091b1640);
+  box-shadow: inset 0 0 0 5px #fff4df57;
+}
+.tree-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  animation: illustration-breathe 18s ease-in-out infinite alternate;
+}
+@keyframes illustration-breathe { to { transform: scale(1.045); } }
+@keyframes picture-arrive { from { opacity: 0; transform: translateY(26px) scale(.96); } to { opacity: 1; transform: translateY(5px) scale(1); } }
+.tree-scene.lights-on .tree-photo-frame { box-shadow: 0 25px 85px #4c351552, 0 0 80px #f6d66c75, inset 0 0 0 7px #fff8e46a; transform: translateY(0); }
+.picture-sparkle { position: absolute; z-index: 3; color: #fff2ad; pointer-events: none; text-shadow: 0 0 15px #fff3b7; animation: sparkle-drift 3.4s ease-in-out infinite alternate; }
+.sparkle-one { top: 22%; left: 22%; font-size: 19px; }
+.sparkle-two { top: 43%; right: 15%; font-size: 14px; animation-delay: -1.6s; }
+@keyframes sparkle-drift { to { opacity: .28; transform: translateY(-9px) scale(.78) rotate(20deg); } }
+.tree-scene .ornament, .tree-scene .wish-star {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #fff4ce99;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .3s ease;
+}
+.tree-scene .ornament { background: radial-gradient(circle at 36% 30%, #fff7d6, #ed7463 35%, #8c2633 100%); box-shadow: 0 0 16px #ffe6a98c; }
+.tree-scene .ornament-two { background: radial-gradient(circle at 36% 30%, #fff8d4, #f1d26b 39%, #ae712c 100%); }
+.tree-scene .ornament-three { background: radial-gradient(circle at 36% 30%, #f7f3c6, #80bf88 42%, #205c43 100%); }
+.tree-scene .ornament-four { background: radial-gradient(circle at 36% 30%, #fff, #cde8ec 38%, #518293 100%); }
+.tree-scene .ornament::after { width: 5px; height: 5px; content: ""; border-radius: 50%; background: #fff9dc; transform: translate(-5px,-5px); }
+.tree-scene .ornament-one { top: 48%; left: 52%; }
+.tree-scene .ornament-two { top: 56%; left: 61%; }
+.tree-scene .ornament-three { top: 62%; left: 50%; }
+.tree-scene .ornament-four { top: 67%; left: 59%; }
+.tree-scene .wish-star { top: 34%; left: 45%; border: 0; border-radius: 0; color: #ffed91; background: transparent; font-size: 35px; text-shadow: 0 0 14px #fff5af, 0 0 29px #ffd459; animation: star-turn 10s linear infinite; }
+@keyframes star-turn { 50% { filter: drop-shadow(0 0 16px #fff9b7); transform: rotate(12deg) scale(1.13); } }
+.tree-scene .ornament:hover, .tree-scene .ornament:focus-visible, .tree-scene .wish-star:hover, .tree-scene .wish-star:focus-visible { outline: none; transform: scale(1.35); box-shadow: 0 0 23px #fff1ab; }
+.tree-scene .wish-star:focus-visible { filter: drop-shadow(0 0 11px #fff9bd); }
+.lights-on .ornament { animation: lights-awake 1.7s ease-in-out infinite alternate; }
+.lights-on .ornament:nth-of-type(even) { animation-delay: -.8s; }
+@keyframes lights-awake { to { box-shadow: 0 0 27px 5px #ffe388d9; } }
+.tree-caption { margin-top: 17px; color: #fff6dd; text-align: center; text-shadow: 0 2px 8px #1b281c; }
+.discovery-count { margin: 8px 0 0; color: #fff5dc; font-size: 10px; text-shadow: 0 1px 6px #15261d; }
+.bonus-reveal { margin-top: 8px; padding: 9px 14px; border-color: #f1d17b; color: #fff0c2; background: #633b27d9; }
+.scroll-cue { bottom: 21px; }
+.letter-section {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(340px, 1.15fr);
+  align-items: center;
+  gap: clamp(38px, 8vw, 120px);
+  width: min(1120px, 86vw);
+  min-height: 680px;
+  margin: 0 auto;
+  padding: 104px 0 118px;
+  border-bottom: 1px solid #9b3f3b27;
+}
+.letter-copy { max-width: 480px; }
+.letter-copy h2 { margin: 0; color: #193d31; font: 400 clamp(43px, 5.2vw, 67px)/1.12 var(--display); letter-spacing: -.04em; }
+.letter-copy h2 em { color: #9b3f3b; }
+.letter-copy > p:not(.christmas-eyebrow) { max-width: 380px; color: #687061; font-size: 13px; line-height: 1.9; }
+.letter-characters { display: flex; align-items: center; gap: 11px; margin-top: 28px; color: #8b5b42; font: 17px var(--script); }
+.letter-characters img { width: 49px; height: 49px; object-fit: cover; border: 2px solid #fff7e6; border-radius: 50%; box-shadow: 0 4px 14px #40351f1c; }
+.letter-characters img + img { margin-left: -20px; }
+.letter-stage { display: grid; min-height: 460px; place-items: center; perspective: 1000px; }
+.letter-envelope {
+  position: relative;
+  width: min(100%, 490px);
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  margin-top: 65px;
+  border-radius: 5px 5px 18px 18px;
+  background: linear-gradient(145deg, #a6443e, #7d302f);
+  box-shadow: 0 30px 65px #6c382c2e;
+  isolation: isolate;
+}
+.letter-envelope::before, .letter-envelope::after { position: absolute; z-index: -1; inset: 0; content: ""; border-radius: inherit; }
+.letter-envelope::before { background: linear-gradient(35deg, #b85449 49.8%, transparent 50%) left bottom/51% 100% no-repeat, linear-gradient(-35deg, #9c3836 49.8%, transparent 50%) right bottom/51% 100% no-repeat; }
+.letter-envelope::after { background: linear-gradient(145deg, #d87e67, #a13e39); clip-path: polygon(0 0,100% 0,50% 57%); transform-origin: top; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+.envelope-seal { position: absolute; z-index: 3; top: 42%; left: 50%; color: #ffe39b; font-size: 31px; filter: drop-shadow(0 2px 8px #682c28); transform: translate(-50%,-50%); transition: opacity .25s ease; }
+.letter-open { position: absolute; z-index: 4; bottom: 18px; left: 50%; padding: 10px 19px; border: 1px solid #f8d997; border-radius: 30px; color: #fff3d1; background: #6d302f; cursor: pointer; font-size: 10px; transform: translateX(-50%); transition: background .2s ease, transform .2s ease; }
+.letter-open:hover { background: #532523; transform: translateX(-50%) translateY(-2px); }
+.letter-open:disabled { opacity: .75; cursor: default; }
+.letter-paper { position: absolute; z-index: 5; bottom: 80px; left: 8%; width: 84%; min-height: 360px; padding: 31px clamp(21px,4vw,42px) 25px; color: #3e4637; background: repeating-linear-gradient(#fff9e9,#fff9e9 31px,#e8ddc4 32px); box-shadow: 0 17px 37px #30251f44; animation: letter-rise .8s cubic-bezier(.2,.8,.2,1) both; }
+.letter-paper[hidden] { display: none; }
+.letter-date { margin: 0 0 21px; color: #9b3f3b; font: 18px var(--script); }
+.letter-paper > p:not(.letter-date):not(.letter-signoff) { font: 15px/2 var(--display); }
+.letter-signoff { margin: 15px 0 0; color: #9b3f3b; font: 21px var(--script); }
+.letter-paper img { position: absolute; right: 15px; bottom: 15px; width: 53px; height: 53px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 9px #291e1e30; }
+.is-open .envelope-flap { z-index: 0; }
+.is-open::after { transform: rotateX(180deg); }
+.is-open .envelope-seal { opacity: 0; }
+@keyframes letter-rise { from { opacity: 0; transform: translateY(72px) rotate(-3deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
+@media (max-width: 850px) {
+  .christmas-hero { grid-template-columns: minmax(0, .9fr) minmax(315px, .8fr); }
+  .tree-scene { min-height: 650px; }
+  .tree-photo-frame { width: min(360px, 38vw); }
+  .letter-section { gap: 40px; width: 90vw; }
+}
+@media (max-width: 620px) {
+  .christmas-hero { width: 88vw; }
+  .tree-scene { min-height: 0; margin: 37px 0 27px; }
+  .tree-photo-frame { width: min(340px, 78vw); }
+  .tree-halo { top: 6%; width: 94vw; }
+  .tree-caption { margin-top: 15px; font-size: 10px; }
+  .letter-section { display: block; width: 86vw; padding: 82px 0 87px; }
+  .letter-copy h2 { font-size: 47px; }
+  .letter-stage { min-height: 420px; margin-top: 26px; }
+  .letter-envelope { min-height: 285px; margin-top: 65px; }
+  .letter-paper { bottom: 77px; min-height: 345px; padding: 26px 21px 23px; }
+  .letter-paper > p:not(.letter-date):not(.letter-signoff) { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tree-photo-frame, .tree-photo, .picture-sparkle, .tree-scene .wish-star, .ornament { animation: none !important; }
+}
+
+.christmas-hero::before { background: radial-gradient(ellipse at 73% 46%, #e5c57d38, transparent 37%), linear-gradient(125deg, #f3ead8, #e9ddc7); opacity: 1; }
+@media (max-width: 850px) { .christmas-hero::before { background: radial-gradient(ellipse at 75% 46%, #e5c57d38, transparent 38%), linear-gradient(125deg, #f3ead8, #e9ddc7); } }
+@media (max-width: 620px) { .christmas-hero::before { background: radial-gradient(ellipse at 70% 72%, #e3c78338, transparent 40%), linear-gradient(140deg, #f3ead8, #e9ddc7); opacity: 1; } }
+
+.tree-photo-frame { box-shadow: 0 26px 75px #34271744, inset 0 0 0 7px #fff8e44a; }
+.letter-characters img { width:56px;height:56px; }
+.letter-stamp { position:absolute;right:14px;bottom:13px;display:grid;width:42px;height:42px;place-items:center;border:1px dashed #9b3f3b80;border-radius:50%;color:#9b3f3b;font-size:18px;transform:rotate(-12deg); }
+.gift-dialog::before { background:radial-gradient(ellipse at 50% 28%,#32614f,#15382f 69%,#103228); }
+.dialog-art { display:block;width:140px;height:140px;margin:0 auto 14px;border:1px solid #f1d6818c;border-radius:50%;object-fit:cover;box-shadow:0 8px 24px #07140f78; }
+.dialog-art[hidden] { display:none; }
+@media(max-width:620px){.dialog-art{width:126px;height:126px;}}

@@ -36,6 +36,18 @@ export const celebrations = [
     path: "/navidad",
   },
   {
+    id: "ano-nuevo",
+    title: "Año Nuevo",
+    date: "1 de enero",
+    month: 1,
+    day: 1,
+    firstYear: 2027,
+    symbol: "✦",
+    tone: "midnight",
+    description: "Un cielo nuevo para todos los deseos que aún caben en ti.",
+    path: "/ano-nuevo",
+  },
+  {
     id: "san-valentin",
     title: "San Valentín",
     date: "14 de febrero",

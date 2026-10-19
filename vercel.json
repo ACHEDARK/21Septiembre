@@ -7,6 +7,7 @@
   "rewrites": [
     { "source": "/flores-amarillas", "destination": "/flores-amarillas.html" },
     { "source": "/navidad", "destination": "/navidad.html" },
+    { "source": "/ano-nuevo", "destination": "/ano-nuevo.html" },
     { "source": "/san-valentin", "destination": "/experiencia.html?celebration=san-valentin" },
     { "source": "/cumpleanos", "destination": "/experiencia.html?celebration=cumpleanos" }
   ]

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101326" />
+    <meta name="description" content="Un instante para mirar al cielo y pedir algo solo para ti." />
+    <title>Un cielo nuevo · Año Nuevo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="ano-nuevo.css" />
+    <script defer src="experiences/ano-nuevo.js"></script>
+  </head>
+  <body class="new-year-page" hidden>
+    <canvas class="fireworks" id="fireworks" aria-hidden="true"></canvas>
+    <header class="new-year-header">
+      <a class="new-year-brand" href="/" aria-label="Volver a la colección"><span aria-hidden="true">✳</span> Un pequeño universo</a>
+      <span class="new-year-date">01 / 01</span>
+      <a class="new-year-back" href="/">Volver a los recuerdos</a>
+    </header>
+    <main>
+      <section class="new-year-hero" aria-labelledby="new-year-title">
+        <img class="new-year-mascots" src="assets/image copy 9.png" alt="" aria-hidden="true" />
+        <div class="midnight-seal" aria-hidden="true"><span>00</span><i>:</i><span>00</span><b>una página nueva</b></div>
+        <p class="new-year-kicker"><span></span> Para todo lo bueno que todavía no conoces</p>
+        <h1 id="new-year-title">Que lo que viene<br />te encuentre <em>en paz.</em></h1>
+        <p class="new-year-intro">No tienes que empezar de cero. Puedes llevar contigo lo que aprendiste, dejar descansar lo que pesa y abrir espacio para las sorpresas bonitas.</p>
+        <a class="wish-cta" href="#deseo">Pedir un deseo <span aria-hidden="true">↓</span></a>
+        <button class="sky-button" id="sky-button" type="button"><span aria-hidden="true">✦</span> Encender el cielo</button>
+        <a class="new-year-scroll" href="#deseo">Un deseo solo tuyo <span aria-hidden="true">⌄</span></a>
+      </section>
+      <section class="wish-page-section" id="deseo" aria-labelledby="wish-page-title">
+        <div class="wish-page-copy">
+          <p class="new-year-kicker"><span></span> Guárdalo para ti</p>
+          <h2 id="wish-page-title">Hay deseos que<br />necesitan <em>su espacio.</em></h2>
+          <p>Escribe eso que te gustaría encontrar, cuidar o vivir. Al encenderlo, lo verás subir hacia su propio cielo.</p>
+        </div>
+        <form class="wish-form" id="wish-form">
+          <label for="wish-input">Tu deseo</label>
+          <textarea id="wish-input" name="wish" maxlength="150" required placeholder="Este año quiero…"></textarea>
+          <div class="wish-form-bottom"><span id="wish-length">0 / 150</span><button type="submit">Encender mi deseo <span aria-hidden="true">✦</span></button></div>
+          <p class="wish-status" id="wish-status" role="status" aria-live="polite"></p>
+        </form>
+        <a class="new-year-home" href="/">Volver a la colección <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+    <footer class="new-year-footer"><span>UN PEQUEÑO UNIVERSO</span><span>El comienzo también puede ser suave.</span></footer>
+  </body>
+</html>

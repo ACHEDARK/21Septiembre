@@ -16,22 +16,32 @@ function startChristmas() {
   const gifts = {
     calma: {
       title: "Una pausa tibia",
+      image: "assets/image copy 5.png",
+      imageAlt: "Un osito navideño que alza dos estrellas en la noche.",
       message: "Que esta noche te permita soltar un poquito el día. No tienes que resolverlo todo ahora; también mereces descansar, respirar hondo y dejar que alguien más cuide de ti por un rato.",
     },
     orgullo: {
       title: "Todo lo que has logrado",
+      image: "assets/image copy 6.png",
+      imageAlt: "Dos amigos atraviesan juntos un paisaje nevado en un trineo.",
       message: "Me alegra saber de cada paso que has dado, incluso de esos que nadie vio. Ojalá hoy puedas mirarte con el mismo orgullo y la misma ternura con que yo recuerdo todo tu esfuerzo.",
     },
     esperanza: {
       title: "Un deseo sereno",
-      message: "Que el año nuevo te acerque a lugares donde puedas ser tú, a personas que te cuiden bonito y a días que se sientan un poco más livianos. Lo mereces sin tener que demostrar nada.",
+      image: "assets/image copy 7.png",
+      imageAlt: "Una habitación acogedora alrededor del árbol de Navidad.",
+      message: "Que encuentres lugares donde puedas ser tú, personas que te cuiden bonito y días que se sientan un poco más livianos. Lo mereces sin tener que demostrar nada.",
     },
     deseos: {
       title: "Algo que sigue aquí",
+      image: "assets/image copy 3.png",
+      imageAlt: "Un adorno de cristal guarda un pequeño osito.",
       message: "Aunque la vida haya cambiado y cada quien siga su camino, te sigo deseando bienestar. Sin espera, sin deuda y sin pedir nada: simplemente porque sigues siendo alguien muy especial para mí.",
     },
     estrella: {
       title: "El deseo escondido en la estrella",
+      image: "assets/bear-ornament.webp",
+      imageAlt: "Un osito con un bastón de caramelo dentro de una esfera de cristal.",
       message: "Hay luces que no piden que vuelvas; solo acompañan un instante y te recuerdan que mereces encontrar tu propio camino, a tu ritmo. Que nunca te falte una de esas luces.",
     },
     final: {
@@ -39,17 +49,6 @@ function startChristmas() {
       message: "Este deseo no tiene condiciones: que la vida te devuelva, multiplicado, todo el cariño que sabes dar. Y que, entre tantas luces, siempre reconozcas la tuya.",
     },
   };
-  const wishes = [
-    "Que encuentres calma en los días ruidosos y alegría en las cosas pequeñas.",
-    "Que siempre haya una ventana con luz cuando necesites volver a empezar.",
-    "Que te rodeen personas que sepan cuidar la ternura que llevas contigo.",
-    "Que el próximo año te sorprenda con motivos nuevos para sonreír.",
-    "Que cada sueño encuentre su momento, y tú el tiempo para disfrutarlo.",
-    "Que tengas días suaves, abrazos sinceros y mucha paz para lo que viene.",
-    "Que todo lo bueno que das encuentre el camino de vuelta hacia ti.",
-    "Que nunca te falten razones para celebrar lo lejos que has llegado.",
-  ];
-  let wishIndex = 0;
 
   function openGift(id) {
     const gift = gifts[id];
@@ -57,11 +56,14 @@ function startChristmas() {
     if (id !== "final") visited.add(id);
     document.querySelector("#dialog-title").textContent = gift.title;
     document.querySelector("#dialog-message").textContent = gift.message;
+    const art = document.querySelector("#dialog-art");
+    art.hidden = !gift.image;
+    if (gift.image) { art.src = gift.image; art.alt = gift.imageAlt; }
     document.querySelector("#discovery-count").textContent =
-      `Has abierto ${visited.size} de 5 sorpresas`;
+      `Has encontrado ${visited.size} de 5 luces`;
     if (visited.size === 5) {
       document.querySelector("#discovery-count").textContent =
-        "Encontraste todas las sorpresas. Hay un último regalo para ti.";
+        "Encendiste cada luz. La estrella guardaba una última sorpresa.";
       document.querySelector("#bonus-reveal").hidden = false;
     }
     dialog.showModal();
@@ -126,13 +128,13 @@ function startChristmas() {
     });
   }
 
-  document.querySelector("#next-wish").addEventListener("click", () => {
-    wishIndex = (wishIndex + 1) % wishes.length;
-    const message = document.querySelector("#wish-message");
-    message.classList.add("wish-changing");
-    window.setTimeout(() => {
-      message.textContent = wishes[wishIndex];
-      message.classList.remove("wish-changing");
-    }, 180);
+  const letterButton = document.querySelector("#open-letter");
+  letterButton.addEventListener("click", () => {
+    const paper = document.querySelector("#letter-paper");
+    paper.hidden = false;
+    document.querySelector("#letter-envelope").classList.add("is-open");
+    letterButton.setAttribute("aria-expanded", "true");
+    letterButton.textContent = "La carta es tuya";
+    letterButton.disabled = true;
   });
 }

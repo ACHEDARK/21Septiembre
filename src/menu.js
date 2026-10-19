@@ -6,6 +6,7 @@ const cards = new Map();
 const toneColors = {
   sunflower: "#e8d17e",
   winter: "#a9cfca",
+  midnight: "#d7b8ff",
   rose: "#e8aab9",
   birthday: "#d9b9e7",
 };
@@ -112,6 +113,8 @@ function previewPath(celebration) {
     ? "/flores-amarillas.html"
     : celebration.id === "navidad"
       ? "/navidad.html"
+      : celebration.id === "ano-nuevo"
+        ? "/ano-nuevo.html"
     : `/experiencia.html?celebration=${encodeURIComponent(celebration.id)}`;
 }
 
