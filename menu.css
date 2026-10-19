@@ -1,3 +1,85 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap");
 :root{color-scheme:dark;--night:#11140f;--paper:#f1ead8;--muted:#a29b88;--gold:#ead17c;--line:#e6d8af26;--serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",sans-serif}
 *{box-sizing:border-box}body{margin:0;background:var(--night);color:var(--paper);font-family:var(--sans);min-height:100vh}a{color:inherit}a:focus-visible{outline:2px solid var(--gold);outline-offset:5px}.collection-page{position:relative;overflow-x:hidden;background:radial-gradient(ellipse at 72% 10%,#55522b29,transparent 36%),radial-gradient(ellipse at 5% 70%,#223f3522,transparent 35%),var(--night)}.collection-page:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.2' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}.collection-header,.collection-footer{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center}.collection-header{padding:28px clamp(22px,6vw,88px);border-bottom:1px solid #e6d8af13}.collection-brand{text-decoration:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;display:flex;align-items:center;gap:11px}.collection-brand span{color:var(--gold);font-size:22px}.timezone-note{font-size:11px;color:var(--muted)}.collection-main{width:min(1050px,88vw);margin:0 auto}.collection-intro{position:relative;padding:clamp(76px,11vh,130px) 0 77px;border-bottom:1px solid var(--line)}.intro-overline{font-size:10px;letter-spacing:.22em;color:var(--gold);margin:0 0 19px}.collection-intro h1{font:400 clamp(48px,7.5vw,88px)/1.02 var(--serif);letter-spacing:-.045em;margin:0;max-width:700px}.collection-intro h1 em{font-weight:400;color:#edda9c}.collection-copy{max-width:440px;color:#b4ad9d;font-size:14px;line-height:1.9;margin:24px 0 0}.intro-flower{position:absolute;right:9%;top:32%;width:130px;height:130px;border:1px solid #e9d68c25;border-radius:50%;display:grid;place-items:center;color:#efd980;font-size:51px;box-shadow:0 0 75px #e5c3470b}.intro-flower:before,.intro-flower:after{content:"";position:absolute;border:1px solid #e9d68c1c;border-radius:50%;inset:-15px}.intro-flower:after{inset:18px;transform:rotate(45deg) scaleX(1.5)}.intro-flower i{position:absolute;width:5px;height:5px;border-radius:50%;background:#f5d979;top:8px;right:10px;box-shadow:0 0 12px #f5d979}.memories{padding:34px 0 84px}.memories-heading{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px}.memories-heading h2{font:400 23px var(--serif);margin:0}.memories-heading span{font-size:10px;color:var(--muted)}.celebration-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.memory-card{--accent:#e8d17e;position:relative;min-height:212px;padding:25px 26px 21px;border:1px solid var(--line);background:linear-gradient(135deg,#ffffff08,transparent 62%),#171a14aa;display:flex;flex-direction:column;overflow:hidden;transition:background .35s,border-color .35s,transform .35s}.memory-card[data-tone=rose]{--accent:#e8aab9}.memory-card[data-tone=winter]{--accent:#a9cfca}.memory-card[data-tone=birthday]{--accent:#d9b9e7}.memory-card[data-locked=true]{opacity:.78}.memory-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--accent) 44%,transparent);background:linear-gradient(135deg,#ffffff0d,transparent 62%),#1b1e17}.card-top{display:flex;justify-content:space-between;align-items:center}.card-symbol{font:34px var(--serif);color:var(--accent)}.card-date{font-size:10px;letter-spacing:.08em;color:#c0b9a7}.card-title{font:400 28px var(--serif);margin:13px 0 6px}.card-description{font-size:12px;line-height:1.7;color:#aaa493;margin:0;max-width:380px}.card-bottom{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-top:auto;padding-top:19px}.card-status{font-size:10px;color:var(--accent);display:flex;align-items:center;gap:7px}.status-dot{width:5px;height:5px;border-radius:50%;background:currentColor;box-shadow:0 0 9px currentColor}.card-countdown{font-size:10px;color:#d6cfbc;font-variant-numeric:tabular-nums}.card-action{display:inline-flex;text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 60%,transparent);padding-bottom:4px;font-size:11px;color:var(--accent);transition:gap .2s}.card-action:hover{gap:7px}.card-locked{font-size:11px;color:#c1b9a7}.collection-footer{border-top:1px solid #e6d8af18;padding:22px clamp(22px,6vw,88px);font-size:9px;letter-spacing:.12em;color:#898473}.collection-footer span:last-child{letter-spacing:0}.noscript{padding:20px}@media(max-width:680px){.collection-header{padding:20px 6vw}.timezone-note{font-size:9px}.collection-main{width:88vw}.collection-intro{padding:74px 0 48px}.collection-intro h1{font-size:clamp(48px,12vw,70px)}.collection-copy{font-size:13px;max-width:90%}.intro-flower{width:70px;height:70px;font-size:28px;right:4%;top:30%;opacity:.58}.intro-flower:after{inset:10px}.memories{padding:27px 0 55px}.memories-heading{align-items:flex-start;gap:12px}.memories-heading h2{font-size:20px}.celebration-list{grid-template-columns:1fr;gap:9px}.memory-card{min-height:194px;padding:21px}.collection-footer{padding:18px 6vw;font-size:8px}.collection-footer span:last-child{display:none}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* El ambiente acompaña la siguiente celebración y aumenta suavemente al acercarse. */
+.collection-page {
+  --seasonal-accent: #ead17c;
+  --ambient-strength: 3%;
+  background:
+    radial-gradient(ellipse at 72% 10%, color-mix(in srgb, var(--seasonal-accent) var(--ambient-strength), transparent), transparent 40%),
+    radial-gradient(ellipse at 5% 70%, #223f3522, transparent 35%),
+    var(--night);
+  transition: background 1.2s ease;
+}
+.collection-intro .intro-overline,
+.collection-intro h1 em,
+.intro-flower {
+  color: var(--seasonal-accent);
+  transition: color 1.2s ease, border-color 1.2s ease, box-shadow 1.2s ease;
+}
+.intro-flower {
+  border-color: color-mix(in srgb, var(--seasonal-accent) 22%, transparent);
+  box-shadow: 0 0 75px color-mix(in srgb, var(--seasonal-accent) 10%, transparent);
+}
+.card-date-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+.card-season {
+  min-height: 12px;
+  color: var(--accent);
+  font-size: 9px;
+  letter-spacing: .04em;
+  opacity: .9;
+  transition: opacity .5s ease;
+}
+.memory-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);
+  transition: opacity 1.1s ease;
+}
+.memory-card > * { position: relative; z-index: 1; }
+.memory-card[data-proximity="near"] { border-color: color-mix(in srgb, var(--accent) 25%, var(--line)); }
+.memory-card[data-proximity="near"]::before { opacity: .48; }
+.memory-card[data-proximity="week"] { border-color: color-mix(in srgb, var(--accent) 48%, var(--line)); }
+.memory-card[data-proximity="week"]::before { opacity: .7; }
+.memory-card[data-proximity="week"] .card-symbol,
+.memory-card[data-proximity="eve"] .card-symbol,
+.memory-card[data-proximity="today"] .card-symbol {
+  text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 52%, transparent);
+}
+.memory-card[data-proximity="eve"] { border-color: color-mix(in srgb, var(--accent) 70%, var(--line)); }
+.memory-card[data-proximity="eve"]::before { opacity: .9; }
+.memory-card[data-proximity="eve"] .card-symbol,
+.memory-card[data-proximity="today"] .card-symbol { animation: seasonalBloom 2.4s ease-in-out infinite; }
+.memory-card[data-proximity="today"] { border-color: color-mix(in srgb, var(--accent) 80%, var(--line)); }
+.memory-card[data-proximity="today"]::before { opacity: 1; }
+.memory-card[data-proximity="today"] .card-season { font-weight: 600; }
+@keyframes seasonalBloom {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.card-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 10px 14px;
+}
+.card-status { grid-column: 1; }
+.card-countdown { grid-column: 2; white-space: nowrap; }
+.card-entry { grid-column: 1 / -1; }
+@media (max-width: 680px) {
+  .card-countdown { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .memory-card[data-proximity="eve"] .card-symbol,
+  .memory-card[data-proximity="today"] .card-symbol { animation: none; }
+}
