@@ -3,29 +3,36 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#191522" />
-    <meta name="description" content="Un atlas de pequeños momentos para volver cuando quieras." />
-    <title>Atlas de momentos · Un pequeño universo</title>
+    <meta name="theme-color" content="#f6f2e9" />
+    <meta name="description" content="Fechas especiales que se convierten en pequeños mundos para descubrir." />
+    <title>Calendario de recuerdos · Un pequeño universo</title>
     <link rel="stylesheet" href="menu.css" />
     <script defer src="menu.js"></script>
   </head>
   <body class="collection-page">
     <header class="collection-header">
-      <a class="collection-brand" href="/" aria-label="Un pequeño universo, inicio"><span>✳</span> Atlas de momentos</a>
+      <a class="collection-brand" href="/" aria-label="Un pequeño universo, inicio"><span aria-hidden="true"><i></i><i></i><i></i></span> Calendario de recuerdos</a>
       <span class="timezone-note">Cada recuerdo llega a su tiempo</span>
     </header>
     <main class="collection-main">
       <section class="collection-intro" aria-labelledby="page-title">
-        <p class="intro-overline"><span class="overline-star">✦</span> UN ATLAS HECHO DE INSTANTES</p>
-        <h1 id="page-title">Un mapa de<br /><em>cosas bonitas.</em></h1>
-        <p class="collection-copy">Cada fecha guarda un pequeño mundo. Algunos esperan su estación; otros ya tienen la puerta entreabierta.</p>
-        <div class="intro-flower" aria-hidden="true"><span>✳</span><i></i><b>01</b></div>
+        <div class="intro-copy">
+          <p class="intro-overline">UN CALENDARIO CON MUCHO QUE SENTIR</p>
+          <h1 id="page-title">Fechas para<br />sentir <em>bonito.</em></h1>
+          <p class="collection-copy">Pequeñas sorpresas hechas para alguien especial. Cada una tiene su día, su historia y una puerta que se abre a su tiempo.</p>
+        </div>
+        <aside class="next-date-card" aria-label="Próxima fecha especial">
+          <span class="next-card-label">SIGUIENTE PARADA</span>
+          <div class="next-card-date"><strong id="next-day">25</strong><span id="next-month">DIC</span></div>
+          <div class="next-card-details"><b id="next-title">Navidad</b><span id="next-label">Una noche por esperar</span></div>
+          <span class="next-card-stamp" aria-hidden="true">→</span>
+        </aside>
       </section>
       <section class="memories" aria-labelledby="memories-title">
-        <div class="memories-heading"><div><p class="section-kicker">RECORRIDOS PARA DESCUBRIR</p><h2 id="memories-title">Elige una fecha</h2></div><span id="memory-count"></span></div>
+        <div class="memories-heading"><div><p class="section-kicker">GUARDA ESTA FECHA</p><h2 id="memories-title">¿A dónde vamos?</h2></div><span id="memory-count"></span></div>
         <div id="celebration-list" class="celebration-list" aria-live="polite"></div>
       </section>
     </main>
-    <footer class="collection-footer"><span>UN PEQUEÑO UNIVERSO <i>·</i> HECHO CON CARIÑO</span><span>Vuelve cuando quieras <b>↗</b></span></footer>
+    <footer class="collection-footer"><span>HECHO CON CARIÑO <i>·</i> PARA ABRIR A SU TIEMPO</span><span>Elige tu siguiente recuerdo <b>↓</b></span></footer>
   </body>
 </html>

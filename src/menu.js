@@ -32,10 +32,10 @@ function seasonalStage(status) {
 function stageLabel(stage) {
   return {
     distant: "",
-    near: "✧ Se acerca",
-    week: "✧ Esta semana",
-    eve: "✧ Mañana",
-    today: "✧ Hoy",
+    near: "A pocos días",
+    week: "Esta semana",
+    eve: "Mañana",
+    today: "Hoy",
   }[stage];
 }
 
@@ -46,6 +46,24 @@ function updateSeasonalMood(statuses) {
     return aTime - bTime;
   })[0];
   const stage = seasonalStage(upcoming.status);
+  const nextDay = document.querySelector("#next-day");
+  const nextMonth = document.querySelector("#next-month");
+  const nextTitle = document.querySelector("#next-title");
+  const nextLabel = document.querySelector("#next-label");
+  if (nextDay && nextMonth && nextTitle && nextLabel) {
+    nextDay.textContent = String(upcoming.celebration.day).padStart(2, "0");
+    nextMonth.textContent = new Intl.DateTimeFormat("es", { month: "short" })
+      .format(new Date(2026, upcoming.celebration.month - 1, 1))
+      .replace(".", "")
+      .toUpperCase();
+    nextTitle.textContent = upcoming.celebration.title;
+    const daysLeft = Math.ceil(upcoming.status.remaining / 86400000);
+    nextLabel.textContent = upcoming.status.unlocked
+      ? "Ya puedes abrir esta sorpresa"
+      : daysLeft <= 1
+        ? "Llega mañana"
+        : `Faltan ${daysLeft} días para abrirla`;
+  }
   document.body.dataset.seasonalStage = stage;
   document.body.dataset.seasonalTone = upcoming.celebration.tone;
   document.body.style.setProperty(
@@ -134,7 +152,11 @@ function render() {
         article.dataset.tone = celebration.tone;
         article.dataset.locked = String(!status.unlocked);
         article.dataset.proximity = stage;
-        article.innerHTML = `<div class="card-top"><span class="card-symbol" aria-hidden="true">${celebration.symbol}</span><span class="card-date-group"><span class="card-date">${celebration.date}</span><span class="card-season" aria-hidden="true">${stageLabel(stage)}</span></span></div><h3 class="card-title">${celebration.title}</h3><p class="card-description">${celebration.description}</p><div class="card-bottom"><span class="card-status"><i class="status-dot" aria-hidden="true"></i></span><span class="card-countdown"></span><span class="card-entry"></span></div>`;
+        const monthShort = new Intl.DateTimeFormat("es", { month: "short" })
+          .format(new Date(2026, celebration.month - 1, 1))
+          .replace(".", "")
+          .toUpperCase();
+        article.innerHTML = `<div class="card-top"><span class="card-calendar" aria-hidden="true"><b>${monthShort}</b><strong>${String(celebration.day).padStart(2, "0")}</strong></span><span class="card-date-group"><span class="card-date">${celebration.date}</span><span class="card-season" aria-hidden="true">${stageLabel(stage)}</span></span></div><h3 class="card-title">${celebration.title}</h3><p class="card-description">${celebration.description}</p><div class="card-bottom"><span class="card-status"><i class="status-dot" aria-hidden="true"></i></span><span class="card-countdown"></span><span class="card-entry"></span></div>`;
 
         const card = {
           article,
