@@ -188,14 +188,35 @@ body { background:#17151d; }
 @media(max-width:560px) { .collection-main { width:88vw; } .collection-header { align-items:center; } .collection-brand { font-size:12px; } .collection-brand span { padding-top:1px; } .timezone-note { max-width:115px; font-size:14px; } .collection-intro { padding:58px 0 47px; } .intro-overline { font-size:21px; } .collection-intro h1 { font-size:clamp(66px,16vw,88px); } .collection-copy { font-size:13px; } .next-date-card { margin-right:7px; } .memories { padding:43px 0 63px; } .memories-heading h2 { font-size:32px; } .memory-card { min-height:232px; } .card-title { font-size:32px; } .collection-footer { font-size:15px; } }
 @media(prefers-reduced-motion:reduce) { .collection-page::before { animation:none; } }
 
-/* The first keepsake opens like a letter; the rest sit around it. */
-.memory-card:first-child { grid-column:1/-1; min-height:220px; display:grid; grid-template-columns:110px minmax(0,1fr) 220px; grid-template-rows:1fr auto; align-items:center; column-gap:28px; }
-.memory-card:first-child .card-top { grid-column:1; grid-row:1/3; align-self:stretch; display:flex; flex-direction:column; justify-content:space-between; }
-.memory-card:first-child .card-calendar strong { font-size:76px; }
-.memory-card:first-child .card-date-group { align-items:flex-start; }
-.memory-card:first-child .card-info { grid-column:2; grid-row:1/3; }
-.memory-card:first-child .card-title { font-size:43px; }
-.memory-card:first-child .card-description { font-size:12px; }
-.memory-card:first-child .card-bottom { grid-column:3; grid-row:1/3; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:12px; }
-.memory-card:first-child .card-countdown { white-space:normal; }
-@media(max-width:560px) { .memory-card:first-child { grid-column:auto; min-height:232px; display:flex; align-items:stretch; gap:18px; } .memory-card:first-child .card-top { flex-direction:row; } .memory-card:first-child .card-calendar strong { font-size:59px; } .memory-card:first-child .card-info { align-self:auto; } .memory-card:first-child .card-title { font-size:32px; } .memory-card:first-child .card-description { font-size:11px; } .memory-card:first-child .card-bottom { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:10px; } }
+
+/* Each date feels like a keepsake laid out on a desk, not a dashboard tile. */
+.memory-card { min-height:260px; display:flex; padding:25px 27px 23px; border:1px solid color-mix(in srgb,var(--accent) 20%,#413637); border-radius:31px 8px 29px 8px; background:radial-gradient(ellipse at 94% 5%,color-mix(in srgb,var(--accent) 17%,transparent),transparent 37%),linear-gradient(145deg,color-mix(in srgb,var(--wash) 82%,#433738),#241f25 78%); box-shadow:0 18px 38px #07050a50,inset 0 1px #fff1; rotate:-.65deg; transition:rotate .55s cubic-bezier(.2,.8,.2,1),translate .55s cubic-bezier(.2,.8,.2,1),scale .55s,box-shadow .55s,border-color .5s; }
+.memory-card:nth-child(2n) { rotate:.75deg; }
+.memory-card:nth-child(3n) { rotate:.35deg; }
+.memory-card:first-child { grid-column:auto; min-height:260px; display:flex; grid-template-columns:none; grid-template-rows:none; column-gap:0; align-items:stretch; }
+.memory-card:first-child .card-top { grid-column:auto; grid-row:auto; align-self:auto; display:flex; flex-direction:row; justify-content:space-between; }
+.memory-card:first-child .card-calendar strong { font-size:59px; }
+.memory-card:first-child .card-date-group { align-items:flex-end; }
+.memory-card:first-child .card-info { grid-column:auto; grid-row:auto; }
+.memory-card:first-child .card-title { font-size:32px; }
+.memory-card:first-child .card-description { font-size:11px; }
+.memory-card:first-child .card-bottom { grid-column:auto; grid-row:auto; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:10px; }
+.memory-card::before { z-index:0; opacity:0; background:radial-gradient(230px circle at var(--mx) var(--my),#fff8e92c,transparent 72%); }
+.memory-card::after { z-index:0; top:0; right:0; width:78px; height:78px; border-radius:0; clip-path:polygon(0 0,100% 0,100% 100%); background:linear-gradient(225deg,#fff2 0%,#fff0 72%); filter:none; animation:none; transform-origin:top right; transition:transform .55s,opacity .55s; }
+.memory-card:hover { z-index:2; translate:0 -8px; rotate:0deg; scale:1.015; border-color:color-mix(in srgb,var(--accent) 48%,#443839); box-shadow:0 28px 58px #0503098c,0 0 35px color-mix(in srgb,var(--accent) 12%,transparent),inset 0 1px #fff2; animation:none; }
+.memory-card:hover::before { opacity:1; }
+.memory-card:hover::after { transform:translate(-3px,3px) scale(.84); opacity:.65; }
+.memory-card .card-calendar { width:86px; height:86px; align-items:center; justify-content:center; gap:0; border:1px solid color-mix(in srgb,var(--accent) 56%,transparent); border-radius:50%; background:radial-gradient(circle at 36% 30%,color-mix(in srgb,var(--accent) 25%,transparent),color-mix(in srgb,var(--accent) 6%,transparent) 66%,transparent 68%); rotate:-8deg; transition:rotate .55s cubic-bezier(.2,.8,.2,1),scale .55s,box-shadow .55s; }
+.memory-card .card-calendar b { font-size:8px; letter-spacing:.1em; }
+.memory-card .card-calendar strong { font-size:48px; }
+.memory-card:hover .card-calendar { rotate:5deg; scale:1.08; box-shadow:0 0 26px color-mix(in srgb,var(--accent) 24%,transparent); }
+.memory-card .card-title { transition:transform .55s cubic-bezier(.2,.8,.2,1),color .45s; }
+.memory-card:hover .card-title { transform:translateX(5px); color:color-mix(in srgb,var(--card-ink) 85%,var(--accent)); }
+.memory-card .card-entry { transition:transform .45s,opacity .45s; }
+.memory-card:hover .card-entry { transform:translateX(4px); }
+@media(max-width:560px) {
+  .memory-card,.memory-card:first-child { min-height:235px; padding:21px 23px; rotate:0deg; }
+  .memory-card:hover { translate:0 -3px; scale:1.008; }
+  .memory-card .card-calendar { width:76px; height:76px; }
+  .memory-card .card-calendar strong { font-size:45px; }
+}
