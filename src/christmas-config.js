@@ -36,18 +36,21 @@ export const christmasConfig = {
     {
       title: "Un respiro",
       hint: "Para esos días que pesan",
+      image: "assets/image copy 2.png",
       message:
         "Ojalá esta noche te regale una pausa tibia. No tienes que resolverlo todo ahora: también mereces descansar, respirar hondo y dejar que el mundo espere un momento.",
     },
     {
       title: "Un deseo sereno",
       hint: "Para lo que viene",
+      image: "assets/image copy 3.png",
       message:
         "Deseo que encuentres lugares donde puedas ser tú, personas que te cuiden bonito y días que se sientan un poco más livianos. Lo mereces sin tener que demostrar nada.",
     },
     {
       title: "Una luz propia",
       hint: "Para guardar contigo",
+      image: "assets/image copy 5.png",
       message:
         "Aunque la vida cambie y cada quien siga su camino, hay cariño que puede quedarse en paz. Que nunca te falte una luz propia para encontrar tu rumbo, a tu ritmo.",
     },
@@ -67,4 +70,12 @@ export const christmasConfig = {
     "Aunque nuestros caminos sigan por separado, guardo con cariño lo bueno y deseo que te encuentres con mucha luz.",
   specialDate: { month: 12, day: 25 },
   musicSrc: "",
+  worldScenes: {
+    opening: "assets/image.png",
+    memories: "assets/image copy 6.png",
+    gifts: "assets/image copy 7.png",
+    letter: "assets/image copy 3.png",
+    winter: "assets/image copy 17.png",
+    closing: "assets/image copy 5.png",
+  },
 };

@@ -13,14 +13,14 @@
     <script defer src="experiences/navidad.js"></script>
   </head>
   <body class="christmas-page" hidden>
-    <div class="snowfall" id="snowfall" aria-hidden="true"></div>
+    <div class="christmas-world" id="christmas-world" aria-hidden="true">
+      <canvas id="christmas-world-canvas"></canvas>
+    </div>
 
     <section class="invitation" id="invitation" aria-labelledby="invitation-title">
-      <img class="invitation-art" src="assets/image copy 7.png" alt="Ilustración navideña de un árbol en una sala cálida" />
       <div class="invitation-shade"></div>
       <a class="invitation-home" href="/" aria-label="Volver a Un pequeño universo">Un pequeño universo</a>
       <div class="invitation-copy">
-        <span class="invitation-star" aria-hidden="true">✳</span>
         <p class="invitation-kicker" id="opening-greeting">Una noche guardada con cariño</p>
         <h1 id="invitation-title">Esta Navidad,<br />preparé algo<br /><em>especial para ti.</em></h1>
         <p id="greeting-name" class="invitation-name"></p>
@@ -43,7 +43,7 @@
       </header>
 
       <main>
-        <section class="christmas-hero" aria-labelledby="christmas-title">
+        <section class="christmas-hero" id="christmas-hero" data-world-scene="assets/image.png" aria-labelledby="christmas-title">
           <div class="hero-copy">
             <p class="hero-date">25 <span>de diciembre</span></p>
             <h2 id="christmas-title">Que la noche<br />te encuentre <em>en luz.</em></h2>
@@ -51,15 +51,9 @@
             <p class="hero-signoff" id="hero-signoff"></p>
             <a class="text-link" href="#recuerdos">Entrar a esta pequeña noche <span aria-hidden="true">↓</span></a>
           </div>
-          <figure class="hero-artwork">
-            <img src="assets/image.png" alt="Ilustración de dos ositos junto a un árbol iluminado en un bosque nevado" fetchpriority="high" />
-            <figcaption>Una ilustración para imaginar la noche</figcaption>
-            <span class="hero-orbit orbit-one" aria-hidden="true"></span>
-            <span class="hero-orbit orbit-two" aria-hidden="true"></span>
-          </figure>
         </section>
 
-        <section class="memory-section" id="recuerdos" aria-labelledby="memory-title">
+        <section class="memory-section" id="recuerdos" data-world-scene="assets/image copy 6.png" aria-labelledby="memory-title">
           <div class="section-heading memory-heading">
             <p class="section-note">Un rincón para guardar momentos</p>
             <h2 id="memory-title">Postales de una<br /><em>noche de invierno.</em></h2>
@@ -68,18 +62,18 @@
           <div class="memory-gallery" id="memory-gallery" aria-label="Postales ilustradas de Navidad"></div>
         </section>
 
-        <section class="gift-section" id="regalos" aria-labelledby="gift-title">
+        <section class="gift-section" id="regalos" data-world-scene="assets/image copy 7.png" aria-labelledby="gift-title">
           <div class="section-heading">
             <p class="section-note">Pequeñas cosas que sí puedo desearte</p>
             <h2 id="gift-title">Tres regalos,<br /><em>cada uno a su manera.</em></h2>
             <p>Elige el que quieras. No hay orden y puedes volver a abrirlos.</p>
           </div>
-          <div class="gift-table" id="gift-table"></div>
+          <nav class="gift-table" id="gift-table" aria-label="Explorar las sorpresas"></nav>
           <p class="gift-progress" id="gift-progress" aria-live="polite">Hay tres regalos esperando.</p>
-          <button class="hidden-gift" id="hidden-gift" type="button" hidden>Encontraste la sorpresa escondida <span aria-hidden="true">✦</span></button>
+          <button class="hidden-gift" id="hidden-gift" type="button" hidden>Encontraste la sorpresa escondida</button>
         </section>
 
-        <section class="letter-section" id="carta" aria-labelledby="letter-title">
+        <section class="letter-section" id="carta" data-world-scene="assets/image copy 3.png" aria-labelledby="letter-title">
           <div class="letter-copy">
             <p class="section-note">Una nota escrita sin apuro</p>
             <h2 id="letter-title">Hay cosas bonitas<br />que caben <em>en una carta.</em></h2>
@@ -88,7 +82,6 @@
           <div class="letter-stage">
             <div class="letter-envelope" id="letter-envelope">
               <span class="envelope-postmark" aria-hidden="true">NAVIDAD<br />CON CARIÑO</span>
-              <div class="envelope-flap" aria-hidden="true"></div>
               <article class="letter-paper" id="letter-paper" hidden>
                 <p class="letter-date" id="letter-date">En esta noche de Navidad</p>
                 <p id="letter-message"></p>
@@ -99,23 +92,18 @@
           </div>
         </section>
 
-        <section class="winter-moment" aria-labelledby="winter-title">
-          <img class="winter-art" src="assets/image copy 17.png" alt="Ilustración de un osito que sostiene una estrella luminosa bajo el cielo nocturno" loading="lazy" />
+        <section class="winter-moment" id="winter-moment" data-world-scene="assets/image copy 17.png" aria-labelledby="winter-title">
           <div class="winter-scrim"></div>
           <div class="winter-copy">
             <p class="section-note">Una pequeña pausa bajo las estrellas</p>
             <h2 id="winter-title">Que algo bueno<br />te encuentre <em>hoy.</em></h2>
             <p id="christmas-countdown" aria-live="polite"></p>
-            <button class="wish-button" id="wish-button" type="button">Dejar un deseo en el cielo <span aria-hidden="true">✦</span></button>
+            <button class="wish-button" id="wish-button" type="button">Dejar un deseo en el cielo</button>
             <p class="wish-feedback" id="wish-feedback" aria-live="polite"></p>
           </div>
-          <span class="winter-star star-a" aria-hidden="true">✦</span>
-          <span class="winter-star star-b" aria-hidden="true">✧</span>
-          <span class="winter-star star-c" aria-hidden="true">·</span>
         </section>
 
-        <section class="closing-note" aria-labelledby="closing-title">
-          <span class="closing-ornament" aria-hidden="true">✳</span>
+        <section class="closing-note" data-world-scene="assets/image copy 5.png" aria-labelledby="closing-title">
           <p class="closing-label">Feliz Navidad</p>
           <h2 id="closing-title"></h2>
           <p class="closing-signature" id="closing-signature"></p>
@@ -131,7 +119,6 @@
 
     <dialog class="reveal-dialog" id="reveal-dialog" aria-labelledby="reveal-title">
       <form method="dialog"><button class="dialog-close" aria-label="Cerrar">×</button></form>
-      <span class="dialog-spark" aria-hidden="true">✦</span>
       <p class="dialog-label">Un regalo para ti</p>
       <h2 id="reveal-title"></h2>
       <p class="dialog-message" id="reveal-message"></p>

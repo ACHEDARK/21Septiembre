@@ -1,4 +1,5 @@
 import { christmasConfig as content } from "../christmas-config.js";
+import { createChristmasWorld } from "../christmas-world.js";
 import { celebrations, getDateStatus, isDeveloperPreview } from "../special-dates.js";
 
 const christmas = celebrations.find((item) => item.id === "navidad");
@@ -13,6 +14,19 @@ function startChristmas() {
   const $ = (selector) => document.querySelector(selector);
   const intro = $("#invitation");
   const experience = $("#experience");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const world = createChristmasWorld(
+    $("#christmas-world-canvas"),
+    [...Object.values(content.worldScenes), ...content.memories.map((memory) => memory.image), ...content.gifts.map((gift) => gift.image)],
+    reducedMotion,
+  );
+
+  const sceneObserver = new IntersectionObserver((entries) => {
+    const visible = entries.filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible) world?.setScene(visible.target.dataset.worldScene);
+  }, { threshold: [0.25, 0.5, 0.75] });
+  document.querySelectorAll("[data-world-scene]").forEach((section) => sceneObserver.observe(section));
 
   $("#opening-greeting").textContent = content.openingGreeting;
   $("#greeting-name").textContent = content.recipientName.trim()
@@ -43,6 +57,7 @@ function startChristmas() {
     open.type = "button";
     open.setAttribute("aria-label", `Ampliar postal ${index + 1}: ${memory.caption}`);
     open.addEventListener("click", () => {
+      world?.setScene(memory.image, index);
       largePhoto.src = memory.image;
       largePhoto.alt = memory.alt;
       $("#photo-caption").textContent = memory.caption;
@@ -76,27 +91,21 @@ function startChristmas() {
   const giftTable = $("#gift-table");
   content.gifts.forEach((gift, index) => {
     const button = document.createElement("button");
-    button.className = "gift-button";
+    button.className = "world-choice";
     button.type = "button";
     button.setAttribute("aria-label", `Abrir regalo: ${gift.title}`);
     button.setAttribute("aria-pressed", "false");
-    const box = document.createElement("span");
-    box.className = "gift-box";
-    box.setAttribute("aria-hidden", "true");
-    const ribbon = document.createElement("span");
-    ribbon.className = "gift-ribbon";
-    const lid = document.createElement("span");
-    lid.className = "gift-lid";
-    lid.setAttribute("aria-hidden", "true");
-    box.append(lid, ribbon);
     const title = document.createElement("span");
     title.className = "gift-name";
     title.textContent = gift.title;
     const hint = document.createElement("span");
     hint.className = "gift-hint";
     hint.textContent = gift.hint;
-    button.append(box, title, hint);
+    button.append(title, hint);
     button.addEventListener("click", () => {
+      giftTable.querySelectorAll(".world-choice").forEach((choice) => choice.classList.remove("is-selected"));
+      button.classList.add("is-selected");
+      world?.setScene(gift.image, index + 1);
       if (!button.classList.contains("is-opened")) {
         button.classList.add("is-opened");
         button.setAttribute("aria-pressed", "true");
@@ -118,10 +127,12 @@ function startChristmas() {
     const paper = $("#letter-paper");
     if (!paper.hidden) return;
     paper.hidden = false;
+    world?.setScene(content.worldScenes.letter);
     $("#letter-envelope").classList.add("is-open");
     letterButton.setAttribute("aria-expanded", "true");
     letterButton.textContent = "El sobre está abierto";
     letterButton.disabled = true;
+    letterButton.hidden = true;
   };
   letterButton.addEventListener("click", openLetter);
   $("#reopen-letter").addEventListener("click", () => {
@@ -154,33 +165,21 @@ function startChristmas() {
   $("#wish-button").addEventListener("click", () => {
     wishIndex = (wishIndex + 1) % content.wishes.length;
     $("#wish-feedback").textContent = content.wishes[wishIndex];
+    world?.setScene(content.worldScenes.winter, wishIndex + 1);
   });
 
-  const snowfall = $("#snowfall");
   const snowToggle = $("#snow-toggle");
-  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!reducedMotion) {
-    const flakes = ["✧", "·", "❄", "✦"];
-    for (let index = 0; index < 34; index += 1) {
-      const flake = document.createElement("span");
-      flake.className = "snowflake";
-      flake.textContent = flakes[index % flakes.length];
-      flake.style.setProperty("--left", `${Math.random() * 100}%`);
-      flake.style.setProperty("--size", `${6 + Math.random() * 9}px`);
-      flake.style.setProperty("--opacity", `${0.18 + Math.random() * 0.42}`);
-      flake.style.setProperty("--duration", `${15 + Math.random() * 19}s`);
-      flake.style.setProperty("--delay", `${-Math.random() * 30}s`);
-      snowfall.append(flake);
-    }
     snowToggle.addEventListener("click", () => {
-      const paused = snowfall.classList.toggle("paused");
+      const paused = snowToggle.getAttribute("aria-pressed") !== "true";
+      world?.setSnowPaused(paused);
       snowToggle.setAttribute("aria-pressed", String(paused));
       snowToggle.textContent = paused ? "Reanudar nieve" : "Pausar nieve";
     });
   } else {
     snowToggle.textContent = "Nieve desactivada";
     snowToggle.disabled = true;
-    snowfall.classList.add("paused");
+    world?.setSnowPaused(true);
   }
 
   const audio = $("#christmas-audio");
@@ -221,6 +220,7 @@ function startChristmas() {
     document.body.classList.add("is-entered");
     experience.hidden = false;
     requestAnimationFrame(() => experience.classList.add("is-visible"));
+    world?.setScene(content.worldScenes.memories);
     intro.classList.add("is-leaving");
     window.setTimeout(() => {
       intro.hidden = true;
