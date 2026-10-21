@@ -145,8 +145,8 @@ function initCardEffects() {
       const y = (event.clientY - bounds.top) / bounds.height;
       card.style.setProperty("--mx", `${x * 100}%`);
       card.style.setProperty("--my", `${y * 100}%`);
-      card.style.setProperty("--tilt-x", `${(0.5 - y) * 3}deg`);
-      card.style.setProperty("--tilt-y", `${(x - 0.5) * 3}deg`);
+      card.style.setProperty("--tilt-x", `${(0.5 - y) * 9}deg`);
+      card.style.setProperty("--tilt-y", `${(x - 0.5) * 11}deg`);
     });
     card.addEventListener("pointerleave", () => {
       card.style.setProperty("--tilt-x", "0deg");
