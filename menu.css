@@ -249,3 +249,55 @@ body { background:#17151d; }
   .memory-card .card-top,.memory-card .card-info,.memory-card .card-bottom { transform:translateZ(5px); }
   .memory-card .card-calendar { transform:translateZ(8px); }
 }
+
+/* Three.js postcard table and its accessible editorial index. */
+.postcard-world { position:relative; width:100%; height:clamp(500px,52vw,660px); margin:8px 0 34px; overflow:hidden; isolation:isolate; background:radial-gradient(ellipse at 50% 50%,#ac86511c 0%,#765d5910 32%,transparent 70%); }
+.postcard-world::before { position:absolute; content:""; z-index:-1; inset:15% 2% 4%; border-radius:50%; background:radial-gradient(ellipse,#a7835b16,transparent 68%); filter:blur(22px); pointer-events:none; }
+#postcard-canvas { display:block; width:100%; height:100%; outline:none; touch-action:none; cursor:grab; }
+#postcard-canvas:focus-visible { outline:1px solid #e4c98299; outline-offset:-8px; }
+.world-instruction { position:absolute; bottom:14px; left:50%; width:max-content; max-width:90%; margin:0; transform:translateX(-50%); color:#d9c9af; font:500 19px "Caveat",cursive; text-align:center; pointer-events:none; }
+.postcard-world.is-fallback { height:auto; min-height:0; padding:22px 0; background:none; }
+.postcard-world.is-fallback #postcard-canvas { display:none; }
+.memory-index { position:relative; z-index:1; max-width:850px; margin:22px auto 0; }
+.memory-index > .section-kicker { margin-bottom:8px; }
+.celebration-list { display:flex; flex-direction:column; gap:0; perspective:none; }
+.memory-card,.memory-card:first-child,.memory-card:nth-child(n) { position:relative; display:grid; grid-template-columns:74px minmax(0,1fr) minmax(180px,.55fr); grid-template-rows:auto auto; align-items:center; min-height:0; margin:0; padding:18px 14px; overflow:visible; border:0; border-bottom:1px solid #e8d7b426; border-radius:0; background:transparent; box-shadow:none; rotate:0deg; transform:none; transition:background .35s; }
+.memory-card:hover { translate:0 0; rotate:0deg; scale:1; border-color:#e8d7b455; background:linear-gradient(90deg,#e8d7b40a,transparent); box-shadow:none; }
+.memory-card::before,.memory-card::after { display:none; }
+.memory-card .card-top { grid-column:1; grid-row:1/3; display:block; transform:none; }
+.memory-card .card-calendar { width:54px; height:54px; gap:0; rotate:0deg; border:1px solid color-mix(in srgb,var(--accent) 56%,transparent); background:color-mix(in srgb,var(--accent) 8%,transparent); box-shadow:none; transform:none; }
+.memory-card .card-calendar b { font-size:7px; }
+.memory-card .card-calendar strong { font-size:32px; }
+.memory-card .card-date-group { display:none; }
+.memory-card .card-info { grid-column:2; grid-row:1/3; transform:none; }
+.memory-card .card-title,.memory-card:first-child .card-title { font:600 29px/1 "Cormorant Garamond",serif; }
+.memory-card:hover .card-title { transform:none; }
+.memory-card .card-description,.memory-card:first-child .card-description { margin-top:3px; font-size:10px; }
+.memory-card .card-bottom { grid-column:3; grid-row:1/3; display:grid; grid-template-columns:1fr auto; gap:5px 12px; transform:none; }
+.memory-card .card-status { grid-column:1; }
+.memory-card .card-countdown { grid-column:2; text-align:right; }
+.memory-card .card-entry { grid-column:1/-1; }
+.memory-card .card-action { font-size:17px; }
+.memory-card:nth-child(n) { rotate:0deg; }
+@media(max-width:760px) {
+  .postcard-world { height:560px; }
+  .memory-index { margin-top:24px; }
+  .memory-card,.memory-card:first-child,.memory-card:nth-child(n) { grid-template-columns:62px minmax(0,1fr) auto; padding:16px 4px; }
+  .memory-card .card-calendar { width:48px; height:48px; }
+  .memory-card .card-calendar strong { font-size:28px; }
+  .memory-card .card-bottom { grid-column:2/4; grid-row:2; grid-template-columns:1fr auto; margin-top:9px; }
+  .memory-card .card-info { grid-column:2/4; grid-row:1; }
+  .memory-card .card-top { grid-column:1; grid-row:1/3; }
+}
+@media(max-width:560px) {
+  .postcard-world { height:500px; margin-top:0; }
+  .world-instruction { bottom:8px; font-size:17px; }
+  .memory-index > .section-kicker { font-size:17px; }
+  .memory-card .card-title,.memory-card:first-child .card-title { font-size:26px; }
+  .memory-card .card-description,.memory-card:first-child .card-description { font-size:9px; }
+  .memory-card .card-status,.memory-card .card-countdown { font-size:7px; }
+}
+
+@media(min-width:901px){.postcard-world{height:clamp(500px,46vw,590px);}}
+
+#postcard-canvas { touch-action:pan-y; }

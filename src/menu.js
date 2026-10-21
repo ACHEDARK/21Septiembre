@@ -1,3 +1,4 @@
+import { createPostcardWorld } from "./menu-world.js";
 import { celebrations, getDateStatus, isDeveloperPreview } from "./special-dates.js";
 
 const list = document.querySelector("#celebration-list");
@@ -302,6 +303,15 @@ function render() {
 }
 
 render();
-initCardEffects();
+const worldCanvas = document.querySelector("#postcard-canvas");
+const postcardWorld = createPostcardWorld(worldCanvas, celebrations, isDeveloperPreview(), (celebration) => {
+  const link = cards.get(celebration.id)?.article.querySelector(".card-entry a");
+  if (link) window.location.assign(link.href);
+});
+if (!postcardWorld) {
+  document.querySelector("#postcard-world")?.classList.add("is-fallback");
+  const instruction = document.querySelector("#world-instruction");
+  if (instruction) instruction.textContent = "Este dispositivo no pudo abrir las postales 3D. Puedes elegir una desde el ?ndice.";
+}
 initCursorGlitter();
 window.setInterval(render, 1000);
