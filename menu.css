@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:wght@400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap");
 
 :root {
@@ -131,3 +132,70 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--seasonal-accent
   *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; }
   .cursor-glitter { display:none; }
 }
+
+/* Personal keepsake direction: warm lamplight, handwritten notes and layered paper. */
+:root { --paper:#17151d; --ink:#f4eddf; --muted:#c0b7ab; --rule:#e8d7b41c; --seasonal-accent:#e4c982; --sans:"DM Sans",sans-serif; --display:"Cormorant Garamond",serif; }
+body { background:#17151d; }
+.collection-page { background:radial-gradient(ellipse at 78% 20%,#aa80521c,transparent 33%),radial-gradient(ellipse at 12% 76%,#60476d18,transparent 35%),linear-gradient(145deg,#1d1a20,#17151d 58%,#201a1a); }
+.collection-page::before { top:-260px; right:-120px; width:690px; height:690px; background:radial-gradient(circle at 48% 48%,#f0d28d20,transparent 52%),radial-gradient(circle at 52% 55%,#957eaa12,transparent 68%); filter:blur(50px); opacity:.72; animation:colorDrift 23s ease-in-out infinite alternate; }
+.collection-header { min-height:76px; border-bottom-color:#e8d7b410; }
+.collection-brand { font:600 13px "Cormorant Garamond",serif; letter-spacing:.04em; text-transform:none; }
+.collection-brand span { padding-left:12px; font:500 17px "Caveat",cursive; color:#d6bd85; letter-spacing:0; }
+.timezone-note { font:500 16px "Caveat",cursive; color:#d4c7b5; }
+.preview-notice { color:#f0d996; }
+.collection-main { width:min(1100px,86vw); }
+.collection-intro { grid-template-columns:1.2fr .65fr; gap:9vw; min-height:550px; padding:85px 0 92px; border-bottom-color:#e8d7b41a; }
+.intro-overline { max-width:430px; color:#d6bd85; font:500 23px/1.1 "Caveat",cursive; letter-spacing:0; }
+.intro-overline span { display:none; }
+.collection-intro h1 { margin-top:21px; font:500 clamp(69px,8.4vw,112px)/.79 "Cormorant Garamond",serif; letter-spacing:-.055em; }
+.collection-intro h1 em { color:#e4c982; font-style:italic; }
+.collection-copy { max-width:400px; margin-top:28px; color:#d0c7bb; font:400 14px/1.85 "DM Sans",sans-serif; }
+.next-date-card { width:min(100%,310px); min-height:315px; margin-right:18px; padding:26px 29px 25px; border:1px solid #eddbb432; border-radius:3px 55px 3px 3px; background:linear-gradient(145deg,#534333,#30272a 76%); box-shadow:0 22px 65px #07060b66, inset 0 0 45px #f3d4900a; transform:rotate(1.3deg); }
+.next-date-card::before { top:-112px; right:-82px; width:230px; height:230px; border-color:#f5e2bd29; box-shadow:0 0 0 18px #f5e2bd08,0 0 0 39px #f5e2bd05; }
+.next-date-card::after { background:#e5c27b1c; filter:blur(34px); }
+.next-card-label { font:500 19px "Caveat",cursive; letter-spacing:0; opacity:.95; }
+.next-card-date strong { font:500 125px/.72 "Cormorant Garamond",serif; }
+.next-card-date span { font:600 11px "DM Sans",sans-serif; }
+.next-card-details b { font:600 32px "Cormorant Garamond",serif; }
+.next-card-details span { color:#e0d3c1; font-size:11px; }
+.memories { padding:58px 0 92px; }
+.memories-heading { margin-bottom:27px; }
+.section-kicker { color:#d7bd87; font:500 19px "Caveat",cursive; letter-spacing:0; }
+.memories-heading h2 { font:500 38px "Cormorant Garamond",serif; letter-spacing:-.02em; }
+.memories-heading>span { font:500 17px "Caveat",cursive; color:#cabca8; }
+.celebration-list { gap:15px; }
+.memory-card { min-height:260px; padding:26px 28px 24px; border-color:#eddbb428; border-radius:3px 31px 3px 3px; background:linear-gradient(135deg,#30292a,#242127 82%); box-shadow:0 16px 42px #06050b44; animation:cardArrive .8s cubic-bezier(.2,.8,.2,1) both; }
+.memory-card::before { background:radial-gradient(220px circle at var(--mx) var(--my),#f5d99513,transparent 72%); }
+.memory-card::after { top:-100px; right:-83px; width:240px; height:240px; background:color-mix(in srgb,var(--accent) 13%,transparent); filter:blur(31px); }
+.memory-card:hover { border-color:color-mix(in srgb,var(--accent) 48%,#322b2d); box-shadow:0 21px 44px #08060c66; }
+.memory-card[data-tone=sunflower] { --accent:#e5c778;--wash:#423629; }
+.memory-card[data-tone=winter] { --accent:#b5d2be;--wash:#283a36; }
+.memory-card[data-tone=midnight] { --accent:#c7b5de;--wash:#332c3c; }
+.memory-card[data-tone=rose] { --accent:#e8b7b5;--wash:#453034; }
+.memory-card[data-tone=birthday] { --accent:#d2b5dc;--wash:#3e3041; }
+.card-calendar b,.card-date,.card-status,.card-countdown { font-family:"DM Sans",sans-serif; }
+.card-calendar strong { font:500 59px/.86 "Cormorant Garamond",serif; }
+.card-date-group { padding-top:8px; }
+.card-date { font-size:10px; }
+.card-season { font:500 16px "Caveat",cursive; }
+.card-title { font:600 35px/1 "Cormorant Garamond",serif; letter-spacing:-.02em; }
+.card-description { max-width:390px; color:#ddd1c4; font:400 11px/1.8 "DM Sans",sans-serif; }
+.card-status,.card-countdown,.card-locked { color:#ddd1c4; font-size:9px; }
+.card-action { border-bottom-color:color-mix(in srgb,var(--accent) 75%,transparent); font:500 18px "Caveat",cursive; }
+.collection-footer { border-top-color:#e8d7b41a; color:#d4c3a8; font:500 17px "Caveat",cursive; letter-spacing:0; }
+.collection-footer i { color:#e4c982; }
+@media(max-width:760px) { .collection-intro { gap:28px; } .collection-intro h1 { font-size:clamp(65px,9vw,88px); } }
+@media(max-width:560px) { .collection-main { width:88vw; } .collection-header { align-items:center; } .collection-brand { font-size:12px; } .collection-brand span { padding-top:1px; } .timezone-note { max-width:115px; font-size:14px; } .collection-intro { padding:58px 0 47px; } .intro-overline { font-size:21px; } .collection-intro h1 { font-size:clamp(66px,16vw,88px); } .collection-copy { font-size:13px; } .next-date-card { margin-right:7px; } .memories { padding:43px 0 63px; } .memories-heading h2 { font-size:32px; } .memory-card { min-height:232px; } .card-title { font-size:32px; } .collection-footer { font-size:15px; } }
+@media(prefers-reduced-motion:reduce) { .collection-page::before { animation:none; } }
+
+/* The first keepsake opens like a letter; the rest sit around it. */
+.memory-card:first-child { grid-column:1/-1; min-height:220px; display:grid; grid-template-columns:110px minmax(0,1fr) 220px; grid-template-rows:1fr auto; align-items:center; column-gap:28px; }
+.memory-card:first-child .card-top { grid-column:1; grid-row:1/3; align-self:stretch; display:flex; flex-direction:column; justify-content:space-between; }
+.memory-card:first-child .card-calendar strong { font-size:76px; }
+.memory-card:first-child .card-date-group { align-items:flex-start; }
+.memory-card:first-child .card-info { grid-column:2; grid-row:1/3; }
+.memory-card:first-child .card-title { font-size:43px; }
+.memory-card:first-child .card-description { font-size:12px; }
+.memory-card:first-child .card-bottom { grid-column:3; grid-row:1/3; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:12px; }
+.memory-card:first-child .card-countdown { white-space:normal; }
+@media(max-width:560px) { .memory-card:first-child { grid-column:auto; min-height:232px; display:flex; align-items:stretch; gap:18px; } .memory-card:first-child .card-top { flex-direction:row; } .memory-card:first-child .card-calendar strong { font-size:59px; } .memory-card:first-child .card-info { align-self:auto; } .memory-card:first-child .card-title { font-size:32px; } .memory-card:first-child .card-description { font-size:11px; } .memory-card:first-child .card-bottom { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:10px; } }

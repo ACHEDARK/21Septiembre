@@ -161,89 +161,73 @@ function initCursorGlitter() {
   if (!context || !matchMedia("(pointer: fine)").matches ||
       matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  let width = 0;
-  let height = 0;
-  let frame = 0;
-  let previous = null;
+  let width = 0, height = 0, frame = 0, lastPoint = null, lastFrame = 0;
   const particles = [];
-  const colors = ["#f3ead6", "#bfd5cc", "#dfbdc4"];
   const resize = () => {
     const ratio = Math.min(window.devicePixelRatio || 1, 1.6);
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = Math.round(width * ratio);
-    canvas.height = Math.round(height * ratio);
+    width = window.innerWidth; height = window.innerHeight;
+    canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
   };
-  const draw = () => {
+  const draw = (timestamp) => {
+    const delta = Math.min((timestamp - (lastFrame || timestamp)) / 16.67, 2);
+    lastFrame = timestamp;
     context.clearRect(0, 0, width, height);
     context.globalCompositeOperation = "lighter";
     for (let index = particles.length - 1; index >= 0; index--) {
       const particle = particles[index];
-      particle.x += particle.vx;
-      particle.y += particle.vy;
-      particle.vx *= 0.97;
-      particle.vy *= 0.97;
-      particle.life -= particle.decay;
-      if (particle.life <= 0) {
-        particles.splice(index, 1);
-        continue;
-      }
-      const alpha = Math.min(1, particle.life * 1.35);
-      const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.radius * 3.8);
-      glow.addColorStop(0, `${particle.color}${Math.round(alpha * 95).toString(16).padStart(2, "0")}`);
-      glow.addColorStop(1, `${particle.color}00`);
+      const progress = (timestamp - particle.born) / particle.life;
+      if (progress >= 1) { particles.splice(index, 1); continue; }
+      particle.x += particle.vx * delta; particle.y += particle.vy * delta;
+      const fadeIn = Math.min(progress * 7, 1);
+      const fadeOut = Math.pow(1 - progress, 1.65);
+      const alpha = fadeIn * fadeOut * particle.opacity;
+      const twinkle = 0.82 + Math.sin(timestamp / particle.twinkleSpeed + particle.phase) * 0.18;
+      const radius = particle.size * (0.82 + progress * 0.28);
+      const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, radius * 5.5);
+      glow.addColorStop(0, "rgba(255, 239, 196, " + (alpha * twinkle * 0.62) + ")");
+      glow.addColorStop(0.24, "rgba(245, 211, 139, " + (alpha * twinkle * 0.25) + ")");
+      glow.addColorStop(1, "rgba(245, 211, 139, 0)");
       context.fillStyle = glow;
-      context.beginPath();
-      context.arc(particle.x, particle.y, particle.radius * 3.8, 0, Math.PI * 2);
-      context.fill();
-      context.fillStyle = `${particle.color}${Math.round(alpha * 155).toString(16).padStart(2, "0")}`;
-      context.beginPath();
-      context.arc(particle.x, particle.y, particle.radius * alpha, 0, Math.PI * 2);
-      context.fill();
-      if (particle.radius > 2.8 && particle.life > .5) {
-        context.globalAlpha = alpha * .26;
-        context.strokeStyle = particle.color;
-        context.lineWidth = .45;
-        context.beginPath();
-        context.moveTo(particle.x - particle.radius * 1.5, particle.y);
-        context.lineTo(particle.x + particle.radius * 1.5, particle.y);
-        context.moveTo(particle.x, particle.y - particle.radius * 1.5);
-        context.lineTo(particle.x, particle.y + particle.radius * 1.5);
-        context.stroke();
-        context.globalAlpha = 1;
-      }
+      context.beginPath(); context.arc(particle.x, particle.y, radius * 5.5, 0, Math.PI * 2); context.fill();
+      context.fillStyle = "rgba(255, 247, 224, " + (alpha * twinkle * 0.82) + ")";
+      context.beginPath(); context.arc(particle.x, particle.y, Math.max(0.55, radius * 0.58), 0, Math.PI * 2); context.fill();
     }
     context.globalCompositeOperation = "source-over";
-    if (particles.length) frame = requestAnimationFrame(draw);
-    else frame = 0;
+    if (particles.length) frame = requestAnimationFrame(draw); else { frame = 0; lastFrame = 0; }
   };
-  const addParticle = (x, y) => {
+  const emit = (x, y, directionX, directionY, density = 1) => {
     const angle = Math.random() * Math.PI * 2;
-    const speed = .25 + Math.random() * 1.2;
+    const spread = 2 + Math.random() * 9;
+    const life = 850 + Math.random() * 650;
     particles.push({
-      x, y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - .35,
-      radius: .65 + Math.random() * 1.2,
-      life: .6 + Math.random() * .25,
-      decay: .025 + Math.random() * .015,
-      color: colors[Math.floor(Math.random() * colors.length)],
+      x:x + Math.cos(angle) * spread, y:y + Math.sin(angle) * spread,
+      vx:-directionX * (0.12 + Math.random() * 0.2) + (Math.random() - 0.5) * 0.24,
+      vy:-directionY * (0.12 + Math.random() * 0.2) + (Math.random() - 0.5) * 0.24,
+      size:(0.9 + Math.random() * 2.4) * density,
+      opacity:0.46 + Math.random() * 0.4, born:performance.now(), life,
+      phase:Math.random() * Math.PI * 2, twinkleSpeed:190 + Math.random() * 280,
     });
-    if (particles.length > 70) particles.splice(0, particles.length - 70);
+    if (particles.length > 180) particles.splice(0, particles.length - 180);
     if (!frame) frame = requestAnimationFrame(draw);
   };
 
-  resize();
-  window.addEventListener("resize", resize, { passive: true });
+  resize(); window.addEventListener("resize", resize, { passive:true });
   window.addEventListener("pointermove", (event) => {
     if (event.pointerType !== "mouse") return;
-    if (!previous || Math.hypot(event.clientX - previous.x, event.clientY - previous.y) > 7) {
-      addParticle(event.clientX, event.clientY);
-      if (Math.random() > .58) addParticle(event.clientX + (Math.random() - .5) * 7, event.clientY + (Math.random() - .5) * 7);
-      previous = { x: event.clientX, y: event.clientY };
+    if (!lastPoint) { lastPoint = { x:event.clientX, y:event.clientY }; emit(event.clientX, event.clientY, 0, 0, 1.15); return; }
+    const dx = event.clientX - lastPoint.x, dy = event.clientY - lastPoint.y;
+    const distance = Math.hypot(dx, dy);
+    if (distance < 3) return;
+    const steps = Math.ceil(distance / 8);
+    for (let step = 1; step <= steps; step++) {
+      const ratio = step / steps;
+      const x = lastPoint.x + dx * ratio, y = lastPoint.y + dy * ratio;
+      emit(x, y, dx / distance, dy / distance);
+      if (Math.random() > 0.43) emit(x, y, dx / distance, dy / distance, 0.55);
     }
-  }, { passive: true });
+    lastPoint = { x:event.clientX, y:event.clientY };
+  }, { passive:true });
 }
 
 function render() {
