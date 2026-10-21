@@ -1,9 +1,10 @@
-import { createPostcardWorld } from "./menu-world.js";
+import { createFeaturedPostcard, createPostcardWorld } from "./menu-world.js";
 import { celebrations, getDateStatus, isDeveloperPreview } from "./special-dates.js";
 
 const list = document.querySelector("#celebration-list");
 const count = document.querySelector("#memory-count");
 const cards = new Map();
+let featuredPostcard = null;
 const toneColors = {
   sunflower: "#dfbc63",
   winter: "#8fc2b3",
@@ -64,6 +65,7 @@ function updateSeasonalMood(statuses) {
       : daysLeft <= 1
         ? "Llega mañana"
         : `Faltan ${daysLeft} días para abrirla`;
+    featuredPostcard?.update(upcoming.celebration, nextLabel.textContent);
   }
   document.body.dataset.seasonalStage = stage;
   document.body.dataset.seasonalTone = upcoming.celebration.tone;
@@ -311,7 +313,13 @@ const postcardWorld = createPostcardWorld(worldCanvas, celebrations, isDeveloper
 if (!postcardWorld) {
   document.querySelector("#postcard-world")?.classList.add("is-fallback");
   const instruction = document.querySelector("#world-instruction");
-  if (instruction) instruction.textContent = "Este dispositivo no pudo abrir las postales 3D. Puedes elegir una desde el ?ndice.";
+  if (instruction) instruction.textContent = "Este dispositivo no pudo abrir las postales 3D. Puedes elegir una desde el \u00edndice.";
 }
+featuredPostcard = createFeaturedPostcard(
+  document.querySelector("#featured-postcard-canvas"),
+  document.querySelector(".next-date-card"),
+);
+if (featuredPostcard) render();
+else document.querySelector(".next-date-card")?.classList.add("is-fallback");
 initCursorGlitter();
 window.setInterval(render, 1000);

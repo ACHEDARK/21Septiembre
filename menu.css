@@ -301,3 +301,36 @@ body { background:#17151d; }
 @media(min-width:901px){.postcard-world{height:clamp(500px,46vw,590px);}}
 
 #postcard-canvas { touch-action:pan-y; }
+
+/* La fecha destacada se presenta como una postal física ilustrada en Three.js. */
+.next-date-card {
+  position:relative; display:block; width:min(100%,320px); height:390px; min-height:0;
+  margin:0 18px 0 auto; padding:0; overflow:visible; border:0; border-radius:0;
+  color:#f7f1e7; background:transparent; box-shadow:none; transform:none; animation:none;
+  transition:none; perspective:900px;
+}
+.next-date-card:hover { transform:none; box-shadow:none; animation:none; }
+.next-date-card::before,.next-date-card::after { display:none; }
+#featured-postcard-canvas { position:absolute; inset:0; display:block; width:100%; height:100%; pointer-events:none; }
+.next-card-accessible {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+.next-date-card.is-fallback {
+  display:flex; flex-direction:column; justify-content:space-between; padding:27px 25px;
+  border:1px solid #e8d7b45c; border-radius:5px 54px 5px 5px;
+  background:linear-gradient(145deg,#514233,#30272a 78%); box-shadow:0 22px 50px #07060b55;
+}
+.next-date-card.is-fallback #featured-postcard-canvas { display:none; }
+.next-date-card.is-fallback .next-card-accessible {
+  position:relative; width:auto; height:auto; padding:0; margin:0; overflow:visible;
+  clip:auto; white-space:normal; border:0;
+}
+.next-date-card.is-fallback .next-card-label { font:500 19px "Caveat",cursive; }
+.next-date-card.is-fallback .next-card-date { margin-top:auto; }
+.next-date-card.is-fallback .next-card-date strong { font:500 105px/.85 "Cormorant Garamond",serif; }
+.next-date-card.is-fallback .next-card-details b { font:600 32px "Cormorant Garamond",serif; }
+.next-date-card.is-fallback .next-card-details span { color:#e0d3c1; font-size:12px; }
+@media(max-width:560px) {
+  .next-date-card { width:min(100%,310px); height:370px; min-height:0; margin:0 auto; }
+}

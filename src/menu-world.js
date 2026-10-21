@@ -121,6 +121,50 @@ function makeCardShadow() {
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.needsUpdate=true;return texture;
 }
 
+export function createFeaturedPostcard(canvas, parent) {
+  let renderer;
+  try { renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:"high-performance",failIfMajorPerformanceCaveat:false}); }
+  catch(error) { console.warn("No se pudo abrir la postal destacada en 3D:",error);return null; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
+  const scene=new THREE.Scene();scene.add(new THREE.HemisphereLight(0xffefd6,0x2a2027,2.15));
+  const key=new THREE.DirectionalLight(0xffe5c2,3.2);key.position.set(-3,6,7);scene.add(key);
+  const rim=new THREE.PointLight(0xd9b9a2,18,12,2);rim.position.set(4,1,4);scene.add(rim);
+  const camera=new THREE.PerspectiveCamera(34,1,.1,50);camera.position.set(0,0,7.1);camera.lookAt(0,0,0);
+  const shape=roundedShape(CARD_W,CARD_H,.21);const geometry=new THREE.ExtrudeGeometry(shape,{depth:CARD_DEPTH,bevelEnabled:true,bevelSegments:4,steps:1,bevelSize:.035,bevelThickness:.035,curveSegments:12});
+  const board=new THREE.Mesh(geometry,[new THREE.MeshStandardMaterial({color:0xffffff,roughness:.82}),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.76})]);
+  const faceMaterial=new THREE.MeshStandardMaterial({roughness:.88,transparent:true,side:THREE.DoubleSide});
+  const face=new THREE.Mesh(new THREE.PlaneGeometry(CARD_W-.08,CARD_H-.08),faceMaterial);face.position.z=CARD_DEPTH+.038;board.add(face);board.castShadow=true;
+  const shadowTexture=makeCardShadow();const shadow=new THREE.Mesh(new THREE.PlaneGeometry(CARD_W*1.42,CARD_H*1.12),new THREE.MeshBasicMaterial({map:shadowTexture,transparent:true,opacity:.7,depthWrite:false,side:THREE.DoubleSide,toneMapped:false}));shadow.position.set(.1,-.1,-.12);
+  const group=new THREE.Group();group.add(shadow);group.add(board);scene.add(group);
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;let active=false,frameId=0,lastTime=0,targetX=0,targetY=0,phase=0,signature="",disposed=false;
+  const update=(celebration,label)=>{
+    const key=celebration.id+"|"+label;if(key===signature)return;signature=key;
+    const palette=PAPER[celebration.tone]||PAPER.sunflower;const graphic=document.createElement("canvas");graphic.width=W;graphic.height=H;
+    const ctx=graphic.getContext("2d");ctx.fillStyle=palette.face;ctx.fillRect(0,0,W,H);
+    let seed=celebration.day*83+celebration.month*31;for(let i=0;i<1250;i++){seed=(seed*16807)%2147483647;const rx=seed/2147483647;seed=(seed*16807)%2147483647;const ry=seed/2147483647;ctx.fillStyle=i%2?"rgba(96,73,47,.035)":"rgba(255,255,255,.13)";ctx.fillRect(rx*W,ry*H,1.5,1.5);}
+    ctx.strokeStyle=palette.ink+"38";ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(24,24,W-48,H-48,19);ctx.stroke();
+    ctx.fillStyle=palette.ink;ctx.textAlign="center";ctx.font="500 25px 'DM Sans', sans-serif";ctx.fillText("LA PR\u00d3XIMA CARTA",W/2,98);
+    ctx.strokeStyle=palette.accent+"65";ctx.beginPath();ctx.moveTo(85,128);ctx.lineTo(W-85,128);ctx.stroke();
+    ctx.fillStyle=palette.accent;ctx.font="600 118px 'Cormorant Garamond', Georgia, serif";ctx.fillText(String(celebration.day).padStart(2,"0"),W/2,280);
+    ctx.font="600 27px 'DM Sans', sans-serif";ctx.fillText(monthNames[celebration.month-1].toUpperCase(),W/2,326);
+    drawIllustration(ctx,celebration.tone,W/2,485,palette.accent);
+    ctx.fillStyle=palette.ink;ctx.font="600 68px 'Cormorant Garamond', Georgia, serif";wrapText(ctx,celebration.title,W/2,700,W-100,75,2);
+    ctx.fillStyle=palette.ink+"c8";ctx.font="400 29px 'DM Sans', sans-serif";ctx.fillText(label,W/2,850);
+    ctx.fillStyle=palette.accent;ctx.font="500 34px 'Caveat', cursive";ctx.fillText("Guardada con cari\u00f1o",W/2,930);
+    const texture=new THREE.CanvasTexture(graphic);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;texture.needsUpdate=true;
+    const previous=faceMaterial.map;faceMaterial.map=texture;faceMaterial.color.set(0xffffff);faceMaterial.needsUpdate=true;if(previous)previous.dispose();
+    board.material[0].color.set(palette.edge);board.material[1].color.set(palette.edge);
+    group.rotation.z=celebration.tone==="winter"?-.045:.035;phase=celebration.day*.12;
+  };
+  const resize=()=>{const rect=parent.getBoundingClientRect();if(!rect.width||!rect.height)return;renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.position.z=camera.aspect<.8?8.1:camera.aspect<1.1?7.4:7.1;camera.updateProjectionMatrix();};resize();
+  const pointerMove=(event)=>{const rect=parent.getBoundingClientRect();targetY=((event.clientX-rect.left)/rect.width-.5)*.25;targetX=-((event.clientY-rect.top)/rect.height-.5)*.18;};
+  const pointerLeave=()=>{targetX=0;targetY=0;};parent.addEventListener("pointermove",pointerMove,{passive:true});parent.addEventListener("pointerleave",pointerLeave,{passive:true});
+  const observer=new IntersectionObserver(([entry])=>{active=entry.isIntersecting;if(active&&!frameId)frameId=requestAnimationFrame(draw);});observer.observe(canvas);
+  const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(parent);
+  function draw(time){if(disposed||!active){frameId=0;return;}const delta=Math.min((time-lastTime)/1000||0,.05);lastTime=time;group.rotation.x=THREE.MathUtils.damp(group.rotation.x,targetX,5,delta);group.rotation.y=THREE.MathUtils.damp(group.rotation.y,targetY+(reduced?0:Math.sin(time*.0005+phase)*.018),5,delta);group.position.y=reduced?0:Math.sin(time*.00075+phase)*.045;renderer.render(scene,camera);frameId=requestAnimationFrame(draw);}
+  return {update,dispose(){disposed=true;observer.disconnect();resizeObserver.disconnect();if(frameId)cancelAnimationFrame(frameId);faceMaterial.map?.dispose();faceMaterial.dispose();board.geometry.dispose();board.material.forEach(material=>material.dispose());shadow.geometry.dispose();shadow.material.dispose();shadowTexture.dispose();renderer.dispose();}};
+}
+
 export function createPostcardWorld(canvas, celebrations, isPreview, onOpen) {
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true, powerPreference:"high-performance", failIfMajorPerformanceCaveat:false }); }
