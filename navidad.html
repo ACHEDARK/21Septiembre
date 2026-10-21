@@ -3,130 +3,146 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f3ead8" />
-    <meta name="description" content="Una pequeña noche de luz, deseos y sorpresas para Navidad." />
-    <title>Una noche de luz · Navidad</title>
+    <meta name="theme-color" content="#10182b" />
+    <meta name="description" content="Una pequeña noche de luz, una carta y sorpresas para Navidad." />
+    <title>Una noche para ti · Navidad</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="navidad.css" />
     <script defer src="experiences/navidad.js"></script>
   </head>
   <body class="christmas-page" hidden>
     <div class="snowfall" id="snowfall" aria-hidden="true"></div>
-    <header class="christmas-header">
-      <a class="christmas-brand" href="/" aria-label="Volver a la colección"><span aria-hidden="true">✳</span> Un pequeño universo</a>
-      <a class="collection-link" href="/">Volver a los recuerdos</a>
-    </header>
 
-    <main>
-      <section class="christmas-hero" aria-labelledby="christmas-title">
-        <div class="hero-copy">
-          <p class="christmas-eyebrow"><span></span> 25 de diciembre · una noche para ti</p>
-          <h1 id="christmas-title">Que la noche<br />te encuentre <em>en luz.</em></h1>
-          <p class="hero-message">Aunque la vida nos haya llevado por caminos distintos, sigues siendo alguien a quien deseo cosas bonitas. Esta Navidad quería dejarte un cielo pequeño, unas palabras suaves y sorpresas para abrir sin prisa.</p>
-          <p class="hero-signoff">Con cariño, sin pedir nada a cambio.</p>
-          <div class="hero-actions">
-            <a class="gold-button" href="#carta">Encontré una carta para ti <span aria-hidden="true">↓</span></a>
-            <button class="quiet-button" id="snow-toggle" type="button" aria-pressed="true"><span aria-hidden="true">❄</span> Pausar la nieve</button>
-          </div>
-        </div>
+    <section class="invitation" id="invitation" aria-labelledby="invitation-title">
+      <img class="invitation-art" src="assets/image copy 7.png" alt="Ilustración navideña de un árbol en una sala cálida" />
+      <div class="invitation-shade"></div>
+      <a class="invitation-home" href="/" aria-label="Volver a Un pequeño universo">Un pequeño universo</a>
+      <div class="invitation-copy">
+        <span class="invitation-star" aria-hidden="true">✳</span>
+        <p class="invitation-kicker" id="opening-greeting">Una noche guardada con cariño</p>
+        <h1 id="invitation-title">Esta Navidad,<br />preparé algo<br /><em>especial para ti.</em></h1>
+        <p id="greeting-name" class="invitation-name"></p>
+        <button class="open-gift-button" id="open-experience" type="button">Abrir mi regalo <span aria-hidden="true">↗</span></button>
+      </div>
+      <span class="invitation-footnote">Hecho para abrirse sin prisa</span>
+    </section>
 
-        <div class="tree-scene" id="tree-scene">
-          <div class="tree-halo" aria-hidden="true"></div>
-          <div class="tree-photo-frame" id="tree-photo-frame">
-            <img class="tree-photo" src="assets/image.png" alt="Una escena ilustrada de Navidad: dos ositos decoran un árbol entre regalos y nieve." />
-            <span class="picture-sparkle sparkle-one" aria-hidden="true">✦</span><span class="picture-sparkle sparkle-two" aria-hidden="true">✧</span>
-            <button class="ornament ornament-one" type="button" aria-label="Abrir la esfera roja" data-gift="calma"></button>
-            <button class="ornament ornament-two" type="button" aria-label="Abrir la esfera dorada" data-gift="orgullo"></button>
-            <button class="ornament ornament-three" type="button" aria-label="Abrir la esfera verde" data-gift="esperanza"></button>
-            <button class="ornament ornament-four" type="button" aria-label="Abrir la esfera de cristal" data-gift="deseos"></button>
-            <button class="wish-star" type="button" aria-label="Abrir el deseo de la estrella" data-gift="estrella">✦</button>
-          </div>
-          <button class="lights-toggle" id="lights-toggle" type="button" aria-pressed="false"><span aria-hidden="true">✧</span> Encender las luces</button>
-          <p class="tree-caption">Toca una esfera o la estrella para descubrir una sorpresa.</p>
-          <p class="discovery-count" id="discovery-count" aria-live="polite">Has encontrado 0 de 5 luces</p>
-          <button class="bonus-reveal" id="bonus-reveal" type="button" hidden>Las encendiste todas · hay una sorpresa más <span aria-hidden="true">✦</span></button>
-        </div>
-        <a class="scroll-cue" href="#carta"><span aria-hidden="true">⌄</span> Hay más debajo</a>
-      </section>
+    <div class="experience" id="experience" hidden>
+      <header class="christmas-header">
+        <a class="christmas-brand" href="/">Un pequeño universo <span>·</span> Navidad</a>
+        <nav class="header-actions" aria-label="Navegación de Navidad">
+          <a href="#recuerdos">Recuerdos</a>
+          <a href="#regalos">Sorpresas</a>
+          <a href="#carta">La carta</a>
+          <button class="snow-toggle" id="snow-toggle" type="button" aria-pressed="false">Pausar nieve</button>
+          <button class="audio-toggle" id="audio-toggle" type="button" aria-pressed="false" hidden>Escuchar música</button>
+          <button class="audio-toggle" id="mute-toggle" type="button" aria-pressed="false" hidden>Silenciar</button>
+        </nav>
+      </header>
 
-      <section class="winter-journey" id="sendero" aria-labelledby="journey-title">
-        <div class="journey-heading">
-          <p class="christmas-eyebrow"><span></span> Un paseo bajo la nieve</p>
-          <h2 id="journey-title">Sigue las huellas<br />hasta <em>la luz.</em></h2>
-          <p>El camino tiene cuatro paradas. En cada una te espera un pequeño mundo; puedes recorrerlo a tu ritmo.</p>
-        </div>
-        <div class="journey-world" id="journey-world" data-scene="0">
-          <div class="journey-art-wrap">
-            <img id="journey-art" class="journey-art" src="assets/image.png" alt="Ositos decorando un árbol de Navidad bajo un cielo nevado." />
-            <img id="journey-reflection" class="journey-reflection" src="assets/image copy 18.png" alt="" hidden />
-            <span class="journey-moon" aria-hidden="true">✦</span>
-            <span class="journey-snow journey-snow-one" aria-hidden="true"></span>
-            <span class="journey-snow journey-snow-two" aria-hidden="true"></span>
+      <main>
+        <section class="christmas-hero" aria-labelledby="christmas-title">
+          <div class="hero-copy">
+            <p class="hero-date">25 <span>de diciembre</span></p>
+            <h2 id="christmas-title">Que la noche<br />te encuentre <em>en luz.</em></h2>
+            <p class="hero-message" id="hero-message"></p>
+            <p class="hero-signoff" id="hero-signoff"></p>
+            <a class="text-link" href="#recuerdos">Entrar a esta pequeña noche <span aria-hidden="true">↓</span></a>
           </div>
-          <div class="journey-story" aria-live="polite">
-            <span class="journey-step" id="journey-step">PARADA 01 · EL ÁRBOL</span>
-            <h3 id="journey-scene-title">Donde empiezan las luces</h3>
-            <p id="journey-copy">Alguien subió una escalera para dejar una estrella en lo alto. Abajo, los regalos esperan sin apuro.</p>
-            <div class="journey-controls">
-              <button class="journey-arrow" id="journey-prev" type="button" aria-label="Escena anterior" disabled>←</button>
-              <div class="journey-dots" role="group" aria-label="Elegir escena">
-                <button type="button" class="journey-dot is-active" aria-label="Parada 1: El árbol" aria-pressed="true" data-scene="0"></button>
-                <button type="button" class="journey-dot" aria-label="Parada 2: El trineo" aria-pressed="false" data-scene="1"></button>
-                <button type="button" class="journey-dot" aria-label="Parada 3: La cabaña" aria-pressed="false" data-scene="2"></button>
-                <button type="button" class="journey-dot" aria-label="Parada 4: El lago de estrellas" aria-pressed="false" data-scene="3"></button>
-              </div>
-              <button class="journey-arrow" id="journey-next" type="button" aria-label="Siguiente escena">→</button>
+          <figure class="hero-artwork">
+            <img src="assets/image.png" alt="Ilustración de dos ositos junto a un árbol iluminado en un bosque nevado" fetchpriority="high" />
+            <figcaption>Una ilustración para imaginar la noche</figcaption>
+            <span class="hero-orbit orbit-one" aria-hidden="true"></span>
+            <span class="hero-orbit orbit-two" aria-hidden="true"></span>
+          </figure>
+        </section>
+
+        <section class="memory-section" id="recuerdos" aria-labelledby="memory-title">
+          <div class="section-heading memory-heading">
+            <p class="section-note">Un rincón para guardar momentos</p>
+            <h2 id="memory-title">Postales de una<br /><em>noche de invierno.</em></h2>
+            <p>Estas ilustraciones son temporales. Puedes reemplazarlas por fotografías y textos tuyos en <code>src/christmas-config.js</code>.</p>
+          </div>
+          <div class="memory-gallery" id="memory-gallery" aria-label="Postales ilustradas de Navidad"></div>
+        </section>
+
+        <section class="gift-section" id="regalos" aria-labelledby="gift-title">
+          <div class="section-heading">
+            <p class="section-note">Pequeñas cosas que sí puedo desearte</p>
+            <h2 id="gift-title">Tres regalos,<br /><em>cada uno a su manera.</em></h2>
+            <p>Elige el que quieras. No hay orden y puedes volver a abrirlos.</p>
+          </div>
+          <div class="gift-table" id="gift-table"></div>
+          <p class="gift-progress" id="gift-progress" aria-live="polite">Hay tres regalos esperando.</p>
+          <button class="hidden-gift" id="hidden-gift" type="button" hidden>Encontraste la sorpresa escondida <span aria-hidden="true">✦</span></button>
+        </section>
+
+        <section class="letter-section" id="carta" aria-labelledby="letter-title">
+          <div class="letter-copy">
+            <p class="section-note">Una nota escrita sin apuro</p>
+            <h2 id="letter-title">Hay cosas bonitas<br />que caben <em>en una carta.</em></h2>
+            <p>Entre las ramas quedó un sobre. Ábrelo cuando te apetezca.</p>
+          </div>
+          <div class="letter-stage">
+            <div class="letter-envelope" id="letter-envelope">
+              <span class="envelope-postmark" aria-hidden="true">NAVIDAD<br />CON CARIÑO</span>
+              <div class="envelope-flap" aria-hidden="true"></div>
+              <article class="letter-paper" id="letter-paper" hidden>
+                <p class="letter-date" id="letter-date">En esta noche de Navidad</p>
+                <p id="letter-message"></p>
+                <p class="letter-signoff" id="letter-signoff"></p>
+              </article>
+              <button class="letter-open" id="open-letter" type="button" aria-expanded="false" aria-controls="letter-paper">Abrir el sobre</button>
             </div>
-            <span class="journey-hint" id="journey-hint">Una historia a la vez. Avanza cuando quieras.</span>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="letter-section" id="carta" aria-labelledby="letter-title">
-        <div class="letter-copy">
-          <p class="christmas-eyebrow"><span></span> Una nota que esperaba aquí</p>
-          <h2 id="letter-title">Hay cosas bonitas<br />que caben <em>en una carta.</em></h2>
-          <p>Entre la nieve y las ramas quedó un sobre. No tiene prisa; puedes abrirlo cuando te apetezca.</p>
-          <div class="letter-characters" aria-hidden="true">
-            <img src="assets/image copy.png" alt="" />
-            <span>te guardaron un lugar junto al árbol</span>
+        <section class="winter-moment" aria-labelledby="winter-title">
+          <img class="winter-art" src="assets/image copy 17.png" alt="Ilustración de un osito que sostiene una estrella luminosa bajo el cielo nocturno" loading="lazy" />
+          <div class="winter-scrim"></div>
+          <div class="winter-copy">
+            <p class="section-note">Una pequeña pausa bajo las estrellas</p>
+            <h2 id="winter-title">Que algo bueno<br />te encuentre <em>hoy.</em></h2>
+            <p id="christmas-countdown" aria-live="polite"></p>
+            <button class="wish-button" id="wish-button" type="button">Dejar un deseo en el cielo <span aria-hidden="true">✦</span></button>
+            <p class="wish-feedback" id="wish-feedback" aria-live="polite"></p>
           </div>
-        </div>
-        <div class="letter-stage">
-          <div class="letter-envelope" id="letter-envelope">
-            <div class="envelope-flap" aria-hidden="true"></div>
-            <span class="envelope-seal" aria-hidden="true">✦</span>
-            <button class="letter-open" id="open-letter" type="button" aria-expanded="false" aria-controls="letter-paper">Abrir el sobre</button>
-            <article class="letter-paper" id="letter-paper" hidden>
-              <p class="letter-date">En esta noche de Navidad</p>
-              <p>Solo quería dejarte algo sencillo: gracias por todo lo bonito que alguna vez compartimos. Aunque hoy cada quien siga su camino, deseo que esta noche te encuentre rodeada de calma, cariño y pequeñas razones para sonreír.</p>
-              <p class="letter-signoff">Con cariño, siempre.</p>
-              <span class="letter-stamp" aria-hidden="true">✦</span>
-            </article>
+          <span class="winter-star star-a" aria-hidden="true">✦</span>
+          <span class="winter-star star-b" aria-hidden="true">✧</span>
+          <span class="winter-star star-c" aria-hidden="true">·</span>
+        </section>
+
+        <section class="closing-note" aria-labelledby="closing-title">
+          <span class="closing-ornament" aria-hidden="true">✳</span>
+          <p class="closing-label">Feliz Navidad</p>
+          <h2 id="closing-title"></h2>
+          <p class="closing-signature" id="closing-signature"></p>
+          <div class="closing-actions">
+            <button id="reopen-letter" type="button">Volver a leer la carta</button>
+            <a href="/">Volver a la colección</a>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      <section class="closing-note" aria-label="Mensaje final">
-        <div class="closing-rule"><span>✦</span></div>
-        <p>Feliz Navidad.</p>
-        <h2>Que nunca te falte<br />un lugar donde <em>florecer.</em></h2>
-        <span class="closing-signature">Con cariño, siempre deseándote luz.</span>
-        <a href="/" class="return-link">Volver a la colección <span aria-hidden="true">↗</span></a>
-      </section>
-    </main>
+      <footer class="christmas-footer"><span>Un pequeño universo</span><span>Ilustraciones locales · Música opcional</span></footer>
+    </div>
 
-    <dialog class="gift-dialog" id="gift-dialog" aria-labelledby="dialog-title">
-      <form method="dialog"><button class="dialog-close" aria-label="Cerrar sorpresa">×</button></form>
-      <img class="dialog-art" id="dialog-art" alt="" hidden />
-      <span class="dialog-star" aria-hidden="true">✧</span>
-      <p class="dialog-kicker">UN PEQUEÑO REGALO PARA TI</p>
-      <h2 id="dialog-title"></h2>
-      <p class="dialog-message" id="dialog-message"></p>
-      <span class="dialog-signature">con mucho cariño</span>
+    <dialog class="reveal-dialog" id="reveal-dialog" aria-labelledby="reveal-title">
+      <form method="dialog"><button class="dialog-close" aria-label="Cerrar">×</button></form>
+      <span class="dialog-spark" aria-hidden="true">✦</span>
+      <p class="dialog-label">Un regalo para ti</p>
+      <h2 id="reveal-title"></h2>
+      <p class="dialog-message" id="reveal-message"></p>
+      <span class="dialog-signoff" id="reveal-signoff"></span>
     </dialog>
-    <footer class="christmas-footer"><span>UN PEQUEÑO UNIVERSO</span><span>Hecho para sentir, sin prisa.</span></footer>
+
+    <dialog class="photo-dialog" id="photo-dialog" aria-label="Postal ampliada">
+      <form method="dialog"><button class="dialog-close" aria-label="Cerrar imagen">×</button></form>
+      <img id="photo-large" alt="" />
+      <p id="photo-caption"></p>
+    </dialog>
+    <audio id="christmas-audio" loop preload="none"></audio>
   </body>
 </html>
-
