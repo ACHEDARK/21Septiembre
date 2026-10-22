@@ -604,12 +604,12 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     }
 
     const smallScreen = window.innerWidth <= 850;
-    const scale = smallScreen ? .31 : .4;
+    const scale = smallScreen ? .44 : .52;
     gifts.forEach((gift, index) => {
       const anchor = giftAnchorElements[index];
       if (!anchor) return;
       const rect = anchor.getBoundingClientRect();
-      const point = giftWorldPoint(rect.left + rect.width / 2, rect.top + (smallScreen ? 24 : 30), gift.userData.baseZ);
+      const point = giftWorldPoint(rect.left + rect.width / 2, rect.top + (smallScreen ? 36 : 55), gift.userData.baseZ);
       gift.userData.layoutX = point.x;
       gift.userData.layoutY = point.y;
       gift.userData.baseScale = scale;
@@ -618,7 +618,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     if (reducedMotion) {
       gifts.forEach((gift) => {
         gift.position.set(gift.userData.layoutX, gift.userData.layoutY, gift.userData.baseZ);
-        gift.scale.setScalar(gift.userData.baseScale ?? (smallScreen ? .31 : .4));
+        gift.scale.setScalar(gift.userData.baseScale ?? (smallScreen ? .44 : .52));
       });
       renderOnce();
     }
@@ -641,7 +641,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     treeCenter.scale.setScalar(treeScale);
     gifts.forEach((gift, index) => {
       gift.position.set(gift.userData.layoutX, gift.userData.layoutY, gift.userData.baseZ);
-      gift.scale.setScalar(gift.userData.baseScale ?? (window.innerWidth > 850 ? .4 : .31));
+      gift.scale.setScalar(gift.userData.baseScale ?? (window.innerWidth > 850 ? .52 : .44));
     });
     for (const layer of layers.values()) {
       if (!layer.loaded) continue;
@@ -851,14 +851,9 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     }
     gifts.forEach((gift, index) => {
       const selected = index === selectedGift;
-      gift.position.x = THREE.MathUtils.damp(gift.position.x, gift.userData.layoutX, 5, delta);
-      gift.position.y = THREE.MathUtils.damp(gift.position.y, gift.userData.layoutY, 3.5, delta);
-      gift.position.z = THREE.MathUtils.damp(gift.position.z, gift.userData.baseZ + (selected ? 1.05 : 0), 2.2, delta);
-      gift.rotation.y = THREE.MathUtils.damp(gift.rotation.y, selected ? -.12 : (index - 1) * .045, 2, delta);
-      const baseScale = gift.userData.baseScale ?? (window.innerWidth > 850 ? .4 : .31);
-      const targetScale = baseScale * (selected ? 1.2 : 1);
-      const scale = THREE.MathUtils.damp(gift.scale.x, targetScale, 2.5, delta);
-      gift.scale.setScalar(scale);
+      gift.position.set(gift.userData.layoutX, gift.userData.layoutY, gift.userData.baseZ);
+      gift.rotation.y = (index - 1) * .025;
+      gift.scale.setScalar(gift.userData.baseScale ?? (window.innerWidth > 850 ? .52 : .44));
       gift.userData.lidPivot.rotation.x = THREE.MathUtils.damp(gift.userData.lidPivot.rotation.x, selected ? -1.06 : 0, 3, delta);
       gift.userData.giftGlow.material.opacity = THREE.MathUtils.damp(gift.userData.giftGlow.material.opacity, selected ? .48 : 0, 3, delta);
       const glowScale = THREE.MathUtils.damp(gift.userData.giftGlow.scale.x, selected ? 2.3 : .01, 3, delta);
@@ -871,10 +866,10 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
       for (let particle = 0; particle < gift.userData.particleAngles.length; particle += 1) {
         const cycle = (time * .00022 + gift.userData.particleOffsets[particle]) % 1;
         const angle = gift.userData.particleAngles[particle] + time * .00016;
-        const radius = .12 + cycle * .62;
+        const radius = .1 + cycle * .4;
         const offset = particle * 3;
         positions[offset] = Math.cos(angle) * radius;
-        positions[offset + 1] = .06 + cycle * (1.65 + (particle % 4) * .13);
+        positions[offset + 1] = .04 + cycle * (.72 + (particle % 4) * .055);
         positions[offset + 2] = Math.sin(angle) * radius;
       }
       gift.userData.particleGeometry.attributes.position.needsUpdate = true;
