@@ -331,7 +331,8 @@ function createWishWriter(section, liveText, reducedMotion) {
       const alpha = (local > 0 ? .86 : 0) * twinkle(time + point.phase);
       if (alpha <= 0) continue;
       ctx.globalAlpha = alpha;
-      ctx.shadowBlur = point.r * 5;
+      ctx.globalAlpha *= .62;
+      ctx.shadowBlur = point.r * 1.45;
       ctx.shadowColor = "#f7d88e";
       ctx.fillStyle = point.r > 1.1 ? "#fff5cf" : "#f6cf79";
       ctx.beginPath();
@@ -342,13 +343,13 @@ function createWishWriter(section, liveText, reducedMotion) {
     if (progress > .72) {
       ctx.save();
       ctx.scale(dpr, dpr);
-      ctx.globalAlpha = Math.min(.55, (progress - .72) / .28 * .55);
+      ctx.globalAlpha = Math.min(1, (progress - .72) / .28);
       ctx.font = textFont;
       ctx.textBaseline = "top";
       ctx.textAlign = "left";
       ctx.fillStyle = "#fff0c6";
       ctx.shadowColor = "#f6d987";
-      ctx.shadowBlur = 14;
+      ctx.shadowBlur = 2;
       textLines.forEach((line, index) => ctx.fillText(line, textLeft, textTop + index * textLineHeight));
       ctx.restore();
     }
@@ -398,7 +399,7 @@ function createWishWriter(section, liveText, reducedMotion) {
       textFont = font;
       lines.forEach((text, index) => rasterCtx.fillText(text, textLeft, textTop + index * lineHeight));
       const pixels = rasterCtx.getImageData(0, 0, raster.width, raster.height).data;
-      const stride = Math.max(2, Math.round(2 * dpr));
+      const stride = Math.max(1, Math.round(1.35 * dpr));
       for (let py = 0; py < raster.height; py += stride) {
         for (let px = 0; px < raster.width; px += stride) {
           if (pixels[(py * raster.width + px) * 4 + 3] > 90 && Math.random() > .09) {
@@ -406,7 +407,7 @@ function createWishWriter(section, liveText, reducedMotion) {
             const y = py / dpr;
             points.push({ x, y, fromX: x + (Math.random() - .5) * 36, fromY: y + 24 + Math.random() * 42,
               delay: reducedMotion ? 0 : Math.min(.68, (x - left) / Math.max(maxWidth, 1) * .6),
-              r: .8 + Math.random() * .9, phase: Math.random() * 2000 });
+              r: 1.55 + Math.random() * .75, phase: Math.random() * 2000 });
           }
         }
       }
@@ -425,71 +426,77 @@ function createCandyCursor(reducedMotion) {
   canvas.setAttribute("aria-hidden", "true");
   document.body.append(canvas);
   const ctx = canvas.getContext("2d");
-  const candies = [];
-  const colors = ["#f3d589", "#d87578", "#a8c9bd", "#efe7d5"];
-  let frame = 0;
-  let last = null;
+  const particles = [];
+  const palette = [[246, 212, 137], [224, 127, 133], [166, 209, 190], [255, 242, 213]];
+  let frame = 0, lastPoint = null, lastFrame = 0;
   let dpr = 1;
   const resize = () => {
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.6);
     canvas.width = Math.round(innerWidth * dpr);
     canvas.height = Math.round(innerHeight * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
   resize();
   window.addEventListener("resize", resize, { passive: true });
-  const animate = () => {
+  const draw = (timestamp) => {
     frame = 0;
+    const delta = Math.min((timestamp - (lastFrame || timestamp)) / 16.67, 2);
+    lastFrame = timestamp;
     ctx.clearRect(0, 0, innerWidth, innerHeight);
-    const now = performance.now();
-    for (let i = candies.length - 1; i >= 0; i--) {
-      const candy = candies[i];
-      const age = (now - candy.born) / candy.life;
-      if (age >= 1) { candies.splice(i, 1); continue; }
-      candy.x += candy.vx;
-      candy.y += candy.vy;
-      candy.vx *= .985;
-      candy.vy *= .985;
-      candy.angle += candy.spin;
-      ctx.save();
-      ctx.translate(candy.x, candy.y);
-      ctx.rotate(candy.angle);
-      ctx.globalAlpha = Math.pow(1 - age, 1.4) * .8;
-      ctx.shadowColor = candy.color;
-      ctx.shadowBlur = 9;
-      ctx.fillStyle = candy.color;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, candy.size, candy.size * .58, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(-candy.size * .72, 0); ctx.lineTo(-candy.size * 1.25, -candy.size * .45); ctx.lineTo(-candy.size * 1.2, candy.size * .45);
-      ctx.moveTo(candy.size * .72, 0); ctx.lineTo(candy.size * 1.25, -candy.size * .45); ctx.lineTo(candy.size * 1.2, candy.size * .45);
-      ctx.strokeStyle = candy.color; ctx.lineWidth = 1.2; ctx.stroke();
-      ctx.restore();
+    ctx.globalCompositeOperation = "lighter";
+    for (let index = particles.length - 1; index >= 0; index--) {
+      const particle = particles[index];
+      const progress = (timestamp - particle.born) / particle.life;
+      if (progress >= 1) { particles.splice(index, 1); continue; }
+      particle.x += particle.vx * delta;
+      particle.y += particle.vy * delta;
+      const alpha = Math.min(progress * 7, 1) * Math.pow(1 - progress, 1.65) * particle.opacity;
+      const twinkle = .84 + Math.sin(timestamp / particle.twinkleSpeed + particle.phase) * .16;
+      const radius = particle.size * (.82 + progress * .28);
+      const [red, green, blue] = particle.color;
+      const glow = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, radius * 5.5);
+      glow.addColorStop(0, `rgba(${red},${green},${blue},${alpha * twinkle * .58})`);
+      glow.addColorStop(.24, `rgba(${red},${green},${blue},${alpha * twinkle * .23})`);
+      glow.addColorStop(1, `rgba(${red},${green},${blue},0)`);
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(particle.x, particle.y, radius * 5.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(255,248,232,${alpha * twinkle * .78})`;
+      ctx.beginPath(); ctx.arc(particle.x, particle.y, Math.max(.55, radius * .55), 0, Math.PI * 2); ctx.fill();
     }
-    if (candies.length) frame = requestAnimationFrame(animate);
+    ctx.globalCompositeOperation = "source-over";
+    if (particles.length) frame = requestAnimationFrame(draw);
+    else { frame = 0; lastFrame = 0; }
+  };
+  const emit = (x, y, directionX, directionY, density = 1) => {
+    const angle = Math.random() * Math.PI * 2;
+    const spread = 2 + Math.random() * 9;
+    particles.push({
+      x: x + Math.cos(angle) * spread, y: y + Math.sin(angle) * spread,
+      vx: -directionX * (.12 + Math.random() * .2) + (Math.random() - .5) * .24,
+      vy: -directionY * (.12 + Math.random() * .2) + (Math.random() - .5) * .24,
+      size: (.9 + Math.random() * 2.4) * density, opacity: .46 + Math.random() * .4,
+      born: performance.now(), life: 900 + Math.random() * 750, phase: Math.random() * Math.PI * 2,
+      twinkleSpeed: 190 + Math.random() * 280, color: palette[Math.floor(Math.random() * palette.length)],
+    });
+    if (particles.length > 180) particles.splice(0, particles.length - 180);
+    if (!frame) frame = requestAnimationFrame(draw);
   };
   window.addEventListener("pointermove", (event) => {
-    if (event.pointerType === "touch") return;
-    if (!last) { last = { x: event.clientX, y: event.clientY }; return; }
-    const dx = event.clientX - last.x;
-    const dy = event.clientY - last.y;
+    if (event.pointerType !== "mouse") return;
+    if (!lastPoint) { lastPoint = { x: event.clientX, y: event.clientY }; emit(event.clientX, event.clientY, 0, 0, 1.1); return; }
+    const dx = event.clientX - lastPoint.x, dy = event.clientY - lastPoint.y;
     const distance = Math.hypot(dx, dy);
-    const count = Math.min(10, Math.ceil(distance / 7));
-    for (let i = 0; i < count; i++) {
-      const t = (i + 1) / count;
-      const x = last.x + dx * t;
-      const y = last.y + dy * t;
-      for (let burst = 0; burst < 2; burst++) candies.push({ x: x + (Math.random() - .5) * 28, y: y + (Math.random() - .5) * 28,
-        vx: (Math.random() - .5) * 1.4, vy: (Math.random() - .5) * 1.2,
-        size: 3.2 + Math.random() * 2.3, angle: Math.random() * Math.PI, spin: (Math.random() - .5) * .04,
-        color: colors[Math.floor(Math.random() * colors.length)], born: performance.now(), life: 1350 + Math.random() * 800 });
+    if (distance < 3) return;
+    const steps = Math.ceil(distance / 8);
+    for (let step = 1; step <= steps; step++) {
+      const ratio = step / steps;
+      const x = lastPoint.x + dx * ratio, y = lastPoint.y + dy * ratio;
+      emit(x, y, dx / distance, dy / distance);
+      if (Math.random() > .43) emit(x, y, dx / distance, dy / distance, .55);
     }
-    last = { x: event.clientX, y: event.clientY };
-    if (candies.length > 90) candies.splice(0, candies.length - 90);
-    if (!frame) frame = requestAnimationFrame(animate);
+    lastPoint = { x: event.clientX, y: event.clientY };
   }, { passive: true });
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) { candies.length = 0; last = null; if (frame) cancelAnimationFrame(frame); frame = 0; }
+    if (document.hidden) { particles.length = 0; lastPoint = null; lastFrame = 0; if (frame) cancelAnimationFrame(frame); frame = 0; }
   });
 }
