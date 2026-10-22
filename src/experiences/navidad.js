@@ -89,6 +89,7 @@ function startChristmas() {
   });
 
   let openedGifts = 0;
+  let giftRevealTimer = 0;
   const giftTable = $("#gift-table");
   content.gifts.forEach((gift, index) => {
     const button = document.createElement("button");
@@ -118,7 +119,8 @@ function startChristmas() {
         $("#gift-progress").textContent = "Los regalos ya están abiertos. Quedó uno más escondido.";
         $("#hidden-gift").hidden = false;
       }
-      revealGift(gift);
+      window.clearTimeout(giftRevealTimer);
+      giftRevealTimer = window.setTimeout(() => revealGift(gift), 1050);
     });
     giftTable.append(button);
   });

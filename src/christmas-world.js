@@ -142,7 +142,7 @@ function makeWrappingTexture(base, accent, variant) {
   return texture;
 }
 
-function makeGift(index) {
+function makeGift(index, particleTexture) {
   const wraps = [
     makeWrappingTexture("#5a222e", "#8e3940", 0),
     makeWrappingTexture("#173c32", "#32604b", 1),
@@ -197,13 +197,50 @@ function makeGift(index) {
   lidPivot.add(knot);
 
   const giftGlow = new THREE.Mesh(
-    new THREE.SphereGeometry(.12, 24, 18),
+    new THREE.SphereGeometry(.28, 24, 18),
     new THREE.MeshBasicMaterial({ color: 0xffe6a2, transparent: true, opacity: 0, blending: THREE.AdditiveBlending }),
   );
-  giftGlow.position.y = height * .5 + .52;
+  giftGlow.position.y = height * .22;
   giftGlow.scale.setScalar(.01);
   group.add(giftGlow);
-  group.userData = { body, lidPivot, giftGlow, wraps, baseZ: -8.3, baseY: -.85, layoutY: -.85 };
+
+  const shadowCanvas = document.createElement("canvas");
+  shadowCanvas.width = shadowCanvas.height = 128;
+  const shadowContext = shadowCanvas.getContext("2d");
+  const shadowGradient = shadowContext.createRadialGradient(64, 64, 4, 64, 64, 62);
+  shadowGradient.addColorStop(0, "rgba(0,0,0,.58)");
+  shadowGradient.addColorStop(.42, "rgba(0,0,0,.25)");
+  shadowGradient.addColorStop(1, "rgba(0,0,0,0)");
+  shadowContext.fillStyle = shadowGradient;
+  shadowContext.fillRect(0, 0, 128, 128);
+  const shadow = new THREE.Mesh(
+    new THREE.PlaneGeometry(width * 2.2, depth * 2.25),
+    new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(shadowCanvas), transparent: true, depthWrite: false }),
+  );
+  shadow.rotation.x = -Math.PI / 2;
+  shadow.position.set(0, -height * .5 - .025, 0);
+  group.add(shadow);
+
+  const particleCount = 56;
+  const particlePositions = new Float32Array(particleCount * 3);
+  const particleAngles = new Float32Array(particleCount);
+  const particleOffsets = new Float32Array(particleCount);
+  for (let particle = 0; particle < particleCount; particle += 1) {
+    particleAngles[particle] = particle * 2.399;
+    particleOffsets[particle] = particle / particleCount;
+  }
+  const particleGeometry = new THREE.BufferGeometry();
+  particleGeometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
+  const giftParticles = new THREE.Points(particleGeometry, new THREE.PointsMaterial({
+    color: 0xffe6a2, map: particleTexture, size: .19, sizeAttenuation: true,
+    transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending,
+  }));
+  giftParticles.frustumCulled = false;
+  group.add(giftParticles);
+  group.userData = {
+    body, lidPivot, giftGlow, giftParticles, particleGeometry, particlePositions,
+    particleAngles, particleOffsets, wraps, reveal: 0, baseZ: -6.4, layoutY: -1.45,
+  };
   return group;
 }
 
@@ -274,7 +311,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
   scene.add(snow.points, glimmers.points, ceremonySnow.points);
 
   const giftStage = new THREE.Group();
-  const gifts = [makeGift(0), makeGift(1), makeGift(2)];
+  const gifts = [makeGift(0, particleTexture), makeGift(1, particleTexture), makeGift(2, particleTexture)];
   gifts.forEach((gift) => giftStage.add(gift));
   giftStage.visible = false;
   scene.add(giftStage);
@@ -522,6 +559,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     GIFT_SECTION: 11700,
   };
   let selectedGift = -1;
+  let giftRevealStarted = 0;
   const giftScenes = new Set(giftScenePaths);
 
   function resize() {
@@ -539,13 +577,14 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     treeCenter.position.set(0, .08, 0);
     const treeScale = .34 * Math.sqrt(Math.min(camera.aspect / 1.6, 1));
     treeCenter.scale.setScalar(treeScale);
-    const stageWidth = visibleWidth * (8.3 / 13);
+    const giftViewWidth = visibleWidth * (6.4 / 13);
     const giftX = visibleWidth > 12
-      ? [stageWidth * .1, stageWidth * .26, stageWidth * .42]
-      : [-stageWidth * .3, 0, stageWidth * .3];
+      ? [giftViewWidth * .025, giftViewWidth * .19, giftViewWidth * .355]
+      : [-giftViewWidth * .18, 0, giftViewWidth * .18];
     gifts.forEach((gift, index) => {
-      gift.userData.layoutY = visibleWidth > 12 ? -.72 : -1.32;
+      gift.userData.layoutY = visibleWidth > 12 ? -1.42 : -2.0;
       gift.position.set(giftX[index], gift.userData.layoutY, gift.userData.baseZ);
+      gift.scale.setScalar(visibleWidth > 12 ? 1.18 : .65);
     });
     for (const layer of layers.values()) {
       if (!layer.loaded) continue;
@@ -574,7 +613,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     giftStage.visible = giftScenes.has(path);
     phase = selected * 1.8 + performance.now() * .0002;
     if (reducedMotion) {
-      for (const [key, layer] of layers) layer.material.uniforms.uOpacity.value = key === activePath ? 1 : 0;
+      for (const [key, layer] of layers) layer.material.uniforms.uOpacity.value = key === activePath ? (giftScenes.has(key) ? .58 : 1) : 0;
       camera.position.x = 0;
       renderOnce();
     } else if (!frame) {
@@ -613,7 +652,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     camera.position.y = THREE.MathUtils.damp(camera.position.y, -pointerY * .12, 1.8, delta);
     camera.lookAt(camera.position.x * .2, camera.position.y * .2, -12);
     for (const [path, layer] of layers) {
-      const target = path === activePath && layer.loaded ? 1 : 0;
+      const target = path === activePath && layer.loaded ? (giftScenes.has(path) ? .58 : 1) : 0;
       const current = layer.material.uniforms.uOpacity.value;
       layer.material.uniforms.uOpacity.value = THREE.MathUtils.damp(current, target, 1.8, delta);
     }
@@ -752,17 +791,32 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     }
     gifts.forEach((gift, index) => {
       const selected = index === selectedGift;
-      const bob = reducedMotion ? 0 : Math.sin(time * .0012 + index * 2.3) * .08;
-      gift.position.y = THREE.MathUtils.damp(gift.position.y, gift.userData.layoutY + bob, 2, delta);
-      gift.position.z = THREE.MathUtils.damp(gift.position.z, gift.userData.baseZ + (selected ? 1.45 : 0), 2.2, delta);
-      gift.rotation.y = THREE.MathUtils.damp(gift.rotation.y, selected ? -.12 : Math.sin(time * .00055 + index) * .08, 2, delta);
-      const targetScale = selected ? 1.14 : 1;
+      gift.position.y = THREE.MathUtils.damp(gift.position.y, gift.userData.layoutY, 3.5, delta);
+      gift.position.z = THREE.MathUtils.damp(gift.position.z, gift.userData.baseZ + (selected ? 1.05 : 0), 2.2, delta);
+      gift.rotation.y = THREE.MathUtils.damp(gift.rotation.y, selected ? -.12 : (index - 1) * .045, 2, delta);
+      const baseScale = window.innerWidth > 900 ? 1.18 : .65;
+      const targetScale = baseScale * (selected ? 1.2 : 1);
       const scale = THREE.MathUtils.damp(gift.scale.x, targetScale, 2.5, delta);
       gift.scale.setScalar(scale);
       gift.userData.lidPivot.rotation.x = THREE.MathUtils.damp(gift.userData.lidPivot.rotation.x, selected ? -1.06 : 0, 3, delta);
-      gift.userData.giftGlow.material.opacity = THREE.MathUtils.damp(gift.userData.giftGlow.material.opacity, selected ? .75 : 0, 3, delta);
-      const glowScale = THREE.MathUtils.damp(gift.userData.giftGlow.scale.x, selected ? 1.4 : .01, 3, delta);
+      gift.userData.giftGlow.material.opacity = THREE.MathUtils.damp(gift.userData.giftGlow.material.opacity, selected ? .48 : 0, 3, delta);
+      const glowScale = THREE.MathUtils.damp(gift.userData.giftGlow.scale.x, selected ? 2.3 : .01, 3, delta);
       gift.userData.giftGlow.scale.setScalar(glowScale);
+      const revealTarget = selected ? 1 : 0;
+      gift.userData.reveal = THREE.MathUtils.damp(gift.userData.reveal, revealTarget, selected ? 1.5 : 3, delta);
+      const particleFade = Math.min(1, (time - giftRevealStarted) / 700);
+      gift.userData.giftParticles.material.opacity = gift.userData.reveal * particleFade * .9;
+      const positions = gift.userData.particlePositions;
+      for (let particle = 0; particle < gift.userData.particleAngles.length; particle += 1) {
+        const cycle = (time * .00022 + gift.userData.particleOffsets[particle]) % 1;
+        const angle = gift.userData.particleAngles[particle] + time * .00016;
+        const radius = .12 + cycle * .62;
+        const offset = particle * 3;
+        positions[offset] = Math.cos(angle) * radius;
+        positions[offset + 1] = .06 + cycle * (1.65 + (particle % 4) * .13);
+        positions[offset + 2] = Math.sin(angle) * radius;
+      }
+      gift.userData.particleGeometry.attributes.position.needsUpdate = true;
     });
     candle.intensity = 31 + Math.sin(time * .0011 + phase) * 6;
     driftParticles(snow, delta, time);
@@ -795,6 +849,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     setScene,
     selectGift(index) {
       selectedGift = index;
+      giftRevealStarted = performance.now();
       ceremonyState = "GIFT_INTERACTION";
       ceremonyOnState?.("GIFT_INTERACTION");
     },

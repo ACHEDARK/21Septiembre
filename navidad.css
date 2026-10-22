@@ -96,7 +96,7 @@ body.is-entered { overflow: auto; }
 .memory-caption { position: relative; display: block; margin-top: 12px; color: #f1e8d2; font: italic 19px var(--serif); }
 .memory-caption small { display: block; margin-top: 4px; color: #b3bdbe; font: 8px var(--sans); letter-spacing: .02em; }
 
-.gift-section { position: relative; width: 100%; padding: 118px max(8vw,calc((100vw - 1120px)/2)) 118px; overflow: hidden; background: linear-gradient(90deg,#0b1120df,#0b112079 52%,#0b1120c9); }
+.gift-section { position: relative; width: 100%; padding: 118px max(8vw,calc((100vw - 1120px)/2)) 118px; overflow: hidden; background: linear-gradient(90deg,#0b112047,#0b11201a 52%,#0b112030); }
 .gift-section .section-heading { max-width: 450px; margin-right: auto; margin-left: 0; text-align: left; }
 .gift-section .section-note { color: var(--champagne); }
 .gift-table { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 20px 35px; max-width: 460px; margin: 36px 0 0; }
