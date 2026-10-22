@@ -19,6 +19,7 @@ function startChristmas() {
     $("#christmas-world-canvas"),
     [...Object.values(content.worldScenes), ...content.memories.map((memory) => memory.image), ...content.gifts.map((gift) => gift.image)],
     reducedMotion,
+    [content.worldScenes.gifts, ...content.gifts.map((gift) => gift.image)],
   );
 
   const sceneObserver = new IntersectionObserver((entries) => {
@@ -106,6 +107,7 @@ function startChristmas() {
       giftTable.querySelectorAll(".world-choice").forEach((choice) => choice.classList.remove("is-selected"));
       button.classList.add("is-selected");
       world?.setScene(gift.image, index + 1);
+      world?.selectGift(index);
       if (!button.classList.contains("is-opened")) {
         button.classList.add("is-opened");
         button.setAttribute("aria-pressed", "true");
@@ -216,14 +218,37 @@ function startChristmas() {
     });
   }
 
-  $("#open-experience").addEventListener("click", () => {
-    document.body.classList.add("is-entered");
-    experience.hidden = false;
-    requestAnimationFrame(() => experience.classList.add("is-visible"));
-    world?.setScene(content.worldScenes.memories);
+  $("#open-experience").addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    if (button.disabled) return;
+    button.disabled = true;
+    const ceremony = $("#christmas-ceremony");
+    const worldElement = $("#christmas-world");
+    ceremony.hidden = false;
+    document.body.classList.add("is-ceremony");
+    intro.classList.add("is-ceremony");
+    worldElement.classList.add("is-ceremony");
+    requestAnimationFrame(() => ceremony.classList.add("is-active"));
+    const greetingDelay = reducedMotion ? 100 : 4250;
+    const greetingTimer = window.setTimeout(() => $("#ceremony-copy").classList.add("is-shown"), greetingDelay);
+    await (world?.playGreeting() ?? new Promise((resolve) => window.setTimeout(resolve, reducedMotion ? 1750 : 5900)));
+    window.clearTimeout(greetingTimer);
+    $("#ceremony-copy").classList.add("is-shown");
+    await new Promise((resolve) => window.setTimeout(resolve, reducedMotion ? 250 : 1700));
+
+    world?.endGreeting();
+    worldElement.classList.remove("is-ceremony");
+    document.body.classList.remove("is-ceremony");
+    ceremony.classList.add("is-leaving");
     intro.classList.add("is-leaving");
+    experience.hidden = false;
+    world?.setScene(content.worldScenes.memories);
+    requestAnimationFrame(() => experience.classList.add("is-visible"));
     window.setTimeout(() => {
       intro.hidden = true;
+      ceremony.hidden = true;
+      ceremony.classList.remove("is-active", "is-leaving");
+      intro.classList.remove("is-ceremony");
       $("#christmas-title").setAttribute("tabindex", "-1");
       $("#christmas-title").focus({ preventScroll: true });
     }, reducedMotion ? 0 : 760);

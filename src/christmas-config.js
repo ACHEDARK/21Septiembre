@@ -2,7 +2,7 @@
 // Las imágenes actuales son ilustraciones locales provisionales, no recuerdos reales.
 export const christmasConfig = {
   recipientName: "",
-  senderName: "Con cariño, siempre.",
+  senderName: "Siempre, siempre para ti, mi Pinguinita.",
   openingGreeting: "Una noche guardada con cariño.",
   heroMessage:
     "Aunque hoy cada quien siga su camino, sigues siendo alguien muy especial para mí. Quería dejarte una noche pequeña, unas palabras suaves y sorpresas para abrir sin prisa.",
