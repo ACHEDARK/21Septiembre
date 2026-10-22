@@ -15,6 +15,8 @@ function startChristmas() {
   const intro = $("#invitation");
   const experience = $("#experience");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const wishWriter = createWishWriter($("#winter-moment"), $("#wish-feedback"), reducedMotion);
+  createCandyCursor(reducedMotion);
   const world = createChristmasWorld(
     $("#christmas-world-canvas"),
     [...Object.values(content.worldScenes), ...content.memories.map((memory) => memory.image), ...content.gifts.map((gift) => gift.image)],
@@ -177,7 +179,7 @@ function startChristmas() {
   let wishIndex = -1;
   $("#wish-button").addEventListener("click", () => {
     wishIndex = (wishIndex + 1) % content.wishes.length;
-    $("#wish-feedback").textContent = content.wishes[wishIndex];
+    wishWriter.write(content.wishes[wishIndex]);
     world?.setScene(content.worldScenes.winter, wishIndex + 1);
   });
 
@@ -277,5 +279,217 @@ function startChristmas() {
       $("#gift-title").setAttribute("tabindex", "-1");
       $("#gift-title").focus({ preventScroll: true });
     }, reducedMotion ? 0 : 760);
+  });
+}
+
+function createWishWriter(section, liveText, reducedMotion) {
+  const canvas = document.createElement("canvas");
+  canvas.className = "wish-sky-canvas";
+  canvas.setAttribute("aria-hidden", "true");
+  section.prepend(canvas);
+  const ctx = canvas.getContext("2d", { alpha: true });
+  const points = [];
+  let frame = 0;
+  let started = 0;
+  let stopped = true;
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let textLines = [];
+  let textLeft = 0;
+  let textTop = 0;
+  let textFont = "";
+  let textLineHeight = 0;
+
+  const resize = () => {
+    const bounds = section.getBoundingClientRect();
+    width = bounds.width;
+    height = bounds.height;
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.max(1, Math.round(width * dpr));
+    canvas.height = Math.max(1, Math.round(height * dpr));
+  };
+  const observer = new ResizeObserver(resize);
+  observer.observe(section);
+  resize();
+
+  const draw = (time) => {
+    frame = 0;
+    if (stopped) return;
+    const elapsed = time - started;
+    const progress = reducedMotion ? 1 : Math.min(1, elapsed / 1900);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    const twinkle = (time) => .82 + Math.sin(time / 380) * .15;
+    for (const point of points) {
+      const delay = point.delay;
+      const local = reducedMotion ? 1 : Math.max(0, Math.min(1, (progress - delay) / (1 - delay * .65)));
+      const p = 1 - Math.pow(1 - local, 3);
+      const x = point.fromX + (point.x - point.fromX) * p;
+      const y = point.fromY + (point.y - point.fromY) * p;
+      const alpha = (local > 0 ? .86 : 0) * twinkle(time + point.phase);
+      if (alpha <= 0) continue;
+      ctx.globalAlpha = alpha;
+      ctx.shadowBlur = point.r * 5;
+      ctx.shadowColor = "#f7d88e";
+      ctx.fillStyle = point.r > 1.1 ? "#fff5cf" : "#f6cf79";
+      ctx.beginPath();
+      ctx.arc(x, y, point.r * (.72 + .28 * twinkle(time + point.phase)), 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+    if (progress > .72) {
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.globalAlpha = Math.min(.55, (progress - .72) / .28 * .55);
+      ctx.font = textFont;
+      ctx.textBaseline = "top";
+      ctx.textAlign = "left";
+      ctx.fillStyle = "#fff0c6";
+      ctx.shadowColor = "#f6d987";
+      ctx.shadowBlur = 14;
+      textLines.forEach((line, index) => ctx.fillText(line, textLeft, textTop + index * textLineHeight));
+      ctx.restore();
+    }
+    if (progress < 1) frame = requestAnimationFrame(draw);
+    else stopped = true;
+  };
+
+  return {
+    write(message) {
+      liveText.textContent = message;
+      resize();
+      points.length = 0;
+      const bounds = section.getBoundingClientRect();
+      const textBounds = liveText.getBoundingClientRect();
+      const left = textBounds.left - bounds.left;
+      const top = textBounds.top - bounds.top;
+      const maxWidth = Math.min(textBounds.width || 570, width - left - 20);
+      const fontSize = Math.min(22, Math.max(18, parseFloat(getComputedStyle(liveText).fontSize) || 18));
+      const lineHeight = fontSize * 1.55;
+      const measure = document.createElement("canvas").getContext("2d");
+      const fontFamily = getComputedStyle(liveText).fontFamily;
+      const font = `italic ${fontSize}px ${fontFamily}`;
+      measure.font = font;
+      const lines = [];
+      let line = "";
+      for (const word of message.split(/\s+/)) {
+        const next = line ? `${line} ${word}` : word;
+        if (line && measure.measureText(next).width > maxWidth) {
+          lines.push(line);
+          line = word;
+        } else line = next;
+      }
+      if (line) lines.push(line);
+      const raster = document.createElement("canvas");
+      raster.width = canvas.width;
+      raster.height = canvas.height;
+      const rasterCtx = raster.getContext("2d", { willReadFrequently: true });
+      rasterCtx.scale(dpr, dpr);
+      rasterCtx.fillStyle = "#fff";
+      rasterCtx.textAlign = "left";
+      rasterCtx.textBaseline = "top";
+      rasterCtx.font = font;
+      textLines = lines;
+      textLeft = left;
+      textTop = top + (lineHeight - fontSize) / 2;
+      textLineHeight = lineHeight;
+      textFont = font;
+      lines.forEach((text, index) => rasterCtx.fillText(text, textLeft, textTop + index * lineHeight));
+      const pixels = rasterCtx.getImageData(0, 0, raster.width, raster.height).data;
+      const stride = Math.max(2, Math.round(2 * dpr));
+      for (let py = 0; py < raster.height; py += stride) {
+        for (let px = 0; px < raster.width; px += stride) {
+          if (pixels[(py * raster.width + px) * 4 + 3] > 90 && Math.random() > .09) {
+            const x = px / dpr;
+            const y = py / dpr;
+            points.push({ x, y, fromX: x + (Math.random() - .5) * 36, fromY: y + 24 + Math.random() * 42,
+              delay: reducedMotion ? 0 : Math.min(.68, (x - left) / Math.max(maxWidth, 1) * .6),
+              r: .8 + Math.random() * .9, phase: Math.random() * 2000 });
+          }
+        }
+      }
+      stopped = false;
+      started = performance.now();
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(draw);
+    },
+  };
+}
+
+function createCandyCursor(reducedMotion) {
+  if (reducedMotion || !matchMedia("(pointer: fine)").matches) return;
+  const canvas = document.createElement("canvas");
+  canvas.className = "candy-cursor";
+  canvas.setAttribute("aria-hidden", "true");
+  document.body.append(canvas);
+  const ctx = canvas.getContext("2d");
+  const candies = [];
+  const colors = ["#f3d589", "#d87578", "#a8c9bd", "#efe7d5"];
+  let frame = 0;
+  let last = null;
+  let dpr = 1;
+  const resize = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(innerWidth * dpr);
+    canvas.height = Math.round(innerHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  resize();
+  window.addEventListener("resize", resize, { passive: true });
+  const animate = () => {
+    frame = 0;
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    const now = performance.now();
+    for (let i = candies.length - 1; i >= 0; i--) {
+      const candy = candies[i];
+      const age = (now - candy.born) / candy.life;
+      if (age >= 1) { candies.splice(i, 1); continue; }
+      candy.x += candy.vx;
+      candy.y += candy.vy;
+      candy.vx *= .985;
+      candy.vy *= .985;
+      candy.angle += candy.spin;
+      ctx.save();
+      ctx.translate(candy.x, candy.y);
+      ctx.rotate(candy.angle);
+      ctx.globalAlpha = Math.pow(1 - age, 1.4) * .8;
+      ctx.shadowColor = candy.color;
+      ctx.shadowBlur = 9;
+      ctx.fillStyle = candy.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, candy.size, candy.size * .58, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(-candy.size * .72, 0); ctx.lineTo(-candy.size * 1.25, -candy.size * .45); ctx.lineTo(-candy.size * 1.2, candy.size * .45);
+      ctx.moveTo(candy.size * .72, 0); ctx.lineTo(candy.size * 1.25, -candy.size * .45); ctx.lineTo(candy.size * 1.2, candy.size * .45);
+      ctx.strokeStyle = candy.color; ctx.lineWidth = 1.2; ctx.stroke();
+      ctx.restore();
+    }
+    if (candies.length) frame = requestAnimationFrame(animate);
+  };
+  window.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "touch") return;
+    if (!last) { last = { x: event.clientX, y: event.clientY }; return; }
+    const dx = event.clientX - last.x;
+    const dy = event.clientY - last.y;
+    const distance = Math.hypot(dx, dy);
+    const count = Math.min(10, Math.ceil(distance / 7));
+    for (let i = 0; i < count; i++) {
+      const t = (i + 1) / count;
+      const x = last.x + dx * t;
+      const y = last.y + dy * t;
+      for (let burst = 0; burst < 2; burst++) candies.push({ x: x + (Math.random() - .5) * 28, y: y + (Math.random() - .5) * 28,
+        vx: (Math.random() - .5) * 1.4, vy: (Math.random() - .5) * 1.2,
+        size: 3.2 + Math.random() * 2.3, angle: Math.random() * Math.PI, spin: (Math.random() - .5) * .04,
+        color: colors[Math.floor(Math.random() * colors.length)], born: performance.now(), life: 1350 + Math.random() * 800 });
+    }
+    last = { x: event.clientX, y: event.clientY };
+    if (candies.length > 90) candies.splice(0, candies.length - 90);
+    if (!frame) frame = requestAnimationFrame(animate);
+  }, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { candies.length = 0; last = null; if (frame) cancelAnimationFrame(frame); frame = 0; }
   });
 }
