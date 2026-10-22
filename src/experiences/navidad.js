@@ -83,7 +83,7 @@ function startChristmas() {
   const revealGift = (gift, index = null, source = null) => {
     $("#reveal-title").textContent = gift.title;
     $("#reveal-message").textContent = gift.message;
-    $("#reveal-signoff").textContent = content.senderName;
+    $("#reveal-signoff").textContent = "Con mucho cariño.";
     const origin = index === null ? null : world?.giftScreenPosition(index);
     const bounds = source?.getBoundingClientRect();
     const x = origin?.x ?? (bounds ? bounds.left + bounds.width / 2 - window.innerWidth / 2 : 0);
