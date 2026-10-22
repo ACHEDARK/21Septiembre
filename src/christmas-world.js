@@ -597,9 +597,14 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     const visible = giftScenes.has(activePath) && inViewport;
     giftStage.visible = visible;
     root?.classList.toggle("is-gifts-front", visible);
+    if (visible) {
+      camera.position.set(0, 0, 0);
+      camera.lookAt(0, 0, -12);
+      camera.updateMatrixWorld(true);
+    }
 
     const smallScreen = window.innerWidth <= 850;
-    const scale = smallScreen ? .23 : .32;
+    const scale = smallScreen ? .31 : .4;
     gifts.forEach((gift, index) => {
       const anchor = giftAnchorElements[index];
       if (!anchor) return;
@@ -613,7 +618,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     if (reducedMotion) {
       gifts.forEach((gift) => {
         gift.position.set(gift.userData.layoutX, gift.userData.layoutY, gift.userData.baseZ);
-        gift.scale.setScalar(gift.userData.baseScale ?? (smallScreen ? .23 : .32));
+        gift.scale.setScalar(gift.userData.baseScale ?? (smallScreen ? .31 : .4));
       });
       renderOnce();
     }
@@ -636,7 +641,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     treeCenter.scale.setScalar(treeScale);
     gifts.forEach((gift, index) => {
       gift.position.set(gift.userData.layoutX, gift.userData.layoutY, gift.userData.baseZ);
-      gift.scale.setScalar(gift.userData.baseScale ?? (window.innerWidth > 850 ? .5 : .3));
+      gift.scale.setScalar(gift.userData.baseScale ?? (window.innerWidth > 850 ? .4 : .31));
     });
     for (const layer of layers.values()) {
       if (!layer.loaded) continue;
@@ -663,6 +668,9 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     activePath = path;
     focus = selected;
     updateGiftLayout();
+    if (giftScenes.has(path)) {
+      for (const layer of layers.values()) layer.material.uniforms.uOpacity.value = 0;
+    }
     phase = selected * 1.8 + performance.now() * .0002;
     if (reducedMotion) {
       for (const [key, layer] of layers) layer.material.uniforms.uOpacity.value = key === activePath ? (giftScenes.has(key) ? 0 : 1) : 0;
@@ -700,8 +708,8 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     pointerX = THREE.MathUtils.damp(pointerX, targetPointerX, 1.4, delta);
     pointerY = THREE.MathUtils.damp(pointerY, targetPointerY, 1.4, delta);
     const focusOffset = focus === 0 ? 0 : (focus - 1) * .34;
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, pointerX * .22 + focusOffset, 1.8, delta);
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, -pointerY * .12, 1.8, delta);
+    camera.position.x = giftStage.visible ? 0 : THREE.MathUtils.damp(camera.position.x, pointerX * .22 + focusOffset, 1.8, delta);
+    camera.position.y = giftStage.visible ? 0 : THREE.MathUtils.damp(camera.position.y, -pointerY * .12, 1.8, delta);
     camera.lookAt(camera.position.x * .2, camera.position.y * .2, -12);
     for (const [path, layer] of layers) {
       const target = path === activePath && layer.loaded ? (giftScenes.has(path) ? 0 : 1) : 0;
@@ -847,7 +855,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
       gift.position.y = THREE.MathUtils.damp(gift.position.y, gift.userData.layoutY, 3.5, delta);
       gift.position.z = THREE.MathUtils.damp(gift.position.z, gift.userData.baseZ + (selected ? 1.05 : 0), 2.2, delta);
       gift.rotation.y = THREE.MathUtils.damp(gift.rotation.y, selected ? -.12 : (index - 1) * .045, 2, delta);
-      const baseScale = gift.userData.baseScale ?? (window.innerWidth > 850 ? .32 : .23);
+      const baseScale = gift.userData.baseScale ?? (window.innerWidth > 850 ? .4 : .31);
       const targetScale = baseScale * (selected ? 1.2 : 1);
       const scale = THREE.MathUtils.damp(gift.scale.x, targetScale, 2.5, delta);
       gift.scale.setScalar(scale);
@@ -918,6 +926,16 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
       selectedGift = index;
       updateGiftLayout();
       giftRevealStarted = performance.now();
+      if (reducedMotion) {
+        gifts.forEach((gift, giftIndex) => {
+          const selected = giftIndex === index;
+          gift.userData.lidPivot.rotation.x = selected ? -1.06 : 0;
+          gift.userData.giftGlow.material.opacity = selected ? .48 : 0;
+          gift.userData.giftGlow.scale.setScalar(selected ? 2.3 : .01);
+          gift.userData.giftParticles.material.opacity = selected ? .9 : 0;
+        });
+        renderOnce();
+      }
       ceremonyState = "GIFT_INTERACTION";
       ceremonyOnState?.("GIFT_INTERACTION");
     },

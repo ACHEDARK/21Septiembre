@@ -127,7 +127,7 @@ function startChristmas() {
         $("#hidden-gift").hidden = false;
       }
       window.clearTimeout(giftRevealTimer);
-      giftRevealTimer = window.setTimeout(() => revealGift(gift, index, button), 1050);
+      giftRevealTimer = window.setTimeout(() => revealGift(gift, index, button), reducedMotion ? 0 : 1550);
     });
     giftTable.append(button);
     giftAnchors.push(button);

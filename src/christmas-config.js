@@ -1,12 +1,11 @@
-// Edita aquí los textos, nombres, fotografías y música de la experiencia.
-// Las imágenes actuales son ilustraciones locales provisionales, no recuerdos reales.
+// Textos e ilustraciones que forman esta pequeña historia navideña.
 export const christmasConfig = {
   recipientName: "",
   senderName: "Siempre, siempre para ti, mi Pinguinita.",
   openingGreeting: "Una noche guardada con cariño.",
   heroMessage:
     "Aunque hoy cada quien siga su camino, sigues siendo alguien muy especial para mí. Quería dejarte una noche pequeña, unas palabras suaves y sorpresas para abrir sin prisa.",
-  heroSignoff: "Sin pedir nada a cambio.",
+  heroSignoff: "Con cariño, y con calma.",
   letter: {
     greeting: "En esta noche de Navidad",
     message:
@@ -17,19 +16,19 @@ export const christmasConfig = {
       image: "assets/image copy 6.png",
       alt: "Ilustración de dos personajes que recorren juntos un paisaje nevado en un trineo.",
       caption: "Un paseo entre copos",
-      note: "Ilustración temporal · reemplázala por una fotografía",
+      note: "Una escena tranquila para mirar despacio.",
     },
     {
-      image: "assets/image copy 7.png",
-      alt: "Ilustración de una sala acogedora con un árbol de Navidad decorado.",
-      caption: "Una ventana encendida",
-      note: "Ilustración temporal · reemplázala por una fotografía",
+      image: "assets/image copy 4.png",
+      alt: "Un pequeño personaje de invierno dentro de un adorno de cristal iluminado.",
+      caption: "Una estrella para el árbol",
+      note: "Que siempre encuentres una luz amable.",
     },
     {
       image: "assets/image copy 17.png",
       alt: "Ilustración de un osito con una estrella bajo el cielo nocturno.",
       caption: "Una luz en el camino",
-      note: "Ilustración temporal · reemplázala por una fotografía",
+      note: "Un brillo pequeño para acompañar el camino.",
     },
   ],
   gifts: [
