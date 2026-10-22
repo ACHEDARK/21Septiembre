@@ -225,32 +225,46 @@ function startChristmas() {
     const ceremony = $("#christmas-ceremony");
     const worldElement = $("#christmas-world");
     ceremony.hidden = false;
+    ceremony.setAttribute("aria-hidden", "false");
     document.body.classList.add("is-ceremony");
     intro.classList.add("is-ceremony");
     worldElement.classList.add("is-ceremony");
     requestAnimationFrame(() => ceremony.classList.add("is-active"));
-    const greetingDelay = reducedMotion ? 100 : 4250;
-    const greetingTimer = window.setTimeout(() => $("#ceremony-copy").classList.add("is-shown"), greetingDelay);
-    await (world?.playGreeting() ?? new Promise((resolve) => window.setTimeout(resolve, reducedMotion ? 1750 : 5900)));
-    window.clearTimeout(greetingTimer);
-    $("#ceremony-copy").classList.add("is-shown");
-    await new Promise((resolve) => window.setTimeout(resolve, reducedMotion ? 250 : 1700));
+    const onCeremonyState = (state) => {
+      if (state === "MESSAGE_REVEAL") {
+        ceremony.classList.add("has-message");
+        $("#ceremony-copy").classList.add("is-shown");
+      }
+      if (state === "GIFT_SECTION") {
+        world?.setScene(content.worldScenes.gifts);
+        experience.hidden = false;
+        requestAnimationFrame(() => experience.classList.add("is-visible"));
+      }
+    };
+    await (world?.playGreeting(onCeremonyState) ?? new Promise((resolve) => {
+      window.setTimeout(() => { onCeremonyState("MESSAGE_REVEAL"); }, reducedMotion ? 900 : 7000);
+      window.setTimeout(() => { onCeremonyState("GIFT_SECTION"); resolve(); }, reducedMotion ? 1600 : 9000);
+    }));
 
     world?.endGreeting();
     worldElement.classList.remove("is-ceremony");
     document.body.classList.remove("is-ceremony");
     ceremony.classList.add("is-leaving");
     intro.classList.add("is-leaving");
-    experience.hidden = false;
-    world?.setScene(content.worldScenes.memories);
-    requestAnimationFrame(() => experience.classList.add("is-visible"));
+    document.body.classList.add("is-entered");
+    world?.setScene(content.worldScenes.gifts);
+    requestAnimationFrame(() => {
+      experience.classList.add("is-visible");
+      $("#regalos").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    });
     window.setTimeout(() => {
       intro.hidden = true;
       ceremony.hidden = true;
-      ceremony.classList.remove("is-active", "is-leaving");
+      ceremony.setAttribute("aria-hidden", "true");
+      ceremony.classList.remove("is-active", "is-leaving", "has-message");
       intro.classList.remove("is-ceremony");
-      $("#christmas-title").setAttribute("tabindex", "-1");
-      $("#christmas-title").focus({ preventScroll: true });
+      $("#gift-title").setAttribute("tabindex", "-1");
+      $("#gift-title").focus({ preventScroll: true });
     }, reducedMotion ? 0 : 760);
   });
 }
