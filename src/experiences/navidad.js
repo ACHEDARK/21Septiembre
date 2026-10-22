@@ -426,77 +426,80 @@ function createCandyCursor(reducedMotion) {
   canvas.setAttribute("aria-hidden", "true");
   document.body.append(canvas);
   const ctx = canvas.getContext("2d");
-  const particles = [];
-  const palette = [[246, 212, 137], [224, 127, 133], [166, 209, 190], [255, 242, 213]];
-  let frame = 0, lastPoint = null, lastFrame = 0;
+  const candies = [];
+  const colors = ["#f3d589", "#d87578", "#a8c9bd", "#efe7d5"];
+  let frame = 0, last = null, lastFrame = 0;
   let dpr = 1;
   const resize = () => {
-    dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(innerWidth * dpr);
     canvas.height = Math.round(innerHeight * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
   resize();
   window.addEventListener("resize", resize, { passive: true });
-  const draw = (timestamp) => {
+  const animate = (timestamp) => {
     frame = 0;
     const delta = Math.min((timestamp - (lastFrame || timestamp)) / 16.67, 2);
     lastFrame = timestamp;
     ctx.clearRect(0, 0, innerWidth, innerHeight);
-    ctx.globalCompositeOperation = "lighter";
-    for (let index = particles.length - 1; index >= 0; index--) {
-      const particle = particles[index];
-      const progress = (timestamp - particle.born) / particle.life;
-      if (progress >= 1) { particles.splice(index, 1); continue; }
-      particle.x += particle.vx * delta;
-      particle.y += particle.vy * delta;
-      const alpha = Math.min(progress * 7, 1) * Math.pow(1 - progress, 1.65) * particle.opacity;
-      const twinkle = .84 + Math.sin(timestamp / particle.twinkleSpeed + particle.phase) * .16;
-      const radius = particle.size * (.82 + progress * .28);
-      const [red, green, blue] = particle.color;
-      const glow = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, radius * 5.5);
-      glow.addColorStop(0, `rgba(${red},${green},${blue},${alpha * twinkle * .58})`);
-      glow.addColorStop(.24, `rgba(${red},${green},${blue},${alpha * twinkle * .23})`);
-      glow.addColorStop(1, `rgba(${red},${green},${blue},0)`);
-      ctx.fillStyle = glow;
-      ctx.beginPath(); ctx.arc(particle.x, particle.y, radius * 5.5, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = `rgba(255,248,232,${alpha * twinkle * .78})`;
-      ctx.beginPath(); ctx.arc(particle.x, particle.y, Math.max(.55, radius * .55), 0, Math.PI * 2); ctx.fill();
+    for (let index = candies.length - 1; index >= 0; index--) {
+      const candy = candies[index];
+      const age = (timestamp - candy.born) / candy.life;
+      if (age >= 1) { candies.splice(index, 1); continue; }
+      candy.x += candy.vx * delta;
+      candy.y += candy.vy * delta;
+      candy.vx *= .992;
+      candy.vy *= .992;
+      candy.angle += candy.spin * delta;
+      ctx.save();
+      ctx.translate(candy.x, candy.y);
+      ctx.rotate(candy.angle);
+      ctx.globalAlpha = Math.pow(1 - age, 1.55) * .48;
+      ctx.shadowColor = candy.color;
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = candy.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, candy.size, candy.size * .58, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(-candy.size * .72, 0); ctx.lineTo(-candy.size * 1.25, -candy.size * .45); ctx.lineTo(-candy.size * 1.2, candy.size * .45);
+      ctx.moveTo(candy.size * .72, 0); ctx.lineTo(candy.size * 1.25, -candy.size * .45); ctx.lineTo(candy.size * 1.2, candy.size * .45);
+      ctx.strokeStyle = candy.color; ctx.lineWidth = 1.2; ctx.stroke();
+      ctx.restore();
     }
-    ctx.globalCompositeOperation = "source-over";
-    if (particles.length) frame = requestAnimationFrame(draw);
+    if (candies.length) frame = requestAnimationFrame(animate);
     else { frame = 0; lastFrame = 0; }
-  };
-  const emit = (x, y, directionX, directionY, density = 1) => {
-    const angle = Math.random() * Math.PI * 2;
-    const spread = 2 + Math.random() * 9;
-    particles.push({
-      x: x + Math.cos(angle) * spread, y: y + Math.sin(angle) * spread,
-      vx: -directionX * (.12 + Math.random() * .2) + (Math.random() - .5) * .24,
-      vy: -directionY * (.12 + Math.random() * .2) + (Math.random() - .5) * .24,
-      size: (.9 + Math.random() * 2.4) * density, opacity: .46 + Math.random() * .4,
-      born: performance.now(), life: 900 + Math.random() * 750, phase: Math.random() * Math.PI * 2,
-      twinkleSpeed: 190 + Math.random() * 280, color: palette[Math.floor(Math.random() * palette.length)],
-    });
-    if (particles.length > 180) particles.splice(0, particles.length - 180);
-    if (!frame) frame = requestAnimationFrame(draw);
   };
   window.addEventListener("pointermove", (event) => {
     if (event.pointerType !== "mouse") return;
-    if (!lastPoint) { lastPoint = { x: event.clientX, y: event.clientY }; emit(event.clientX, event.clientY, 0, 0, 1.1); return; }
-    const dx = event.clientX - lastPoint.x, dy = event.clientY - lastPoint.y;
+    if (!last) { last = { x: event.clientX, y: event.clientY }; return; }
+    const dx = event.clientX - last.x, dy = event.clientY - last.y;
     const distance = Math.hypot(dx, dy);
-    if (distance < 3) return;
-    const steps = Math.ceil(distance / 8);
-    for (let step = 1; step <= steps; step++) {
-      const ratio = step / steps;
-      const x = lastPoint.x + dx * ratio, y = lastPoint.y + dy * ratio;
-      emit(x, y, dx / distance, dy / distance);
-      if (Math.random() > .43) emit(x, y, dx / distance, dy / distance, .55);
+    if (distance < 2) return;
+    const steps = Math.min(10, Math.ceil(distance / 7));
+    for (let step = 0; step < steps; step++) {
+      const ratio = (step + 1) / steps;
+      const x = last.x + dx * ratio;
+      const y = last.y + dy * ratio;
+      for (let burst = 0; burst < 2; burst++) candies.push({
+        x: x + (Math.random() - .5) * 18,
+        y: y + (Math.random() - .5) * 18,
+        vx: (Math.random() - .5) * .55,
+        vy: (Math.random() - .5) * .48,
+        size: 3.4 + Math.random() * 2.1,
+        angle: Math.random() * Math.PI,
+        spin: (Math.random() - .5) * .02,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        born: performance.now(),
+        life: 2200 + Math.random() * 1000,
+      });
     }
-    lastPoint = { x: event.clientX, y: event.clientY };
+    last = { x: event.clientX, y: event.clientY };
+    if (candies.length > 150) candies.splice(0, candies.length - 150);
+    if (!frame) frame = requestAnimationFrame(animate);
   }, { passive: true });
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) { particles.length = 0; lastPoint = null; lastFrame = 0; if (frame) cancelAnimationFrame(frame); frame = 0; }
+    if (document.hidden) { candies.length = 0; last = null; lastFrame = 0; if (frame) cancelAnimationFrame(frame); frame = 0; }
   });
 }
