@@ -239,7 +239,8 @@ function makeGift(index, particleTexture) {
   group.add(giftParticles);
   group.userData = {
     body, lidPivot, giftGlow, giftParticles, particleGeometry, particlePositions,
-    particleAngles, particleOffsets, wraps, reveal: 0, baseZ: -6.4, layoutY: -1.45,
+    particleAngles, particleOffsets, wraps, reveal: 0, baseZ: -6.4,
+    layoutX: 0, layoutY: 0,
   };
   return group;
 }
@@ -561,6 +562,62 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
   let selectedGift = -1;
   let giftRevealStarted = 0;
   const giftScenes = new Set(giftScenePaths);
+  let giftSectionElement = null;
+  let giftAnchorElements = [];
+
+  function giftWorldPoint(clientX, clientY, z = -6.4) {
+    const rayPoint = new THREE.Vector3(
+      (clientX / window.innerWidth) * 2 - 1,
+      1 - (clientY / window.innerHeight) * 2,
+      .5,
+    ).unproject(camera);
+    const direction = rayPoint.sub(camera.position).normalize();
+    const distance = (z - camera.position.z) / direction.z;
+    return camera.position.clone().addScaledVector(direction, distance);
+  }
+
+  function updateGiftLayout() {
+    if (!giftSectionElement) return;
+    const root = canvas.closest(".christmas-world");
+    const bounds = giftSectionElement.getBoundingClientRect();
+    const inViewport = bounds.bottom > 0 && bounds.top < window.innerHeight
+      && bounds.right > 0 && bounds.left < window.innerWidth;
+    const clipTop = inViewport ? THREE.MathUtils.clamp(bounds.top, 0, window.innerHeight) : window.innerHeight;
+    const clipRight = inViewport ? THREE.MathUtils.clamp(window.innerWidth - bounds.right, 0, window.innerWidth) : 0;
+    const clipBottom = inViewport ? THREE.MathUtils.clamp(window.innerHeight - bounds.bottom, 0, window.innerHeight) : 0;
+    const clipLeft = inViewport ? THREE.MathUtils.clamp(bounds.left, 0, window.innerWidth) : 0;
+    root?.style.setProperty("--gift-clip-top", `${clipTop}px`);
+    root?.style.setProperty("--gift-clip-right", `${clipRight}px`);
+    root?.style.setProperty("--gift-clip-bottom", `${clipBottom}px`);
+    root?.style.setProperty("--gift-clip-left", `${clipLeft}px`);
+    if (inViewport && !giftScenes.has(activePath)) {
+      activePath = giftScenePaths[0];
+      focus = 0;
+    }
+    const visible = giftScenes.has(activePath) && inViewport;
+    giftStage.visible = visible;
+    root?.classList.toggle("is-gifts-front", visible);
+
+    const smallScreen = window.innerWidth <= 850;
+    const scale = smallScreen ? .23 : .32;
+    gifts.forEach((gift, index) => {
+      const anchor = giftAnchorElements[index];
+      if (!anchor) return;
+      const rect = anchor.getBoundingClientRect();
+      const point = giftWorldPoint(rect.left + rect.width / 2, rect.top + (smallScreen ? 24 : 30), gift.userData.baseZ);
+      gift.userData.layoutX = point.x;
+      gift.userData.layoutY = point.y;
+      gift.userData.baseScale = scale;
+      gift.scale.setScalar(scale);
+    });
+    if (reducedMotion) {
+      gifts.forEach((gift) => {
+        gift.position.set(gift.userData.layoutX, gift.userData.layoutY, gift.userData.baseZ);
+        gift.scale.setScalar(gift.userData.baseScale ?? (smallScreen ? .23 : .32));
+      });
+      renderOnce();
+    }
+  }
 
   function resize() {
     const width = Math.max(1, window.innerWidth);
@@ -577,14 +634,9 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     treeCenter.position.set(0, .08, 0);
     const treeScale = .34 * Math.sqrt(Math.min(camera.aspect / 1.6, 1));
     treeCenter.scale.setScalar(treeScale);
-    const giftViewWidth = visibleWidth * (6.4 / 13);
-    const giftX = visibleWidth > 12
-      ? [giftViewWidth * .025, giftViewWidth * .19, giftViewWidth * .355]
-      : [-giftViewWidth * .18, 0, giftViewWidth * .18];
     gifts.forEach((gift, index) => {
-      gift.userData.layoutY = visibleWidth > 12 ? -1.42 : -2.0;
-      gift.position.set(giftX[index], gift.userData.layoutY, gift.userData.baseZ);
-      gift.scale.setScalar(visibleWidth > 12 ? 1.18 : .65);
+      gift.position.set(gift.userData.layoutX, gift.userData.layoutY, gift.userData.baseZ);
+      gift.scale.setScalar(gift.userData.baseScale ?? (window.innerWidth > 850 ? .5 : .3));
     });
     for (const layer of layers.values()) {
       if (!layer.loaded) continue;
@@ -610,8 +662,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     if (!layers.has(path)) return;
     activePath = path;
     focus = selected;
-    giftStage.visible = giftScenes.has(path);
-    canvas.closest(".christmas-world")?.classList.toggle("is-gifts-front", giftStage.visible);
+    updateGiftLayout();
     phase = selected * 1.8 + performance.now() * .0002;
     if (reducedMotion) {
       for (const [key, layer] of layers) layer.material.uniforms.uOpacity.value = key === activePath ? (giftScenes.has(key) ? 0 : 1) : 0;
@@ -792,10 +843,11 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     }
     gifts.forEach((gift, index) => {
       const selected = index === selectedGift;
+      gift.position.x = THREE.MathUtils.damp(gift.position.x, gift.userData.layoutX, 5, delta);
       gift.position.y = THREE.MathUtils.damp(gift.position.y, gift.userData.layoutY, 3.5, delta);
       gift.position.z = THREE.MathUtils.damp(gift.position.z, gift.userData.baseZ + (selected ? 1.05 : 0), 2.2, delta);
       gift.rotation.y = THREE.MathUtils.damp(gift.rotation.y, selected ? -.12 : (index - 1) * .045, 2, delta);
-      const baseScale = window.innerWidth > 900 ? 1.18 : .65;
+      const baseScale = gift.userData.baseScale ?? (window.innerWidth > 850 ? .32 : .23);
       const targetScale = baseScale * (selected ? 1.2 : 1);
       const scale = THREE.MathUtils.damp(gift.scale.x, targetScale, 2.5, delta);
       gift.scale.setScalar(scale);
@@ -839,6 +891,8 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
   function reducedRender() { if (reducedMotion) renderOnce(); }
 
   window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("resize", updateGiftLayout, { passive: true });
+  window.addEventListener("scroll", updateGiftLayout, { passive: true });
   window.addEventListener("pointermove", pointerMove, { passive: true });
   window.addEventListener("blur", pointerLeave);
   document.addEventListener("visibilitychange", visibilityChange);
@@ -848,6 +902,11 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
 
   return {
     setScene,
+    setGiftAnchors(section, anchors) {
+      giftSectionElement = section;
+      giftAnchorElements = anchors;
+      updateGiftLayout();
+    },
     giftScreenPosition(index) {
       const gift = gifts[index];
       if (!gift) return null;
@@ -857,6 +916,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     },
     selectGift(index) {
       selectedGift = index;
+      updateGiftLayout();
       giftRevealStarted = performance.now();
       ceremonyState = "GIFT_INTERACTION";
       ceremonyOnState?.("GIFT_INTERACTION");
@@ -911,6 +971,8 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
       disposed = true;
       sleep();
       window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", updateGiftLayout);
+      window.removeEventListener("scroll", updateGiftLayout);
       window.removeEventListener("pointermove", pointerMove);
       window.removeEventListener("blur", pointerLeave);
       document.removeEventListener("visibilitychange", visibilityChange);

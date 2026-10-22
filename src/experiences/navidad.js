@@ -97,6 +97,7 @@ function startChristmas() {
   let openedGifts = 0;
   let giftRevealTimer = 0;
   const giftTable = $("#gift-table");
+  const giftAnchors = [];
   content.gifts.forEach((gift, index) => {
     const button = document.createElement("button");
     button.className = "world-choice";
@@ -129,7 +130,9 @@ function startChristmas() {
       giftRevealTimer = window.setTimeout(() => revealGift(gift, index, button), 1050);
     });
     giftTable.append(button);
+    giftAnchors.push(button);
   });
+  world?.setGiftAnchors($("#regalos"), giftAnchors);
   $("#hidden-gift").addEventListener("click", (event) => revealGift(content.hiddenGift, null, event.currentTarget));
 
   const letterButton = $("#open-letter");
