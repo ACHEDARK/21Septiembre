@@ -78,10 +78,16 @@ function startChristmas() {
   });
 
   const revealDialog = $("#reveal-dialog");
-  const revealGift = (gift) => {
+  const revealGift = (gift, index = null, source = null) => {
     $("#reveal-title").textContent = gift.title;
     $("#reveal-message").textContent = gift.message;
     $("#reveal-signoff").textContent = content.senderName;
+    const origin = index === null ? null : world?.giftScreenPosition(index);
+    const bounds = source?.getBoundingClientRect();
+    const x = origin?.x ?? (bounds ? bounds.left + bounds.width / 2 - window.innerWidth / 2 : 0);
+    const y = origin?.y ?? (bounds ? bounds.top + bounds.height / 2 - window.innerHeight / 2 : 0);
+    revealDialog.style.setProperty("--gift-origin-x", `${x}px`);
+    revealDialog.style.setProperty("--gift-origin-y", `${y}px`);
     revealDialog.showModal();
   };
   revealDialog.addEventListener("click", (event) => {
@@ -120,11 +126,11 @@ function startChristmas() {
         $("#hidden-gift").hidden = false;
       }
       window.clearTimeout(giftRevealTimer);
-      giftRevealTimer = window.setTimeout(() => revealGift(gift), 1050);
+      giftRevealTimer = window.setTimeout(() => revealGift(gift, index, button), 1050);
     });
     giftTable.append(button);
   });
-  $("#hidden-gift").addEventListener("click", () => revealGift(content.hiddenGift));
+  $("#hidden-gift").addEventListener("click", (event) => revealGift(content.hiddenGift, null, event.currentTarget));
 
   const letterButton = $("#open-letter");
   const openLetter = () => {

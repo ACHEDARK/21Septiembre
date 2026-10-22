@@ -197,7 +197,7 @@ function makeGift(index, particleTexture) {
   lidPivot.add(knot);
 
   const giftGlow = new THREE.Mesh(
-    new THREE.SphereGeometry(.28, 24, 18),
+    new THREE.SphereGeometry(.12, 24, 18),
     new THREE.MeshBasicMaterial({ color: 0xffe6a2, transparent: true, opacity: 0, blending: THREE.AdditiveBlending }),
   );
   giftGlow.position.y = height * .22;
@@ -611,9 +611,10 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     activePath = path;
     focus = selected;
     giftStage.visible = giftScenes.has(path);
+    canvas.closest(".christmas-world")?.classList.toggle("is-gifts-front", giftStage.visible);
     phase = selected * 1.8 + performance.now() * .0002;
     if (reducedMotion) {
-      for (const [key, layer] of layers) layer.material.uniforms.uOpacity.value = key === activePath ? (giftScenes.has(key) ? .58 : 1) : 0;
+      for (const [key, layer] of layers) layer.material.uniforms.uOpacity.value = key === activePath ? (giftScenes.has(key) ? 0 : 1) : 0;
       camera.position.x = 0;
       renderOnce();
     } else if (!frame) {
@@ -652,7 +653,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
     camera.position.y = THREE.MathUtils.damp(camera.position.y, -pointerY * .12, 1.8, delta);
     camera.lookAt(camera.position.x * .2, camera.position.y * .2, -12);
     for (const [path, layer] of layers) {
-      const target = path === activePath && layer.loaded ? (giftScenes.has(path) ? .58 : 1) : 0;
+      const target = path === activePath && layer.loaded ? (giftScenes.has(path) ? 0 : 1) : 0;
       const current = layer.material.uniforms.uOpacity.value;
       layer.material.uniforms.uOpacity.value = THREE.MathUtils.damp(current, target, 1.8, delta);
     }
@@ -718,7 +719,7 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
       for (let index = 0; index < energyCount; index += 1) {
         const progress = index / energyCount;
         const angle = progress * Math.PI * 9 + time * .00042;
-        const radius = .12 + progress * 1.62;
+        const radius = .12 + (1 - progress) * 1.62;
         const offset = index * 3;
         energyPositions[offset] = Math.cos(angle) * radius;
         energyPositions[offset + 1] = -1.43 + progress * 3.18;
@@ -847,6 +848,13 @@ export function createChristmasWorld(canvas, imagePaths, reducedMotion = false, 
 
   return {
     setScene,
+    giftScreenPosition(index) {
+      const gift = gifts[index];
+      if (!gift) return null;
+      const point = gift.localToWorld(new THREE.Vector3(0, .12, .08));
+      point.project(camera);
+      return { x: point.x * window.innerWidth / 2, y: -point.y * window.innerHeight / 2 };
+    },
     selectGift(index) {
       selectedGift = index;
       giftRevealStarted = performance.now();
